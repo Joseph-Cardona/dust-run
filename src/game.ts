@@ -1,4 +1,5 @@
 import { Container, Graphics, Sprite, Texture } from 'pixi.js'
+import { audio } from './audio.ts'
 import { MAP_KINDS, type Art, type BossArt, type FoeSheet, type MapState } from './assets.ts'
 import { clipName, isFloorBoss, wakeBoss, type BossShot } from './bosses.ts'
 import {
@@ -13,13 +14,13 @@ import { Hud, type MapCell, type MapKind, type MapLink } from './hud.ts'
 import { LevelUp } from './levelup.ts'
 import { HUB_PERKS, perkRank, playOptions, StartMenu, type MenuArt, type MenuBack, type MenuPage } from './menu.ts'
 import { bootFloor, MANSION_TILE, type MansionRoom, type Side } from './mansion.ts'
-import { mountMansion, slidePlayer, type MansionTiles } from './mansion-view.ts'
+import { mountMansion, slidePlayer, type Inside, type MansionTiles } from './mansion-view.ts'
 import { loadMeta, saveMeta, type Meta } from './meta.ts'
 import { clearRun, loadRun, saveRun, hasSavedRun, type PuddleSnap, type RunFile } from './save.ts'
 import { makePlayer, stepPlayer } from './player.ts'
 import { BODY_RX, BODY_RY, blockedAt, bodyOnGate, bodyRim, nearProp, useKey, type FloorWorld, type Gate } from './rooms.ts'
 import {
-  clampRoom, floorSpec, gateInRoom, hostile, neighborRooms, roomAt, roomMembers, Run, waveCount,
+  clampRoom, floorSpec, gateInRoom, hostile, neighborRooms, roomAt, roomMembers, roomTileRect, Run, waveCount,
 } from './run.ts'
 import {
   COIN_VALUE, DECAL_IDS, DECAL_SIZE, DUST_AT, DUST_EVERY,
@@ -77,6 +78,56 @@ function blink(iframe: number): number {
 
 function anchored(breed: string): boolean {
   return breed === 'tin_soldier' || breed === 'rogue_mop' || breed === 'snap_trap' || breed === 'toaster'
+}
+
+const FLOOR_MUSIC = [
+  '',
+  'music/floor1_clock_hall',
+  'music/floor2_laundry',
+  'music/floor3_boiler_basement',
+  'music/floor4_security_wing',
+  'music/floor5_butlers_quarters',
+]
+
+const CUE: Record<string, string> = {
+  'snap_trap:snap': 'enemies/snap_trap_snap',
+  'rogue_mop:arc': 'enemies/rogue_mop_wet_slap',
+  'toaster:wind': 'enemies/toaster_turret_toast_pop',
+  'toaster:toast': 'enemies/toaster_turret_fire',
+  'tin_soldier:cork': 'enemies/tin_soldier_clank',
+  'sheet_ghost:rise': 'enemies/sheet_ghost_moan',
+  'sheet_ghost:lunge': 'enemies/sheet_ghost_swish',
+  'vacuum_brute:wind': 'enemies/vacuum_brute_roar',
+  'grandfather:attack_slam': 'bosses/grandfather_toll_slam',
+  'grandfather:attack_gears': 'bosses/grandfather_gear_spit',
+  'grandfather:attack_chime': 'bosses/grandfather_midnight_chime',
+  'laundry_golem:attack_slam': 'bosses/laundry_golem_slam',
+  'laundry_golem:attack_throw': 'bosses/laundry_golem_sock_shot',
+  'laundry_golem:attack_foam': 'bosses/laundry_golem_foam_belch',
+  'laundry_golem:attack_spin': 'bosses/laundry_golem_spin_cycle',
+  'old_boiler:attack_coal': 'bosses/old_boiler_coal_lob',
+  'old_boiler:attack_blast': 'bosses/old_boiler_pressure_blast',
+  'old_boiler:attack_steam': 'bosses/old_boiler_steam_vent',
+  'sentry_prime:attack_bolts': 'bosses/sentry_prime_homing_bolts',
+  'sentry_prime:attack_laser': 'bosses/sentry_prime_laser_sweep',
+  'sentry_prime:attack_lockdown': 'bosses/sentry_prime_lockdown_grid',
+  'sentry_prime:attack_taser': 'bosses/sentry_prime_taser_lunge',
+  'head_butler:spin': 'bosses/head_butler_spin',
+  'head_butler:slam': 'bosses/head_butler_slam',
+  'head_butler:summon': 'bosses/head_butler_minion_summon',
+}
+
+function bossMusic(rival: Rival): string {
+  if (rival.breed === 'head_butler') {
+    const ratio = rival.maxHp > 0 ? rival.hp / rival.maxHp : 1
+    const phase = ratio < 0.3 ? 3 : ratio < 0.6 ? 2 : 1
+    return `music/boss_head_butler_phase${phase}`
+  }
+  if (rival.breed === 'grandfather') return 'music/boss_grandfather'
+  if (rival.breed === 'laundry_golem') return 'music/boss_laundry_golem'
+  if (rival.breed === 'old_boiler') return 'music/boss_old_boiler'
+  if (rival.breed === 'sentry_prime') return 'music/boss_sentry_prime'
+  return ''
 }
 
 function gateKey(gate: Gate): string {
@@ -163,6 +214,12 @@ export class Game {
   private playerShadow!: Sprite
   private deathFx!: Sprite
   private debugLayer!: Container
+  private insides: Inside[] = []
+  private readonly heard = new WeakMap<Rival, string>()
+  private onGate = false
+  private hopAt = 0
+  private marchAt = 0
+  private musicPhase = 0
   private run = new Run()
   private meta: Meta
   private actors!: Container
@@ -246,6 +303,7 @@ export class Game {
         this.state.mode = 'play'
         this.menu.root.visible = false
         this.hud.root.visible = true
+        audio.ui('unpause')
       },
       quit: () => this.quitToTitle(),
       abandon: () => {
@@ -257,6 +315,7 @@ export class Game {
     }
     stage.addChild(this.world, this.washG, this.hud.root, this.levelup.root, this.menu.root)
     addEventListener('keydown', (event) => this.onKey(event))
+    addEventListener('pointerdown', () => audio.wake())
     addEventListener('keyup', (event) => this.keys.delete(event.code))
     this.mount()
     this.hud.root.visible = false
@@ -402,6 +461,7 @@ export class Game {
           }
         }
         this.visit(true)
+        this.cueFoes()
         const pops = sweep(state.decals, player, dist, this.art, {
           radius: HIT_R + stats.cleanWidth,
           step: Math.max(4, SWEEP_PX / stats.dirtRate),
@@ -496,6 +556,7 @@ export class Game {
     )
     this.paintMap()
     this.hud.showResults(state.mode === 'results' ? this.resultsInfo() : null)
+    this.syncAudio(driving)
     this.edges.clear()
   }
 
@@ -509,6 +570,7 @@ export class Game {
         this.run.hasKey = false
         const sprite = this.doorSprites.get(gate)
         if (sprite) sprite.texture = this.tiles.door(gate.side, 'open')
+        audio.sfx('world/door_open')
       }
     }
     const held = this.run.locked >= 0 ? clampRoom(world, this.run.locked, next.x, next.y) : next
@@ -527,6 +589,10 @@ export class Game {
     this.bossSprites = []
     this.bossChest = null
     this.bossShadow = null
+    this.onGate = false
+    this.hopAt = 0
+    this.marchAt = 0
+    this.musicPhase = 0
     this.stun = 0
     this.bossCard.visible = false
     this.bossBar.visible = false
@@ -578,6 +644,7 @@ export class Game {
     actors.addChild(this.bossShadow, this.playerShadow)
     this.world.addChild(this.pickLayer, actors, this.fx.layer, this.flashG, this.debugLayer)
     this.fx.layer.addChild(this.combat.fx)
+    this.insides = view.insides
 
     const player = makePlayer(this.art)
     player.x = view.world.spawnX
@@ -615,6 +682,11 @@ export class Game {
     }
     this.syncStats(kept ? kept.maxHp : player.maxHp)
     this.spawnPuddles()
+    if (this.run.explored.size === 0) {
+      const id = roomAt(view.world, player.x, player.y)
+      if (this.markExplored(id)) this.scatter(id)
+    }
+    this.showInsides()
     dispatchEvent(new Event('resize'))
     this.shake = 0
     this.hitStop = 0
@@ -665,6 +737,7 @@ export class Game {
       this.keys.clear()
       this.edges.clear()
       this.state.mode = 'pause'
+      audio.ui('pause')
       return
     }
     this.edges.add(event.code)
@@ -694,8 +767,9 @@ export class Game {
     const player = this.state.player
     const stats = this.progress.stats
     this.combat.hold = this.keys.has('KeyF')
-    if (this.edges.has('Space')) this.combat.press('brush-combo', player.facing)
-    if (this.edges.has('KeyF')) this.combat.press('suction-pull', player.facing)
+    const bump = player.form === 'p1' ? 'player/attack_p1_bump_strong' : 'player/attack_p0_bump'
+    if (this.edges.has('Space') && this.combat.press('brush-combo', player.facing)) audio.sfx(bump)
+    if (this.edges.has('KeyF') && this.combat.press('suction-pull', player.facing)) audio.sfx(bump)
     if (this.edges.has('KeyQ') && stats.shield) this.combat.press('shield-parry', player.facing)
     if (this.edges.has('KeyC') && stats.mixed) this.combat.press('mixed-combo', player.facing)
   }
@@ -739,6 +813,7 @@ export class Game {
 
   private hurtRival(rival: Rival, damage: number, knock: number, facing: Facing, stop: number): void {
     if (!rival.alive || rival.hp <= 0 || rival.react?.kind === 'death') return
+    const fresh = rival.iframe <= 0
     const vuln = this.foeVuln(rival)
     if (vuln <= 0) return
     damage = Math.max(1, Math.round(damage * vuln))
@@ -751,6 +826,7 @@ export class Game {
       this.kick(5, Math.max(stop, 50), 0xffffff, 0.45)
       return
     }
+    if (fresh) audio.sfx('enemies/enemy_hit', 70)
     if (isFloorBoss(rival.breed)) {
       const busy = rival.act.startsWith('attack') || rival.act === 'phase' || rival.act === 'phase2'
         || rival.act === 'phase3' || rival.act === 'intro' || rival.act === 'death'
@@ -945,6 +1021,10 @@ export class Game {
       this.run.kills += 1
       if (rival.key) this.run.hasKey = true
       if (rival.breed === 'snap_trap') this.openCrystal()
+      if (isFloorBoss(rival.breed)) {
+        audio.sfx('bosses/boss_defeat_explosion')
+        audio.stinger('boss_defeated')
+      } else audio.sfx('enemies/enemy_death_scrap_burst')
       for (let i = 0; i < rival.smudge; i++) {
         this.spillAt('57a', rival.x + i * 10 - 8, rival.y, rival.smudgeStage)
       }
@@ -1013,6 +1093,7 @@ export class Game {
     sprite.roundPixels = true
     sprite.eventMode = 'none'
     sprite.alpha = stage === 0 ? 1 : stage === 1 ? 2 / 3 : 1 / 3
+    sprite.visible = false
     this.dirtLayer.addChild(sprite)
     this.puddles.push({
       kind,
@@ -1083,6 +1164,7 @@ export class Game {
     } else player.coins += Math.max(1, Math.round(COIN_VALUE[pickup.kind] * stats.coinValue))
     pickup.alive = false
     pickup.sprite.visible = false
+    audio.sfx(pickup.kind === 'bolt' ? 'pickups/bolt' : 'pickups/coin')
     this.fx.pop(pickup.x, pickup.y, pickup.kind === 'bolt')
     this.kick(pickup.kind === 'bolt' ? 2.2 : 1.3, 0, 0xffffff, 0.12)
   }
@@ -1121,6 +1203,7 @@ export class Game {
     const cards = this.progress.roll(track, form)
     this.run.panel = 'level'
     this.state.mode = 'levelup'
+    if (track) audio.stinger('level_up')
     this.levelup.open(
       cards,
       this.progress.level + 1,
@@ -1155,6 +1238,7 @@ export class Game {
     this.progress.take(index, this.state.player)
     this.syncStats(before)
     if (this.run.panel === 'shrine') {
+      audio.sfx('pickups/shrine_activate')
       this.run.panel = ''
       this.closeLevel()
       return
@@ -1393,6 +1477,7 @@ export class Game {
     if (dx * dx + dy * dy > 24 * 24) return
     chest.open = true
     chest.sprite.texture = this.bossArt.chestOpen
+    audio.sfx('pickups/chest_open')
   }
 
   private tickBossShots(dt: number): void {
@@ -1675,6 +1760,7 @@ export class Game {
     player.iframe = IFRAME
     this.float(damage, player.x, player.y - 16)
     this.kick(3, 45, 0xffffff, 0.3)
+    audio.sfx('player/hit_taken')
     if (player.hp <= 0) this.powerDown(false)
   }
 
@@ -1685,6 +1771,8 @@ export class Game {
     this.run.downMs = won ? 1200 : DEATH_LEN
     this.run.cause = won ? 'BOSS CLEAR' : 'HP 0'
     this.combat.cancel()
+    if (!won) audio.sfx('player/power_down')
+    audio.stinger(won ? 'victory' : 'power_down_game_over', true)
     this.kick(7, 90, won ? 0xb4d2d8 : 0xe08a7c, 0.5)
   }
 
@@ -1855,6 +1943,7 @@ export class Game {
     }
     for (const decal of save.decals) this.restoreDecal(decal)
     this.restorePuddles(save.puddles)
+    this.showInsides()
     for (const pickup of save.pickups) this.drop(pickup.kind, pickup.x, pickup.y)
     const foes: Rival[] = []
     for (const foe of save.foes) {
@@ -1964,34 +2053,76 @@ export class Game {
     }
   }
 
+  /** Entering a room marks that room, and a whole hall chain, explored. */
+  private markExplored(id: number): boolean {
+    const world = this.mansion
+    if (!world || id < 0 || this.run.explored.has(id)) return false
+    const members = roomMembers(world, id)
+    for (const member of members) {
+      this.run.explored.add(member)
+      this.run.seen.add(member)
+    }
+    for (const member of members) {
+      for (const near of neighborRooms(world, member)) this.run.seen.add(near)
+    }
+    return true
+  }
+
+  /** Floors and walls stay up. Furniture, stairs, stains, and spills wait until the room opens. */
+  private showInsides(): void {
+    const world = this.mansion
+    if (!world) return
+    const open = this.run.explored
+    for (const item of this.insides) {
+      if (item.room < 0 || open.has(item.room)) item.sprite.visible = true
+    }
+    for (const puddle of this.puddles) {
+      const room = this.tileRoom(Math.floor(puddle.x / MANSION_TILE), Math.floor(puddle.y / MANSION_TILE))
+      if (room >= 0 && !open.has(room)) puddle.sprite.visible = false
+      else if (puddle.stage < 3) puddle.sprite.visible = true
+    }
+  }
+
+  private tileRoom(tx: number, ty: number): number {
+    const world = this.mansion
+    if (!world) return -1
+    let hit = -1
+    const rooms = world.plan.rooms
+    for (let i = 0; i < rooms.length; i++) {
+      const rect = roomTileRect(rooms[i])
+      if (tx < rect.x || ty < rect.y || tx >= rect.x + rect.w || ty >= rect.y + rect.h) continue
+      hit = i
+    }
+    return hit
+  }
+
   private visit(spawn: boolean): void {
     const world = this.mansion
     if (!world || this.state.mode === 'down' || this.state.mode === 'results') return
     const id = roomAt(world, this.state.player.x, this.state.player.y)
     if (id < 0) return
-    if (!this.run.explored.has(id)) {
-      const members = roomMembers(world, id)
-      for (const member of members) {
-        this.run.explored.add(member)
-        this.run.seen.add(member)
-      }
-      for (const member of members) {
-        for (const near of neighborRooms(world, member)) this.run.seen.add(near)
-      }
+    const room = world.plan.rooms[id]
+    const seals = !!room && hostile(room.role, this.run.floor) && !this.run.cleared.has(id)
+    if (!seals && this.markExplored(id)) {
       this.scatter(id)
+      this.showInsides()
     }
     if (!spawn || this.state.mode !== 'play') return
+    this.noteGate(id, seals)
     if (this.run.locked === id) {
       this.checkClear(id)
       return
     }
     if (this.run.cleared.has(id)) return
-    const room = world.plan.rooms[id]
     if (!room || !hostile(room.role, this.run.floor)) return
     const player = this.state.player
     const inDoor = world.gates.some((gate) => gateInRoom(world, gate, id) && bodyOnGate(world, player.x, player.y, gate))
     if (inDoor) return
     this.lockRoom(id)
+    if (this.markExplored(id)) {
+      this.scatter(id)
+      this.showInsides()
+    }
     this.run.wavesLeft = waveCount(room.role, this.run.floor)
     if (this.spawnWave(id) === 0) this.unlock(id)
   }
@@ -2015,16 +2146,19 @@ export class Game {
     if (!world) return
     this.run.locked = id
     this.run.saves = []
+    let sealed = false
     for (const gate of world.gates) {
       if (!gateInRoom(world, gate, id) || gate.state === 'sealed') continue
       this.run.saves.push({ gate, state: gate.state })
       gate.state = 'sealed'
+      sealed = true
       const sprite = this.doorSprites.get(gate)
       if (sprite) {
         sprite.visible = true
         sprite.texture = this.tiles.door(gate.side, 'locked')
       }
     }
+    if (sealed) audio.sfx('world/doors_lock')
   }
 
   /** Snap trap death opens the crystal room. A sealed fight door waits for that clear. */
@@ -2048,6 +2182,7 @@ export class Game {
   }
 
   private unlock(id: number): void {
+    const had = this.run.saves.length > 0
     for (const save of this.run.saves) {
       save.gate.state = save.state
       const sprite = this.doorSprites.get(save.gate)
@@ -2058,13 +2193,16 @@ export class Game {
     }
     this.run.saves = []
     this.run.locked = -1
-    if (!this.run.cleared.has(id)) {
+    if (had) audio.sfx('world/doors_unlock')
+    const fresh = !this.run.cleared.has(id)
+    if (fresh) {
       this.run.cleared.add(id)
       this.run.roomsCleared += 1
       this.run.bannerMs = 900
       this.progress.addXp(3)
     }
     const room = this.mansion?.plan.rooms[id]
+    if (fresh && room && hostile(room.role, this.run.floor) && room.role !== 'boss') audio.stinger('room_clear')
     if (room?.role === 'boss') this.powerDown(true)
   }
 
@@ -2094,6 +2232,116 @@ export class Game {
       if (!spot || !decal) continue
       this.spillAt(decal, spot.x, spot.y, 0)
     }
+  }
+
+  private noteGate(id: number, seals: boolean): void {
+    const world = this.mansion
+    if (!world) return
+    const player = this.state.player
+    const on = world.gates.some((gate) => bodyOnGate(world, player.x, player.y, gate))
+    if (on === this.onGate) return
+    const sealing = seals && !on && this.run.locked !== id && !this.run.cleared.has(id)
+    if (this.run.locked !== id) {
+      if (on) audio.sfx('world/door_open', 180)
+      else if (!sealing) audio.sfx('world/door_close', 180)
+    }
+    this.onGate = on
+  }
+
+  private cueFoes(): void {
+    const now = performance.now()
+    let hopped = false
+    let marched = false
+    for (const rival of this.state.rivals) {
+      const prev = this.heard.get(rival)
+      if (prev !== rival.act) {
+        this.heard.set(rival, rival.act)
+        if (prev !== undefined || rival.act === 'intro') this.cueAct(rival)
+      }
+      if (rival.hp <= 0 || !rival.alive) continue
+      if (rival.breed === 'dust_bunny') hopped = true
+      if (rival.breed === 'tin_soldier' && rival.act === 'march') marched = true
+    }
+    if (hopped && now >= this.hopAt) {
+      this.hopAt = now + 220
+      audio.sfx('enemies/dust_bunny_hop')
+    }
+    if (marched && now >= this.marchAt) {
+      this.marchAt = now + 320
+      audio.sfx('enemies/tin_soldier_march')
+    }
+  }
+
+  private cueAct(rival: Rival): void {
+    if (isFloorBoss(rival.breed) && rival.act === 'intro') {
+      audio.sfx('bosses/boss_intro_card_whoosh')
+      return
+    }
+    if ((rival.act === 'phase' || rival.act === 'phase2' || rival.act === 'phase3') && rival.breed !== 'head_butler') {
+      audio.sfx('bosses/boss_phase_break_crash')
+      return
+    }
+    const file = CUE[`${rival.breed}:${rival.act}`]
+    if (file) audio.sfx(file)
+  }
+
+  private syncAudio(driving: boolean): void {
+    audio.wake()
+    audio.apply()
+    const mode = this.state.mode
+    const menuPause = mode === 'pause' || (mode === 'settings' && this.menuBack === 'pause')
+    if (mode === 'down' || menuPause || audio.blocked()) audio.hold(true)
+    else {
+      const track = this.musicTrack()
+      if (track) audio.playMusic(track)
+    }
+    const live = mode === 'play' && this.state.player.hp > 0
+    audio.hum(live ? (driving ? 'move' : 'idle') : 'off')
+    const max = this.state.player.maxHp
+    const ratio = max > 0 ? this.state.player.hp / max : 1
+    audio.low(live && ratio > 0 && ratio <= 0.25)
+    audio.room(live && !this.liveBoss() ? this.run.floor : 0)
+    this.noteButler()
+  }
+
+  private musicTrack(): string {
+    const mode = this.state.mode
+    if (mode === 'title' || mode === 'brief') return 'music/title_theme'
+    if (mode === 'hub') return 'music/hub'
+    if (mode === 'settings') return this.menuBack === 'hub' ? 'music/hub' : 'music/title_theme'
+    if (mode === 'results') return 'stingers/results_screen_loop'
+    if (mode === 'shop') return 'music/shop'
+    if (this.run.panel === 'shrine') return 'music/shrine'
+    const boss = this.liveBoss()
+    if (boss) {
+      const track = bossMusic(boss)
+      if (track) return track
+    }
+    const world = this.mansion
+    if (world && mode === 'play') {
+      const id = roomAt(world, this.state.player.x, this.state.player.y)
+      const room = id >= 0 ? world.plan.rooms[id] : undefined
+      if (room?.role === 'shrine' && this.run.locked < 0) return 'music/shrine'
+    }
+    return FLOOR_MUSIC[this.run.floor] || 'music/floor1_clock_hall'
+  }
+
+  private liveBoss(): Rival | undefined {
+    return this.state.rivals.find((rival) => isFloorBoss(rival.breed) && rival.alive && rival.hp > 0)
+  }
+
+  private noteButler(): void {
+    const boss = this.state.rivals.find((rival) => rival.breed === 'head_butler' && rival.alive && rival.hp > 0)
+    if (!boss || boss.maxHp <= 0) {
+      this.musicPhase = 0
+      return
+    }
+    const ratio = boss.hp / boss.maxHp
+    const phase = ratio < 0.3 ? 3 : ratio < 0.6 ? 2 : 1
+    if (this.musicPhase > 0 && phase > this.musicPhase) {
+      audio.sfx(phase >= 3 ? 'bosses/boss_phase_break_crash' : 'bosses/head_butler_bell_ring')
+    }
+    this.musicPhase = phase
   }
 
   private hintText(): string {
@@ -2247,6 +2495,7 @@ export class Game {
     this.meta.runs += 1
     saveMeta(this.meta)
     this.state.mode = 'play'
+    audio.stinger('run_start')
   }
 
   private newRun(play: boolean): void {
@@ -2260,7 +2509,11 @@ export class Game {
     if (!perk) return
     const rank = perkRank(this.meta, index)
     const cost = perk.costs[rank]
-    if (cost === undefined || this.meta.coins < cost) return
+    if (cost === undefined || this.meta.coins < cost) {
+      if (cost !== undefined) audio.sfx('pickups/cant_afford_buzz')
+      return
+    }
+    audio.sfx('pickups/buy_item')
     this.meta.coins -= cost
     if (index === 0) this.meta.reroll = true
     else if (index === 1) this.meta.plating += 1
@@ -2311,6 +2564,7 @@ export class Game {
     else if (code === 'Digit3' || code === 'Numpad3') this.buy(2)
     else if (code === 'Digit4' || code === 'Numpad4') this.repair()
     else if (code === 'KeyE' || code === 'Escape' || code === 'KeyX') {
+      audio.ui('back')
       this.run.panel = ''
       this.closeLevel()
     } else if (code === 'Space' || code === 'Enter' || code === 'NumpadEnter') this.buy(this.levelup.index())
@@ -2320,7 +2574,11 @@ export class Game {
     if (this.run.sold[index]) return
     const price = this.run.prices[index]
     const player = this.state.player
-    if (price === undefined || player.coins < price) return
+    if (price === undefined || player.coins < price) {
+      if (price !== undefined) audio.sfx('pickups/cant_afford_buzz')
+      return
+    }
+    audio.sfx('pickups/buy_item')
     player.coins -= price
     this.levelup.setPurse(player.coins)
     this.run.sold[index] = true
@@ -2332,13 +2590,18 @@ export class Game {
 
   private repair(): void {
     const player = this.state.player
-    if (player.coins < 20 || player.hp >= player.maxHp) return
+    if (player.coins < 20 || player.hp >= player.maxHp) {
+      if (player.coins < 20) audio.sfx('pickups/cant_afford_buzz')
+      return
+    }
+    audio.sfx('pickups/buy_item')
     player.coins -= 20
     this.levelup.setPurse(player.coins)
     player.hp = Math.min(player.maxHp, player.hp + 30)
   }
 
   private descend(): void {
+    audio.sfx('world/stairs_down')
     const player = this.state.player
     player.bolts += 1
     this.meta.bolts = player.bolts

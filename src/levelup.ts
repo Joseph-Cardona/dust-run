@@ -2,6 +2,7 @@ import { Container, Graphics, Rectangle, Sprite, Texture } from 'pixi.js'
 import type { Art } from './assets.ts'
 import miniFont from './data/63-mansion-mini-3x5.json' with { type: 'json' }
 import sansFont from './data/63-mansion-sans-5x7.json' with { type: 'json' }
+import { audio } from './audio.ts'
 import { bake, type FontMetrics } from './font-bm.ts'
 import type { CardDraw, Rarity } from './upgrades.ts'
 
@@ -179,6 +180,7 @@ export class LevelUp {
   nudge(dir: number): void {
     if (this.phase !== 'idle') return
     this.focus = (this.focus + dir + 3) % 3
+    audio.ui('hover')
     this.placeCards()
   }
 
@@ -193,8 +195,14 @@ export class LevelUp {
 
   onKey(code: string): void {
     if (this.phase !== 'idle') return
-    if (code === 'ArrowLeft' || code === 'KeyA') this.focus = (this.focus + 2) % 3
-    if (code === 'ArrowRight' || code === 'KeyD') this.focus = (this.focus + 1) % 3
+    if (code === 'ArrowLeft' || code === 'KeyA') {
+      this.focus = (this.focus + 2) % 3
+      audio.ui('hover')
+    }
+    if (code === 'ArrowRight' || code === 'KeyD') {
+      this.focus = (this.focus + 1) % 3
+      audio.ui('hover')
+    }
     if (code === 'Space' || code === 'Enter' || code === 'NumpadEnter') this.choose(this.focus)
     if (code === 'KeyR') this.onReroll()
     if (code === 'KeyX') this.onSkip()
@@ -217,11 +225,13 @@ export class LevelUp {
 
   private onReroll(): void {
     if (this.phase !== 'idle') return
+    audio.ui('select')
     this.hooks.reroll()
   }
 
   private onSkip(): void {
     if (this.phase !== 'idle') return
+    audio.ui('select')
     this.hooks.skip()
   }
 
@@ -233,6 +243,7 @@ export class LevelUp {
       return
     }
     if (this.phase !== 'idle' || !this.cards[index]) return
+    audio.ui('select')
     this.chosen = index
     this.focus = index
     this.phase = 'select'

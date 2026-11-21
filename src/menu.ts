@@ -4,6 +4,7 @@ import type { Art } from './assets.ts'
 import menuFiles from './data/menu-files.json' with { type: 'json' }
 import miniFont from './data/63-mansion-mini-3x5.json' with { type: 'json' }
 import sansFont from './data/63-mansion-sans-5x7.json' with { type: 'json' }
+import { audio, mix } from './audio.ts'
 import { bake, type FontMetrics } from './font-bm.ts'
 import type { Meta } from './meta.ts'
 
@@ -188,7 +189,6 @@ export class StartMenu {
     reroll: false, starter: false, best: 1, runs: 0,
   }
   private card: RunCard = { floor: '', level: '', coins: '', bolts: '', time: '', icons: [] }
-  private volumes = [80, 55, 70]
   private drag = -1
   private fullBox!: Sprite
   private tankPrice!: Sprite
@@ -333,6 +333,7 @@ export class StartMenu {
   }
 
   private moveTitle(dir: number): void {
+    const before = this.focus
     let next = this.focus
     for (let step = 0; step < TITLE_ITEMS.length; step++) {
       next = (next + dir + TITLE_ITEMS.length) % TITLE_ITEMS.length
@@ -341,11 +342,13 @@ export class StartMenu {
     }
     this.focus = next
     this.paintTitle()
+    if (this.focus !== before) audio.ui('hover')
   }
 
   private activateTitle(): void {
     const item = TITLE_ITEMS[this.focus]
     if (!item || !this.titleOn(item)) return
+    audio.ui('select')
     if (item.id === 'new') this.hooks.go('brief', 'title')
     else if (item.id === 'continue') this.hooks.continue()
     else if (item.id === 'hub') this.hooks.go('hub')
@@ -386,7 +389,7 @@ export class StartMenu {
   }
 
   private paintSettings(): void {
-    this.volumes.forEach((value, index) => {
+    mix.forEach((value, index) => {
       const sprite = this.sliders[index]
       if (!sprite) return
       const step = String(value).padStart(3, '0')
@@ -412,6 +415,7 @@ export class StartMenu {
 
   private keySettings(code: string): void {
     if (code === 'Escape' || code === 'Backspace') {
+      audio.ui('back')
       this.hooks.go(this.back)
       return
     }
@@ -423,24 +427,31 @@ export class StartMenu {
   }
 
   private moveSettings(dir: number): void {
+    const before = this.focus
     this.focus = (this.focus + dir + SET_DEFAULTS + 1) % (SET_DEFAULTS + 1)
     this.paintSettings()
+    if (this.focus !== before) audio.ui('hover')
   }
 
   private nudgeSettings(dir: number): void {
     const item = SET_WIDGETS[this.focus]
     if (!item) return
     if (item.kind === 'slider') {
-      const next = (this.volumes[item.index] ?? 0) + dir * 5
-      this.volumes[item.index] = Math.min(100, Math.max(0, next))
+      const next = (mix[item.index] ?? 0) + dir * 5
+      this.setVolume(item.index, next)
     } else if (item.kind === 'toggle') this.flipToggle(item.key)
     else this.toggleFull()
     this.paintSettings()
   }
 
   private activateSettings(): void {
-    if (this.focus === SET_BACK) this.hooks.go(this.back)
-    else if (this.focus === SET_DEFAULTS) this.resetSettings()
+    if (this.focus === SET_BACK) {
+      audio.ui('back')
+      this.hooks.go(this.back)
+    } else if (this.focus === SET_DEFAULTS) {
+      audio.ui('select')
+      this.resetSettings()
+    }
     else {
       const item = SET_WIDGETS[this.focus]
       if (item?.kind === 'toggle') this.flipToggle(item.key)
@@ -451,10 +462,20 @@ export class StartMenu {
 
   private flipToggle(key: ToggleKey): void {
     playOptions[key] = !playOptions[key]
+    audio.ui(playOptions[key] ? 'on' : 'off')
+  }
+
+  private setVolume(index: number, value: number): void {
+    const next = Math.min(100, Math.max(0, value))
+    if (mix[index] === next) return
+    mix[index] = next
+    audio.ui('tick')
   }
 
   private resetSettings(): void {
-    this.volumes = [80, 55, 70]
+    mix[0] = 80
+    mix[1] = 55
+    mix[2] = 70
     playOptions.shake = true
     playOptions.numbers = true
     playOptions.flash = true
@@ -497,6 +518,7 @@ export class StartMenu {
       const key = row.key
       hit.on('pointerover', () => {
         if (this.drag >= 0) return
+        if (this.focus !== index) audio.ui('hover')
         this.focus = index
         this.paintSettings()
       })
@@ -515,7 +537,7 @@ export class StartMenu {
       } else {
         const drag = (event: FederatedPointerEvent) => {
           if (this.drag !== index) return
-          this.volumes[index] = volumeAt(event.getLocalPosition(hit).x)
+          this.setVolume(index, volumeAt(event.getLocalPosition(hit).x))
           this.paintSettings()
         }
         hit.on('pointerdown', (event: FederatedPointerEvent) => {
@@ -523,7 +545,7 @@ export class StartMenu {
           const x = event.getLocalPosition(hit).x
           if (x >= 140 && x <= 214) {
             this.drag = index
-            this.volumes[index] = volumeAt(x)
+            this.setVolume(index, volumeAt(x))
           }
           this.paintSettings()
         })
@@ -694,6 +716,7 @@ export class StartMenu {
 
   private keyHub(code: string): void {
     if (code === 'Escape' || code === 'Backspace') {
+      audio.ui('back')
       this.hooks.go('title')
       return
     }
@@ -709,6 +732,7 @@ export class StartMenu {
   }
 
   private moveHub(dx: number, dy: number): void {
+    const before = this.focus
     if (this.focus < 5) {
       if (dx !== 0) this.focus = Math.min(4, Math.max(0, this.focus + dx))
       else if (dy > 0) this.focus = 5
@@ -725,12 +749,18 @@ export class StartMenu {
       else this.focus = 5 + row * 2 + col
     }
     this.paintHub()
+    if (this.focus !== before) audio.ui('hover')
   }
 
   private activateHub(): void {
-    if (this.focus === 0) this.hooks.toggleForm()
-    else if (this.focus >= 5 && this.focus < 8) this.hooks.buy(this.focus - 5)
-    else if (this.focus === 9) this.hooks.go('title')
+    if (this.focus === 0) {
+      audio.ui('select')
+      this.hooks.toggleForm()
+    } else if (this.focus >= 5 && this.focus < 8) this.hooks.buy(this.focus - 5)
+    else if (this.focus === 9) {
+      audio.ui('back')
+      this.hooks.go('title')
+    }
   }
 
   private buildPause(): void {
@@ -809,17 +839,26 @@ export class StartMenu {
   }
 
   private movePause(dir: number): void {
+    const before = this.focus
     this.focus = (this.focus + dir + PAUSE_ITEMS.length) % PAUSE_ITEMS.length
     this.paintPause()
+    if (this.focus !== before) audio.ui('hover')
   }
 
   private activatePause(): void {
     const item = PAUSE_ITEMS[this.focus]
     if (!item) return
     if (item.id === 'resume') this.hooks.resume()
-    else if (item.id === 'settings') this.hooks.go('settings', 'pause')
-    else if (item.id === 'quit') this.hooks.quit()
-    else this.hooks.abandon()
+    else if (item.id === 'settings') {
+      audio.ui('select')
+      this.hooks.go('settings', 'pause')
+    } else if (item.id === 'quit') {
+      audio.ui('select')
+      this.hooks.quit()
+    } else {
+      audio.ui('select')
+      this.hooks.abandon()
+    }
   }
 
   private paintBrief(): void {
@@ -853,7 +892,10 @@ export class StartMenu {
   }
 
   private keyBrief(code: string): void {
-    if (code === 'Enter' || code === 'NumpadEnter' || code === 'Space') this.hooks.start()
+    if (code === 'Enter' || code === 'NumpadEnter' || code === 'Space') {
+      audio.ui('select')
+      this.hooks.start()
+    }
     else if (code === 'Escape' || code === 'Backspace') this.hooks.go(this.back)
   }
 
@@ -914,6 +956,7 @@ export class StartMenu {
   private aim(index: number): void {
     if (this.drag >= 0 || this.focus === index) return
     this.focus = index
+    audio.ui('hover')
     this.paint()
   }
 

@@ -2,6 +2,7 @@ import { Assets, Container, Sprite, Texture } from 'pixi.js'
 import { auditSamples, bootFloor, buildFloor, MANSION_TILE } from './mansion.ts'
 import type { DoorState, Side } from './mansion.ts'
 import { assemble, blockedAt, BODY_RX, BODY_RY, openTouched, PROPS, type FloorWorld, type Gate } from './rooms.ts'
+import { roomTileRect } from './run.ts'
 import { worldSize } from './spec.ts'
 
 const FLOORS: Record<string, [number, number]> = {
@@ -75,10 +76,17 @@ export class MansionTiles {
   }
 }
 
+export interface Inside {
+  sprite: Sprite
+  room: number
+}
+
 export interface MansionView {
   world: FloorWorld
   doors: Map<Gate, Sprite>
   texture: Texture
+  /** Furniture, stairs, seals, hazards, and wall deco. Hidden until that room opens. */
+  insides: Inside[]
   /** Floor dirt sits here, under the y-sorted actors. */
   cast: Container
 }
@@ -149,19 +157,6 @@ export function mountMansion(
   if (!ctx) throw new Error('no 2d context')
   ctx.imageSmoothingEnabled = false
   for (const tile of world.floors) paint(ctx, tiles.floor(tile.kind, tile.x, tile.y), tile.x * MANSION_TILE, tile.y * MANSION_TILE)
-  for (const hazard of world.hazards) paintHazard(ctx, tiles, hazard)
-  for (const seal of world.seals) {
-    const tex = tiles.prop('boss_seal')
-    const x = seal.x * MANSION_TILE + Math.floor((seal.w * MANSION_TILE - tex.width) / 2)
-    const y = seal.y * MANSION_TILE + Math.floor((seal.h * MANSION_TILE - tex.height) / 2)
-    paint(ctx, tex, x, y)
-  }
-  for (const item of world.deco) {
-    const tex = tiles.prop(item.name)
-    const x = item.x * MANSION_TILE + Math.floor((item.fw * MANSION_TILE - tex.width) / 2)
-    const y = item.y * MANSION_TILE + Math.floor((2 * MANSION_TILE - tex.height) / 2)
-    paint(ctx, tex, x, y)
-  }
 
   const texture = Texture.from(canvas)
   texture.source.scaleMode = 'nearest'
@@ -179,6 +174,23 @@ export function mountMansion(
     wall.position.set(tile.x * MANSION_TILE, tile.y * MANSION_TILE)
     wall.zIndex = (tile.y + 1) * MANSION_TILE
     actors.addChild(wall)
+  }
+
+  const insides: Inside[] = []
+  const own = (tx: number, ty: number): number => {
+    let hit = -1
+    for (let i = 0; i < world.plan.rooms.length; i++) {
+      const rect = roomTileRect(world.plan.rooms[i])
+      if (tx < rect.x || ty < rect.y || tx >= rect.x + rect.w || ty >= rect.y + rect.h) continue
+      hit = i
+    }
+    return hit
+  }
+  const track = (sprite: Sprite, tx: number, ty: number): void => {
+    sprite.visible = false
+    sprite.eventMode = 'none'
+    sprite.roundPixels = true
+    insides.push({ sprite, room: own(tx, ty) })
   }
 
   const doors = new Map<Gate, Sprite>()
@@ -203,9 +215,51 @@ export function mountMansion(
     )
     propSprite.zIndex = (prop.y + prop.fd) * MANSION_TILE
     actors.addChild(propSprite)
+    track(propSprite, prop.x + Math.floor((prop.fw - 1) / 2), prop.y + Math.max(prop.fd, 1) - 1)
   }
 
-  return { world, doors, texture, cast }
+  for (const item of world.deco) {
+    const tex = tiles.prop(item.name)
+    const deco = new Sprite(tex)
+    deco.position.set(
+      Math.round(item.x * MANSION_TILE + (item.fw * MANSION_TILE - tex.width) / 2),
+      Math.round(item.y * MANSION_TILE + Math.floor((2 * MANSION_TILE - tex.height) / 2)),
+    )
+    deco.zIndex = (item.y + 2) * MANSION_TILE
+    actors.addChild(deco)
+    track(deco, item.x, item.y)
+  }
+
+  for (const seal of world.seals) {
+    const tex = tiles.prop('boss_seal')
+    const mark = new Sprite(tex)
+    mark.position.set(
+      seal.x * MANSION_TILE + Math.floor((seal.w * MANSION_TILE - tex.width) / 2),
+      seal.y * MANSION_TILE + Math.floor((seal.h * MANSION_TILE - tex.height) / 2),
+    )
+    cast.addChild(mark)
+    track(mark, seal.x, seal.y)
+  }
+
+  for (const hazard of world.hazards) {
+    if (hazard.kind === 'coffee' || hazard.kind === 'water') continue
+    if (hazard.kind === 'wire') {
+      for (let i = 0; i < hazard.w; i++) {
+        const kind = i === 0 ? 'e' : i === hazard.w - 1 ? 'w' : 'ew'
+        const wire = new Sprite(tiles.wire(kind))
+        wire.position.set((hazard.x + i) * MANSION_TILE, hazard.y * MANSION_TILE)
+        cast.addChild(wire)
+        track(wire, hazard.x + i, hazard.y)
+      }
+      continue
+    }
+    const stain = new Sprite(tiles.hazard(hazard.kind))
+    stain.position.set(hazard.x * MANSION_TILE, hazard.y * MANSION_TILE)
+    cast.addChild(stain)
+    track(stain, hazard.x, hazard.y)
+  }
+
+  return { world, doors, texture, insides, cast }
 }
 
 export function slidePlayer(
@@ -230,23 +284,6 @@ export function slidePlayer(
     if (sprite) sprite.texture = tiles.door(gate.side, 'open')
   }
   return { x: nextX, y: nextY }
-}
-
-function paintHazard(
-  ctx: CanvasRenderingContext2D,
-  tiles: MansionTiles,
-  hazard: FloorWorld['hazards'][number],
-): void {
-  // Coffee and water are sweep sprites. Painting them would leave a stain after the vacuum.
-  if (hazard.kind === 'coffee' || hazard.kind === 'water') return
-  if (hazard.kind === 'wire') {
-    for (let i = 0; i < hazard.w; i++) {
-      const kind = i === 0 ? 'e' : i === hazard.w - 1 ? 'w' : 'ew'
-      paint(ctx, tiles.wire(kind), (hazard.x + i) * MANSION_TILE, hazard.y * MANSION_TILE)
-    }
-    return
-  }
-  paint(ctx, tiles.hazard(hazard.kind), hazard.x * MANSION_TILE, hazard.y * MANSION_TILE)
 }
 
 function paint(ctx: CanvasRenderingContext2D, tex: Texture, x: number, y: number): void {
