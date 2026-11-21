@@ -1,0 +1,1092 @@
+{
+ "id": 113,
+ "key": "sentry_prime",
+ "name": "SENTRY PRIME",
+ "canvas": [
+  128,
+  132
+ ],
+ "foot": [
+  64,
+  122
+ ],
+ "facings": [
+  "down",
+  "left",
+  "right",
+  "up"
+ ],
+ "facing_note": "4 facings for idle/move/attacks/hit (right = mirror of left); lockdown, phase changes and death face the camera",
+ "static": "113-sentry-prime.png (= idle down frame 0)",
+ "sheet": "113-sentry-prime_sheet.png",
+ "fx_sheet": "113-sentry-prime_fx_sheet.png",
+ "layers": "body (alpha 0/255) + fx (alpha 64/128/192/255, drawn over the body); per-anim folders in anim/ hold the same frames + a 3-row sheet + json",
+ "shadow": {
+  "rule": "game draws the contact shadow at the foot point",
+  "rx_ry": [
+   30,
+   7
+  ]
+ },
+ "rows": [
+  {
+   "row": 0,
+   "anim": "idle-down",
+   "frames": 8,
+   "ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 1,
+   "anim": "move-down",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "hover",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 2,
+   "anim": "attack_laser-down",
+   "frames": 14,
+   "ms": [
+    80,
+    70,
+    70,
+    80,
+    90,
+    50,
+    50,
+    50,
+    50,
+    50,
+    60,
+    80,
+    90,
+    110
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 4
+    },
+    {
+     "name": "active",
+     "from_": 5,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 13
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 3,
+   "anim": "attack_taser-down",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    90,
+    40,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 8
+    },
+    {
+     "name": "recovery",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 4,
+   "anim": "attack_bolts-down",
+   "frames": 10,
+   "ms": [
+    80,
+    70,
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "active",
+     "from_": 3,
+     "to": 7
+    },
+    {
+     "name": "recovery",
+     "from_": 8,
+     "to": 9
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 5,
+   "anim": "hit-down",
+   "frames": 6,
+   "ms": [
+    50,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "flash",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "recover",
+     "from_": 3,
+     "to": 5
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 6,
+   "anim": "idle-left",
+   "frames": 8,
+   "ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 7,
+   "anim": "move-left",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "hover",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 8,
+   "anim": "attack_laser-left",
+   "frames": 14,
+   "ms": [
+    80,
+    70,
+    70,
+    80,
+    90,
+    50,
+    50,
+    50,
+    50,
+    50,
+    60,
+    80,
+    90,
+    110
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 4
+    },
+    {
+     "name": "active",
+     "from_": 5,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 13
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 9,
+   "anim": "attack_taser-left",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    90,
+    40,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 8
+    },
+    {
+     "name": "recovery",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 10,
+   "anim": "attack_bolts-left",
+   "frames": 10,
+   "ms": [
+    80,
+    70,
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "active",
+     "from_": 3,
+     "to": 7
+    },
+    {
+     "name": "recovery",
+     "from_": 8,
+     "to": 9
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 11,
+   "anim": "hit-left",
+   "frames": 6,
+   "ms": [
+    50,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "flash",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "recover",
+     "from_": 3,
+     "to": 5
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 12,
+   "anim": "idle-right",
+   "frames": 8,
+   "ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 13,
+   "anim": "move-right",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "hover",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 14,
+   "anim": "attack_laser-right",
+   "frames": 14,
+   "ms": [
+    80,
+    70,
+    70,
+    80,
+    90,
+    50,
+    50,
+    50,
+    50,
+    50,
+    60,
+    80,
+    90,
+    110
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 4
+    },
+    {
+     "name": "active",
+     "from_": 5,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 13
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 15,
+   "anim": "attack_taser-right",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    90,
+    40,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 8
+    },
+    {
+     "name": "recovery",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 16,
+   "anim": "attack_bolts-right",
+   "frames": 10,
+   "ms": [
+    80,
+    70,
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "active",
+     "from_": 3,
+     "to": 7
+    },
+    {
+     "name": "recovery",
+     "from_": 8,
+     "to": 9
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 17,
+   "anim": "hit-right",
+   "frames": 6,
+   "ms": [
+    50,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "flash",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "recover",
+     "from_": 3,
+     "to": 5
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 18,
+   "anim": "idle-up",
+   "frames": 8,
+   "ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 19,
+   "anim": "move-up",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "hover",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 20,
+   "anim": "attack_laser-up",
+   "frames": 14,
+   "ms": [
+    80,
+    70,
+    70,
+    80,
+    90,
+    50,
+    50,
+    50,
+    50,
+    50,
+    60,
+    80,
+    90,
+    110
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 4
+    },
+    {
+     "name": "active",
+     "from_": 5,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 13
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 21,
+   "anim": "attack_taser-up",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    90,
+    40,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 8
+    },
+    {
+     "name": "recovery",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 22,
+   "anim": "attack_bolts-up",
+   "frames": 10,
+   "ms": [
+    80,
+    70,
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "active",
+     "from_": 3,
+     "to": 7
+    },
+    {
+     "name": "recovery",
+     "from_": 8,
+     "to": 9
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 23,
+   "anim": "hit-up",
+   "frames": 6,
+   "ms": [
+    50,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "flash",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "recover",
+     "from_": 3,
+     "to": 5
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 24,
+   "anim": "idle_p2-down",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 25,
+   "anim": "idle_p2-left",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 26,
+   "anim": "idle_p2-right",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 27,
+   "anim": "idle_p2-up",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 28,
+   "anim": "idle_p3-down",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 29,
+   "anim": "idle_p3-left",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 30,
+   "anim": "idle_p3-right",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 31,
+   "anim": "idle_p3-up",
+   "frames": 8,
+   "ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 32,
+   "anim": "attack_lockdown-down",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    80,
+    60,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 5
+    },
+    {
+     "name": "active",
+     "from_": 6,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 33,
+   "anim": "phase2-down",
+   "frames": 12,
+   "ms": [
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    90,
+    70,
+    80,
+    90,
+    100,
+    120
+   ],
+   "tags": [
+    {
+     "name": "shudder",
+     "from_": 0,
+     "to": 5
+    },
+    {
+     "name": "settle",
+     "from_": 6,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 34,
+   "anim": "phase3-down",
+   "frames": 12,
+   "ms": [
+    80,
+    60,
+    60,
+    60,
+    60,
+    70,
+    90,
+    70,
+    80,
+    90,
+    100,
+    120
+   ],
+   "tags": [
+    {
+     "name": "shudder",
+     "from_": 0,
+     "to": 5
+    },
+    {
+     "name": "settle",
+     "from_": 6,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 35,
+   "anim": "death-down",
+   "frames": 22,
+   "ms": [
+    70,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    80,
+    60,
+    60,
+    60,
+    70,
+    70,
+    80,
+    80,
+    90,
+    90,
+    100,
+    120,
+    140,
+    180,
+    400
+   ],
+   "tags": [
+    {
+     "name": "break",
+     "from_": 0,
+     "to": 17
+    },
+    {
+     "name": "rest",
+     "from_": 18,
+     "to": 21
+    }
+   ],
+   "loop": false
+  }
+ ]
+}

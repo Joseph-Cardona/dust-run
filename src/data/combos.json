@@ -1,0 +1,1078 @@
+{
+ "id": 67,
+ "sprite": "P0 (51)",
+ "canvas": [
+  96,
+  96
+ ],
+ "rest_frame_topleft": [
+  32,
+  32
+ ],
+ "coords": "sprite space: relative to the 32x32 sprite top-left; rects [x0,y0,x1,y1) exclusive",
+ "flow": "hit k: anticipation -> active -> recovery (cancel window). Input buffered from hit k active start to recovery end -> hit k+1 anticipation follows the last recovery frame directly. No input by the end of recovery -> play hk_end (3 frames to idle). Hit 3 recovery ends on idle (+root).",
+ "combos": {
+  "brush-combo": {
+   "id": "67a",
+   "branch": "BLADES",
+   "frames_main": 28,
+   "frames_total": 34,
+   "total_ms_full": 1520,
+   "ms": [
+    70,
+    60,
+    60,
+    45,
+    45,
+    45,
+    60,
+    60,
+    60,
+    60,
+    45,
+    45,
+    45,
+    60,
+    60,
+    60,
+    60,
+    60,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    70,
+    70,
+    70,
+    70,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80
+   ],
+   "tags": [
+    [
+     "idle",
+     0,
+     0
+    ],
+    [
+     "hit1",
+     1,
+     7
+    ],
+    [
+     "h1_anticipation",
+     1,
+     2
+    ],
+    [
+     "h1_active",
+     3,
+     5
+    ],
+    [
+     "h1_recovery",
+     6,
+     7
+    ],
+    [
+     "h1_cancel",
+     6,
+     7
+    ],
+    [
+     "hit2",
+     8,
+     14
+    ],
+    [
+     "h2_anticipation",
+     8,
+     9
+    ],
+    [
+     "h2_active",
+     10,
+     12
+    ],
+    [
+     "h2_recovery",
+     13,
+     14
+    ],
+    [
+     "h2_cancel",
+     13,
+     14
+    ],
+    [
+     "hit3",
+     15,
+     27
+    ],
+    [
+     "h3_anticipation",
+     15,
+     17
+    ],
+    [
+     "h3_active",
+     18,
+     23
+    ],
+    [
+     "h3_recovery",
+     24,
+     27
+    ],
+    [
+     "h1_end",
+     28,
+     30
+    ],
+    [
+     "h2_end",
+     31,
+     33
+    ]
+   ],
+   "hits": [
+    {
+     "hit": 1,
+     "kind": "slash",
+     "anticipation": [
+      1,
+      2
+     ],
+     "active": [
+      3,
+      5
+     ],
+     "contact_frame": 4,
+     "recovery": [
+      6,
+      7
+     ],
+     "ms_per_frame": {
+      "anticipation": 60,
+      "active": 45,
+      "recovery": 60
+     },
+     "damage_mult": 1.0,
+     "hitstop_ms": 30,
+     "enemy_knockback_px": 2,
+     "hitbox": {
+      "down": [
+       -6,
+       14,
+       37,
+       37
+      ],
+      "left": [
+       -7,
+       6,
+       25,
+       32
+      ],
+      "right": [
+       7,
+       6,
+       39,
+       32
+      ],
+      "up": [
+       -5,
+       3,
+       38,
+       24
+      ]
+     },
+     "input_buffer": [
+      3,
+      7
+     ],
+     "cancel_window": [
+      6,
+      7
+     ],
+     "next": "h2_anticipation starts at frame 8",
+     "end_branch": [
+      28,
+      30
+     ],
+     "end_root_px": 0
+    },
+    {
+     "hit": 2,
+     "kind": "slash",
+     "anticipation": [
+      8,
+      9
+     ],
+     "active": [
+      10,
+      12
+     ],
+     "contact_frame": 11,
+     "recovery": [
+      13,
+      14
+     ],
+     "ms_per_frame": {
+      "anticipation": 60,
+      "active": 45,
+      "recovery": 60
+     },
+     "damage_mult": 1.1,
+     "hitstop_ms": 40,
+     "enemy_knockback_px": 3,
+     "hitbox": {
+      "down": [
+       -5,
+       15,
+       38,
+       39
+      ],
+      "left": [
+       -8,
+       6,
+       24,
+       32
+      ],
+      "right": [
+       8,
+       6,
+       40,
+       32
+      ],
+      "up": [
+       -6,
+       1,
+       37,
+       23
+      ]
+     },
+     "input_buffer": [
+      10,
+      14
+     ],
+     "cancel_window": [
+      13,
+      14
+     ],
+     "next": "h3_anticipation starts at frame 15",
+     "end_branch": [
+      31,
+      33
+     ],
+     "end_root_px": 0
+    },
+    {
+     "hit": 3,
+     "kind": "spin",
+     "anticipation": [
+      15,
+      17
+     ],
+     "active": [
+      18,
+      23
+     ],
+     "contact_frame": 21,
+     "recovery": [
+      24,
+      27
+     ],
+     "ms_per_frame": {
+      "anticipation": 60,
+      "active": 40,
+      "recovery": 70
+     },
+     "damage_mult": 2.0,
+     "hitstop_ms": 90,
+     "enemy_knockback_px": 12,
+     "hitbox": {
+      "down": [
+       -14,
+       2,
+       46,
+       41
+      ],
+      "left": [
+       -15,
+       1,
+       45,
+       37
+      ],
+      "right": [
+       -13,
+       1,
+       47,
+       37
+      ],
+      "up": [
+       -14,
+       -1,
+       46,
+       36
+      ]
+     },
+     "screen_shake_px": [
+      [
+       2,
+       0
+      ],
+      [
+       -2,
+       1
+      ],
+      [
+       1,
+       -1
+      ],
+      [
+       -1,
+       0
+      ]
+     ],
+     "root_px": 0
+    }
+   ],
+   "enemy_knock_offsets": [
+    [
+     1,
+     2,
+     2
+    ],
+    [
+     1,
+     2,
+     3,
+     3
+    ],
+    [
+     4,
+     7,
+     10,
+     12,
+     12
+    ]
+   ]
+  },
+  "ram-combo": {
+   "id": "67b",
+   "branch": "MOTOR",
+   "frames_main": 24,
+   "frames_total": 30,
+   "total_ms_full": 1420,
+   "ms": [
+    70,
+    55,
+    55,
+    45,
+    45,
+    60,
+    60,
+    55,
+    55,
+    45,
+    45,
+    60,
+    60,
+    70,
+    70,
+    70,
+    45,
+    45,
+    45,
+    45,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80
+   ],
+   "tags": [
+    [
+     "idle",
+     0,
+     0
+    ],
+    [
+     "hit1",
+     1,
+     6
+    ],
+    [
+     "h1_anticipation",
+     1,
+     2
+    ],
+    [
+     "h1_active",
+     3,
+     4
+    ],
+    [
+     "h1_recovery",
+     5,
+     6
+    ],
+    [
+     "h1_cancel",
+     5,
+     6
+    ],
+    [
+     "hit2",
+     7,
+     12
+    ],
+    [
+     "h2_anticipation",
+     7,
+     8
+    ],
+    [
+     "h2_active",
+     9,
+     10
+    ],
+    [
+     "h2_recovery",
+     11,
+     12
+    ],
+    [
+     "h2_cancel",
+     11,
+     12
+    ],
+    [
+     "hit3",
+     13,
+     23
+    ],
+    [
+     "h3_anticipation",
+     13,
+     15
+    ],
+    [
+     "h3_active",
+     16,
+     19
+    ],
+    [
+     "h3_recovery",
+     20,
+     23
+    ],
+    [
+     "h1_end",
+     24,
+     26
+    ],
+    [
+     "h2_end",
+     27,
+     29
+    ]
+   ],
+   "hits": [
+    {
+     "hit": 1,
+     "kind": "ram",
+     "anticipation": [
+      1,
+      2
+     ],
+     "active": [
+      3,
+      4
+     ],
+     "contact_frame": 4,
+     "recovery": [
+      5,
+      6
+     ],
+     "ms_per_frame": {
+      "anticipation": 55,
+      "active": 45,
+      "recovery": 60
+     },
+     "damage_mult": 0.8,
+     "hitstop_ms": 30,
+     "enemy_knockback_px": 3,
+     "hitbox": {
+      "down": [
+       3,
+       13,
+       29,
+       36
+      ],
+      "left": [
+       -4,
+       10,
+       25,
+       28
+      ],
+      "right": [
+       7,
+       10,
+       36,
+       28
+      ],
+      "up": [
+       4,
+       2,
+       28,
+       25
+      ]
+     },
+     "input_buffer": [
+      3,
+      6
+     ],
+     "cancel_window": [
+      5,
+      6
+     ],
+     "next": "h2_anticipation starts at frame 7",
+     "end_branch": [
+      24,
+      26
+     ],
+     "end_root_px": 2
+    },
+    {
+     "hit": 2,
+     "kind": "ram",
+     "anticipation": [
+      7,
+      8
+     ],
+     "active": [
+      9,
+      10
+     ],
+     "contact_frame": 10,
+     "recovery": [
+      11,
+      12
+     ],
+     "ms_per_frame": {
+      "anticipation": 55,
+      "active": 45,
+      "recovery": 60
+     },
+     "damage_mult": 0.9,
+     "hitstop_ms": 40,
+     "enemy_knockback_px": 4,
+     "hitbox": {
+      "down": [
+       3,
+       16,
+       29,
+       39
+      ],
+      "left": [
+       -7,
+       10,
+       22,
+       28
+      ],
+      "right": [
+       10,
+       10,
+       39,
+       28
+      ],
+      "up": [
+       4,
+       -1,
+       28,
+       22
+      ]
+     },
+     "input_buffer": [
+      9,
+      12
+     ],
+     "cancel_window": [
+      11,
+      12
+     ],
+     "next": "h3_anticipation starts at frame 13",
+     "end_branch": [
+      27,
+      29
+     ],
+     "end_root_px": 5
+    },
+    {
+     "hit": 3,
+     "kind": "ram",
+     "anticipation": [
+      13,
+      15
+     ],
+     "active": [
+      16,
+      19
+     ],
+     "contact_frame": 18,
+     "recovery": [
+      20,
+      23
+     ],
+     "ms_per_frame": {
+      "anticipation": 70,
+      "active": 45,
+      "recovery": 80
+     },
+     "damage_mult": 2.4,
+     "hitstop_ms": 110,
+     "enemy_knockback_px": 14,
+     "hitbox": {
+      "down": [
+       4,
+       26,
+       28,
+       49
+      ],
+      "left": [
+       -17,
+       10,
+       12,
+       29
+      ],
+      "right": [
+       20,
+       10,
+       49,
+       29
+      ],
+      "up": [
+       4,
+       -11,
+       28,
+       12
+      ]
+     },
+     "screen_shake_px": [
+      [
+       3,
+       0
+      ],
+      [
+       -2,
+       1
+      ],
+      [
+       2,
+       -1
+      ],
+      [
+       -1,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     "root_px": 20
+    }
+   ],
+   "enemy_knock_offsets": [
+    [
+     1,
+     2,
+     3,
+     3
+    ],
+    [
+     2,
+     3,
+     4,
+     4
+    ],
+    [
+     4,
+     7,
+     10,
+     12,
+     13,
+     14,
+     14
+    ]
+   ]
+  },
+  "mixed-combo": {
+   "id": "67c",
+   "branch": "SUCTION>BLADES>MOTOR",
+   "frames_main": 27,
+   "frames_total": 33,
+   "total_ms_full": 1670,
+   "ms": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    60,
+    60,
+    60,
+    60,
+    45,
+    45,
+    45,
+    45,
+    60,
+    60,
+    70,
+    70,
+    70,
+    45,
+    45,
+    45,
+    45,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80
+   ],
+   "tags": [
+    [
+     "idle",
+     0,
+     0
+    ],
+    [
+     "hit1",
+     1,
+     7
+    ],
+    [
+     "h1_anticipation",
+     1,
+     2
+    ],
+    [
+     "h1_active",
+     3,
+     5
+    ],
+    [
+     "h1_recovery",
+     6,
+     7
+    ],
+    [
+     "h1_cancel",
+     6,
+     7
+    ],
+    [
+     "hit2",
+     8,
+     15
+    ],
+    [
+     "h2_anticipation",
+     8,
+     9
+    ],
+    [
+     "h2_active",
+     10,
+     13
+    ],
+    [
+     "h2_recovery",
+     14,
+     15
+    ],
+    [
+     "h2_cancel",
+     14,
+     15
+    ],
+    [
+     "hit3",
+     16,
+     26
+    ],
+    [
+     "h3_anticipation",
+     16,
+     18
+    ],
+    [
+     "h3_active",
+     19,
+     22
+    ],
+    [
+     "h3_recovery",
+     23,
+     26
+    ],
+    [
+     "h1_end",
+     27,
+     29
+    ],
+    [
+     "h2_end",
+     30,
+     32
+    ]
+   ],
+   "hits": [
+    {
+     "hit": 1,
+     "kind": "suction",
+     "anticipation": [
+      1,
+      2
+     ],
+     "active": [
+      3,
+      5
+     ],
+     "contact_frame": 3,
+     "recovery": [
+      6,
+      7
+     ],
+     "ms_per_frame": {
+      "anticipation": 70,
+      "active": 70,
+      "recovery": 60
+     },
+     "damage_mult": 0.4,
+     "hitstop_ms": 0,
+     "enemy_knockback_px": -5,
+     "hitbox": {
+      "down": [
+       2,
+       29,
+       31,
+       43
+      ],
+      "left": [
+       -20,
+       10,
+       4,
+       27
+      ],
+      "right": [
+       28,
+       10,
+       52,
+       27
+      ],
+      "up": [
+       2,
+       -3,
+       31,
+       11
+      ]
+     },
+     "input_buffer": [
+      3,
+      7
+     ],
+     "cancel_window": [
+      6,
+      7
+     ],
+     "next": "h2_anticipation starts at frame 8",
+     "end_branch": [
+      27,
+      29
+     ],
+     "end_root_px": 0
+    },
+    {
+     "hit": 2,
+     "kind": "spin",
+     "anticipation": [
+      8,
+      9
+     ],
+     "active": [
+      10,
+      13
+     ],
+     "contact_frame": 12,
+     "recovery": [
+      14,
+      15
+     ],
+     "ms_per_frame": {
+      "anticipation": 60,
+      "active": 45,
+      "recovery": 60
+     },
+     "damage_mult": 1.2,
+     "hitstop_ms": 40,
+     "enemy_knockback_px": 3,
+     "hitbox": {
+      "down": [
+       -7,
+       5,
+       39,
+       37
+      ],
+      "left": [
+       -7,
+       5,
+       39,
+       33
+      ],
+      "right": [
+       -7,
+       5,
+       39,
+       33
+      ],
+      "up": [
+       -7,
+       3,
+       39,
+       33
+      ]
+     },
+     "input_buffer": [
+      10,
+      15
+     ],
+     "cancel_window": [
+      14,
+      15
+     ],
+     "next": "h3_anticipation starts at frame 16",
+     "end_branch": [
+      30,
+      32
+     ],
+     "end_root_px": 0
+    },
+    {
+     "hit": 3,
+     "kind": "ram",
+     "anticipation": [
+      16,
+      18
+     ],
+     "active": [
+      19,
+      22
+     ],
+     "contact_frame": 21,
+     "recovery": [
+      23,
+      26
+     ],
+     "ms_per_frame": {
+      "anticipation": 70,
+      "active": 45,
+      "recovery": 80
+     },
+     "damage_mult": 2.2,
+     "hitstop_ms": 100,
+     "enemy_knockback_px": 14,
+     "hitbox": {
+      "down": [
+       3,
+       21,
+       29,
+       44
+      ],
+      "left": [
+       -12,
+       10,
+       17,
+       28
+      ],
+      "right": [
+       15,
+       10,
+       44,
+       28
+      ],
+      "up": [
+       4,
+       -6,
+       28,
+       17
+      ]
+     },
+     "screen_shake_px": [
+      [
+       3,
+       0
+      ],
+      [
+       -2,
+       1
+      ],
+      [
+       2,
+       -1
+      ],
+      [
+       -1,
+       0
+      ]
+     ],
+     "root_px": 15
+    }
+   ],
+   "enemy_knock_offsets": [
+    [
+     -1,
+     -2,
+     -3,
+     -4,
+     -5
+    ],
+    [
+     1,
+     2,
+     3,
+     3
+    ],
+    [
+     4,
+     7,
+     10,
+     12,
+     13,
+     14,
+     14
+    ]
+   ]
+  }
+ }
+}

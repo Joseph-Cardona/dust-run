@@ -1,0 +1,102 @@
+{
+ "id": "79",
+ "styles": {
+  "1": {
+   "W": 10,
+   "H": 6,
+   "start": [
+    "foyer",
+    [
+     2,
+     2
+    ]
+   ],
+   "plan": "manor"
+  },
+  "2": {
+   "W": 10,
+   "H": 6,
+   "start": [
+    "stairwell",
+    [
+     1,
+     1
+    ]
+   ],
+   "plan": "ring"
+  },
+  "3": {
+   "W": 9,
+   "H": 6,
+   "start": [
+    "stairwell",
+    [
+     1,
+     1
+    ]
+   ],
+   "plan": "cross"
+  },
+  "4": {
+   "W": 9,
+   "H": 6,
+   "start": [
+    "stairwell",
+    [
+     1,
+     1
+    ]
+   ],
+   "plan": "cross"
+  },
+  "5": {
+   "W": 8,
+   "H": 6,
+   "start": [
+    "stairwell",
+    [
+     1,
+     1
+    ]
+   ],
+   "plan": "ring"
+  }
+ },
+ "caps": {
+  "storage": 2,
+  "boiler": 2,
+  "foyer": 1,
+  "ballroom": 1,
+  "dining": 1,
+  "kitchen": 1,
+  "library": 1,
+  "conservatory": 1,
+  "panic": 1,
+  "stairwell": 1,
+  "trophy": 1,
+  "attic": 2,
+  "bedroom": 3,
+  "bathroom": 2,
+  "study": 2,
+  "gallery": 2,
+  "wine_cellar": 3,
+  "basement": 2,
+  "laundry": 2,
+  "server": 5
+ },
+ "rules": [
+  "grid: floor 1 10x6 cells, floors 2 10x6, 3-4 9x6, 5 8x6 (cell = 320x192 px)",
+  "start at bottom centre: floor 1 = 2x2 FOYER with the front door; floors 2-5 = 1x1 STAIRWELL landing (arrival)",
+  "skeleton by plan: manor (gallery corridor across + 2 wing corridors north), ring (corridor ring), cross (north spine + cross corridor + side spurs)",
+  "fill: repeatedly place the largest room (2x2 > 2x1/1x2 > 1x1) that touches a corridor; theme from that floor's list, capped per theme",
+  "symmetry: every placement is mirrored into the other wing (same size, different theme); if that fails, the mirrored footprint is filled with smaller rooms",
+  "doors: corridor-corridor arch; each room gets 1 door (2 for multi-cell) to a touching corridor; 35% of room-room neighbours get an extra door, half of them one-way back toward the start",
+  "roles: stairs = farthest room by door distance (or the farthest 1x1 becomes a STAIRWELL), boss on floor 5 (largest far room), elites 0/1/1/2/2 in multi-cell rooms, then treasure, shrine, dock, shop (floor 2+); the rest combat",
+  "treasure doors are locked (key from the floor elite)"
+ ],
+ "examples": [
+  "79-floors/79-floor1-ground.png",
+  "79-floors/79-floor2-upper.png",
+  "79-floors/79-floor3-cellar.png"
+ ]
+}

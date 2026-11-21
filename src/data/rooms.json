@@ -1,0 +1,6145 @@
+{
+ "id": "78",
+ "cell": {
+  "tiles": [
+   20,
+   12
+  ],
+  "px": [
+   320,
+   192
+  ],
+  "tile_px": 16
+ },
+ "size_rules": {
+  "allowed": [
+   "1x1",
+   "2x1",
+   "1x2",
+   "2x2"
+  ],
+  "room_px": "w*320 x h*192",
+  "interior": "x 1..W-2, y 3..H-2 (north wall 3 tiles: cap + 2 face rows; other walls 1 tile)",
+  "walls": "every room is closed on all four sides; the only openings are door sockets",
+  "hallways": "1x1 cells; corridor 4 tiles wide, arms only toward connected sockets (straight, corner, T, cross, dead end)"
+ },
+ "sockets": {
+  "per_cell_side": "every cell side on the room perimeter has exactly one socket at its centre",
+  "n": [
+   9,
+   10
+  ],
+  "s": [
+   9,
+   10
+  ],
+  "e": [
+   6,
+   7
+  ],
+  "w": [
+   6,
+   7
+  ],
+  "snap": "rooms on neighbouring grid cells always share socket positions, so any two rooms connect"
+ },
+ "door_states": {
+  "open": "passable, no leaf",
+  "arch": "corridor arch (= open sprite)",
+  "closed": "opens on touch (wood leaf)",
+  "locked": "ice bars + brass plate; opens when the floor elite drops its key",
+  "oneway_in": "chevrons point into this room: enter only",
+  "oneway_out": "chevrons point out: exit only (shortcut back toward the start)",
+  "front": "mansion front door (floor 1 foyer)"
+ },
+ "themes": {
+  "foyer": {
+   "floor": "marble",
+   "wall": "plaster",
+   "sizes": [
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "start",
+    "dock",
+    "shop"
+   ],
+   "floors": [
+    1
+   ],
+   "label": "FOYER / ENTRANCE",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "rogue_mop",
+     "chandelier"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "rogue_mop",
+      "chandelier"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "hallway": {
+   "floor": null,
+   "wall": null,
+   "sizes": [
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [],
+   "floors": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "label": "HALLWAY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "rogue_mop"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "dust_bunny",
+      "rogue_mop"
+     ],
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "rogue_mop"
+     ],
+     "3": [
+      "47m3",
+      "dust_bunny",
+      "rogue_mop"
+     ],
+     "4": [
+      "47m3",
+      "dust_bunny",
+      "rogue_mop"
+     ],
+     "5": [
+      "47m3",
+      "dust_bunny"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "dining": {
+   "floor": "parquet",
+   "wall": "wood",
+   "sizes": [
+    [
+     2,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "shop"
+   ],
+   "floors": [
+    1
+   ],
+   "label": "DINING HALL",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "snap_trap",
+     "toaster",
+     "chandelier"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "snap_trap",
+      "toaster",
+      "chandelier"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "kitchen": {
+   "floor": "linoleum",
+   "wall": "tile",
+   "sizes": [
+    [
+     2,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "dock",
+    "shop"
+   ],
+   "floors": [
+    1
+   ],
+   "label": "KITCHEN",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "snap_trap",
+     "rogue_mop",
+     "toaster"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "toaster"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "library": {
+   "floor": "hardwood",
+   "wall": "library",
+   "sizes": [
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "treasure",
+    "shrine"
+   ],
+   "floors": [
+    1,
+    2
+   ],
+   "label": "LIBRARY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "tin_soldier",
+     "chandelier"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier",
+      "chandelier"
+     ],
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier",
+      "chandelier"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "ballroom": {
+   "floor": "ballroom",
+   "wall": "wallpaper",
+   "sizes": [
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "elite",
+    "boss",
+    "combat"
+   ],
+   "floors": [
+    1,
+    5
+   ],
+   "label": "BALLROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "sheet_ghost",
+     "chandelier",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "dust_bunny",
+      "chandelier"
+     ],
+     "5": [
+      "47m3",
+      "dust_bunny",
+      "sheet_ghost",
+      "chandelier",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "bathroom": {
+   "floor": "bath",
+   "wall": "tile",
+   "sizes": [
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "dock"
+   ],
+   "floors": [
+    2
+   ],
+   "label": "BATHROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "rogue_mop"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "2": [
+      "47m3",
+      "rogue_mop"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "bedroom": {
+   "floor": "carpet_ice",
+   "wall": "wallpaper",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "treasure",
+    "dock",
+    "stairs"
+   ],
+   "floors": [
+    2
+   ],
+   "label": "BEDROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "tin_soldier",
+     "sheet_ghost"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier",
+      "sheet_ghost"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "conservatory": {
+   "floor": "terratile",
+   "wall": "glass",
+   "sizes": [
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "roles": [
+    "shrine",
+    "combat",
+    "elite"
+   ],
+   "floors": [
+    1
+   ],
+   "label": "CONSERVATORY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "rogue_mop"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "rogue_mop"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "gallery": {
+   "floor": "marble",
+   "wall": "plaster",
+   "sizes": [
+    [
+     2,
+     1
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "shrine",
+    "shop"
+   ],
+   "floors": [
+    1,
+    2
+   ],
+   "label": "GALLERY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "tin_soldier",
+     "sheet_ghost",
+     "chandelier"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "tin_soldier",
+      "chandelier"
+     ],
+     "2": [
+      "47m3",
+      "tin_soldier",
+      "sheet_ghost",
+      "chandelier"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "wine_cellar": {
+   "floor": "brick",
+   "wall": "brick",
+   "sizes": [
+    [
+     2,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "treasure",
+    "elite"
+   ],
+   "floors": [
+    3
+   ],
+   "label": "WINE CELLAR",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "snap_trap",
+     "rogue_mop",
+     "sheet_ghost"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "3": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "sheet_ghost"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "basement": {
+   "floor": "concrete",
+   "wall": "concrete",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "dock",
+    "stairs",
+    "boss"
+   ],
+   "floors": [
+    3,
+    4
+   ],
+   "label": "BASEMENT",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "snap_trap",
+     "toaster",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "3": [
+      "47m3",
+      "dust_bunny",
+      "snap_trap",
+      "toaster",
+      "vacuum_brute"
+     ],
+     "4": [
+      "47m3",
+      "dust_bunny",
+      "snap_trap",
+      "toaster",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "laundry": {
+   "floor": "checker",
+   "wall": "tile",
+   "sizes": [
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "dock",
+    "combat"
+   ],
+   "floors": [
+    2,
+    3
+   ],
+   "label": "LAUNDRY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "snap_trap",
+     "rogue_mop",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "2": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "vacuum_brute"
+     ],
+     "3": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "study": {
+   "floor": "carpet_olive",
+   "wall": "wood",
+   "sizes": [
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "treasure",
+    "shop",
+    "shrine",
+    "stairs",
+    "combat"
+   ],
+   "floors": [
+    1,
+    2
+   ],
+   "label": "STUDY",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "tin_soldier"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier"
+     ],
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "attic": {
+   "floor": "attic",
+   "wall": "attic",
+   "sizes": [
+    [
+     2,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "treasure",
+    "combat",
+    "stairs"
+   ],
+   "floors": [
+    2
+   ],
+   "label": "ATTIC",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "tin_soldier",
+     "sheet_ghost"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "tin_soldier",
+      "sheet_ghost"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "trophy": {
+   "floor": "hardwood",
+   "wall": "library",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "roles": [
+    "treasure",
+    "elite",
+    "combat"
+   ],
+   "floors": [
+    2
+   ],
+   "label": "TROPHY ROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "tin_soldier",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "2": [
+      "47m3",
+      "tin_soldier",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "server": {
+   "floor": "grate",
+   "wall": "server",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "dock",
+    "boss",
+    "stairs"
+   ],
+   "floors": [
+    4,
+    5
+   ],
+   "label": "SERVER VAULT",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "4": [
+      "47m3",
+      "dust_bunny",
+      "vacuum_brute"
+     ],
+     "5": [
+      "47m3",
+      "dust_bunny",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "panic": {
+   "floor": "grate",
+   "wall": "server",
+   "sizes": [
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "boss"
+   ],
+   "floors": [
+    5
+   ],
+   "label": "PANIC ROOM",
+   "enemies": {
+    "pool": [
+     "47m3"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "5": [
+      "47m3"
+     ]
+    },
+    "boss": "head_butler"
+   }
+  },
+  "storage": {
+   "floor": "flagstone",
+   "wall": "stone",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ]
+   ],
+   "roles": [
+    "combat",
+    "treasure",
+    "elite",
+    "stairs"
+   ],
+   "floors": [
+    3,
+    4
+   ],
+   "label": "STOREROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "snap_trap",
+     "toaster",
+     "tin_soldier",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "3": [
+      "47m3",
+      "dust_bunny",
+      "snap_trap",
+      "toaster",
+      "tin_soldier",
+      "vacuum_brute"
+     ],
+     "4": [
+      "47m3",
+      "dust_bunny",
+      "snap_trap",
+      "toaster",
+      "tin_soldier",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "boiler": {
+   "floor": "grate",
+   "wall": "brick",
+   "sizes": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "roles": [
+    "combat",
+    "elite",
+    "dock"
+   ],
+   "floors": [
+    3,
+    4
+   ],
+   "label": "BOILER ROOM",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "snap_trap",
+     "rogue_mop",
+     "vacuum_brute"
+    ],
+    "elite": [
+     "48m2",
+     "vacuum_brute"
+    ],
+    "by_floor": {
+     "3": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "vacuum_brute"
+     ],
+     "4": [
+      "47m3",
+      "snap_trap",
+      "rogue_mop",
+      "vacuum_brute"
+     ]
+    },
+    "boss": null
+   }
+  },
+  "stairwell": {
+   "floor": "flagstone",
+   "wall": "stone",
+   "sizes": [
+    [
+     1,
+     1
+    ]
+   ],
+   "roles": [
+    "stairs",
+    "start"
+   ],
+   "floors": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "label": "STAIRWELL / LANDING",
+   "enemies": {
+    "pool": [
+     "47m3",
+     "dust_bunny",
+     "sheet_ghost"
+    ],
+    "elite": [
+     "48m2"
+    ],
+    "by_floor": {
+     "1": [
+      "47m3",
+      "dust_bunny"
+     ],
+     "2": [
+      "47m3",
+      "dust_bunny",
+      "sheet_ghost"
+     ],
+     "3": [
+      "47m3",
+      "dust_bunny",
+      "sheet_ghost"
+     ],
+     "4": [
+      "47m3",
+      "dust_bunny"
+     ],
+     "5": [
+      "47m3",
+      "dust_bunny",
+      "sheet_ghost"
+     ]
+    },
+    "boss": null
+   }
+  }
+ },
+ "hall_by_floor": {
+  "1": {
+   "floor": "marble",
+   "wall": "plaster",
+   "runner": "carpet_terra"
+  },
+  "2": {
+   "floor": "hardwood",
+   "wall": "wallpaper",
+   "runner": "carpet_ice"
+  },
+  "3": {
+   "floor": "flagstone",
+   "wall": "stone",
+   "runner": null
+  },
+  "4": {
+   "floor": "concrete",
+   "wall": "concrete",
+   "runner": null
+  },
+  "5": {
+   "floor": "grate",
+   "wall": "server",
+   "runner": null
+  }
+ },
+ "roles": {
+  "start": "arrival (dock on F1, stairs-up landing below)",
+  "combat": "standard fight, doors lock",
+  "elite": "48m2 elite fight, doors lock",
+  "treasure": "chest + coin pile, door locked until the floor elite drops the key",
+  "shrine": "free pick-3 (rare+ slot)",
+  "dock": "59v2 dock: empty tank, heal 25%",
+  "shop": "card/repair counter",
+  "boss": "floor-5 boss arena",
+  "stairs": "stairs down to the next floor"
+ },
+ "generated_rooms": [
+  {
+   "file": "78-rooms/rooms/78-foyer_2x2.png",
+   "theme": "foyer",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "clock",
+     17,
+     3
+    ],
+    [
+     "clock",
+     22,
+     3
+    ],
+    [
+     "pillar",
+     12,
+     5
+    ],
+    [
+     "pillar",
+     27,
+     5
+    ],
+    [
+     "pillar",
+     12,
+     19
+    ],
+    [
+     "pillar",
+     27,
+     19
+    ],
+    [
+     "plant",
+     2,
+     4
+    ],
+    [
+     "plant",
+     37,
+     4
+    ],
+    [
+     "plant",
+     2,
+     21
+    ],
+    [
+     "plant",
+     37,
+     21
+    ],
+    [
+     "coat_rack",
+     4,
+     21
+    ],
+    [
+     "coat_rack",
+     35,
+     21
+    ],
+    [
+     "statue",
+     8,
+     12
+    ],
+    [
+     "statue",
+     30,
+     12
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-dining_2x1.png",
+   "theme": "dining",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "parquet",
+   "wall": "wood",
+   "props": [
+    [
+     "dining_table",
+     17,
+     6
+    ],
+    [
+     "chair",
+     17,
+     5
+    ],
+    [
+     "chair",
+     17,
+     8
+    ],
+    [
+     "chair",
+     19,
+     5
+    ],
+    [
+     "chair",
+     19,
+     8
+    ],
+    [
+     "chair",
+     21,
+     5
+    ],
+    [
+     "chair",
+     21,
+     8
+    ],
+    [
+     "chair",
+     22,
+     5
+    ],
+    [
+     "chair",
+     22,
+     8
+    ],
+    [
+     "fireplace",
+     19,
+     3
+    ],
+    [
+     "plant",
+     1,
+     4
+    ],
+    [
+     "plant",
+     38,
+     4
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     38,
+     10
+    ],
+    [
+     "wardrobe",
+     4,
+     3
+    ],
+    [
+     "wardrobe",
+     34,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-kitchen_2x1.png",
+   "theme": "kitchen",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "linoleum",
+   "wall": "tile",
+   "props": [
+    [
+     "counter",
+     2,
+     3
+    ],
+    [
+     "stove",
+     6,
+     3
+    ],
+    [
+     "fridge",
+     8,
+     3
+    ],
+    [
+     "counter",
+     24,
+     3
+    ],
+    [
+     "fridge",
+     34,
+     3
+    ],
+    [
+     "counter",
+     14,
+     3
+    ],
+    [
+     "island",
+     18,
+     7
+    ],
+    [
+     "barrel",
+     1,
+     10
+    ],
+    [
+     "basket",
+     38,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-kitchen_1x1.png",
+   "theme": "kitchen",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "linoleum",
+   "wall": "tile",
+   "props": [
+    [
+     "counter",
+     2,
+     3
+    ],
+    [
+     "stove",
+     6,
+     3
+    ],
+    [
+     "fridge",
+     8,
+     3
+    ],
+    [
+     "counter",
+     13,
+     3
+    ],
+    [
+     "fridge",
+     17,
+     3
+    ],
+    [
+     "island",
+     8,
+     7
+    ],
+    [
+     "barrel",
+     1,
+     10
+    ],
+    [
+     "basket",
+     18,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-library_2x1.png",
+   "theme": "library",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "library",
+   "props": [
+    [
+     "bookshelf",
+     1,
+     3
+    ],
+    [
+     "bookshelf",
+     3,
+     3
+    ],
+    [
+     "bookshelf",
+     5,
+     3
+    ],
+    [
+     "bookshelf",
+     7,
+     3
+    ],
+    [
+     "bookshelf",
+     11,
+     3
+    ],
+    [
+     "bookshelf",
+     13,
+     3
+    ],
+    [
+     "bookshelf",
+     15,
+     3
+    ],
+    [
+     "bookshelf",
+     17,
+     3
+    ],
+    [
+     "bookshelf",
+     19,
+     3
+    ],
+    [
+     "bookshelf",
+     21,
+     3
+    ],
+    [
+     "bookshelf",
+     23,
+     3
+    ],
+    [
+     "bookshelf",
+     25,
+     3
+    ],
+    [
+     "bookshelf",
+     27,
+     3
+    ],
+    [
+     "bookshelf",
+     31,
+     3
+    ],
+    [
+     "bookshelf",
+     33,
+     3
+    ],
+    [
+     "bookshelf",
+     35,
+     3
+    ],
+    [
+     "bookshelf",
+     37,
+     3
+    ],
+    [
+     "desk",
+     19,
+     6
+    ],
+    [
+     "chair",
+     20,
+     8
+    ],
+    [
+     "armchair",
+     15,
+     6
+    ],
+    [
+     "armchair",
+     23,
+     6
+    ],
+    [
+     "globe",
+     23,
+     5
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     38,
+     10
+    ],
+    [
+     "clock",
+     2,
+     9
+    ],
+    [
+     "clock",
+     37,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-library_2x2.png",
+   "theme": "library",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "library",
+   "props": [
+    [
+     "bookshelf",
+     1,
+     3
+    ],
+    [
+     "bookshelf",
+     3,
+     3
+    ],
+    [
+     "bookshelf",
+     5,
+     3
+    ],
+    [
+     "bookshelf",
+     7,
+     3
+    ],
+    [
+     "bookshelf",
+     11,
+     3
+    ],
+    [
+     "bookshelf",
+     13,
+     3
+    ],
+    [
+     "bookshelf",
+     15,
+     3
+    ],
+    [
+     "bookshelf",
+     17,
+     3
+    ],
+    [
+     "bookshelf",
+     19,
+     3
+    ],
+    [
+     "bookshelf",
+     21,
+     3
+    ],
+    [
+     "bookshelf",
+     23,
+     3
+    ],
+    [
+     "bookshelf",
+     25,
+     3
+    ],
+    [
+     "bookshelf",
+     27,
+     3
+    ],
+    [
+     "bookshelf",
+     31,
+     3
+    ],
+    [
+     "bookshelf",
+     33,
+     3
+    ],
+    [
+     "bookshelf",
+     35,
+     3
+    ],
+    [
+     "bookshelf",
+     37,
+     3
+    ],
+    [
+     "desk",
+     19,
+     12
+    ],
+    [
+     "chair",
+     20,
+     14
+    ],
+    [
+     "armchair",
+     15,
+     12
+    ],
+    [
+     "armchair",
+     23,
+     12
+    ],
+    [
+     "globe",
+     23,
+     11
+    ],
+    [
+     "bookshelf",
+     4,
+     7
+    ],
+    [
+     "bookshelf",
+     8,
+     7
+    ],
+    [
+     "bookshelf",
+     30,
+     7
+    ],
+    [
+     "bookshelf",
+     34,
+     7
+    ],
+    [
+     "bookshelf",
+     4,
+     19
+    ],
+    [
+     "bookshelf",
+     8,
+     19
+    ],
+    [
+     "bookshelf",
+     30,
+     19
+    ],
+    [
+     "bookshelf",
+     34,
+     19
+    ],
+    [
+     "plant",
+     1,
+     22
+    ],
+    [
+     "plant",
+     38,
+     22
+    ],
+    [
+     "clock",
+     2,
+     21
+    ],
+    [
+     "clock",
+     37,
+     21
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-ballroom_2x2.png",
+   "theme": "ballroom",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "ballroom",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "pillar",
+     3,
+     5
+    ],
+    [
+     "pillar",
+     36,
+     5
+    ],
+    [
+     "pillar",
+     3,
+     9
+    ],
+    [
+     "pillar",
+     36,
+     9
+    ],
+    [
+     "pillar",
+     3,
+     13
+    ],
+    [
+     "pillar",
+     36,
+     13
+    ],
+    [
+     "pillar",
+     3,
+     17
+    ],
+    [
+     "pillar",
+     36,
+     17
+    ],
+    [
+     "pillar",
+     3,
+     21
+    ],
+    [
+     "pillar",
+     36,
+     21
+    ],
+    [
+     "pillar",
+     7,
+     4
+    ],
+    [
+     "pillar",
+     32,
+     4
+    ],
+    [
+     "pillar",
+     7,
+     21
+    ],
+    [
+     "pillar",
+     32,
+     21
+    ],
+    [
+     "pillar",
+     12,
+     4
+    ],
+    [
+     "pillar",
+     27,
+     4
+    ],
+    [
+     "pillar",
+     12,
+     21
+    ],
+    [
+     "pillar",
+     27,
+     21
+    ],
+    [
+     "pillar",
+     17,
+     4
+    ],
+    [
+     "pillar",
+     22,
+     4
+    ],
+    [
+     "pillar",
+     17,
+     21
+    ],
+    [
+     "pillar",
+     22,
+     21
+    ],
+    [
+     "piano",
+     4,
+     11
+    ],
+    [
+     "plant",
+     1,
+     3
+    ],
+    [
+     "plant",
+     38,
+     3
+    ],
+    [
+     "palm",
+     1,
+     21
+    ],
+    [
+     "palm",
+     37,
+     21
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-bathroom_1x1.png",
+   "theme": "bathroom",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "bath",
+   "wall": "tile",
+   "props": [
+    [
+     "bathtub",
+     2,
+     3
+    ],
+    [
+     "vanity",
+     14,
+     3
+    ],
+    [
+     "vanity",
+     16,
+     3
+    ],
+    [
+     "basket",
+     17,
+     10
+    ],
+    [
+     "plant",
+     1,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-bedroom_1x1.png",
+   "theme": "bedroom",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "carpet_ice",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "bed",
+     3,
+     3
+    ],
+    [
+     "wardrobe",
+     14,
+     3
+    ],
+    [
+     "desk",
+     15,
+     9
+    ],
+    [
+     "chair",
+     16,
+     8
+    ],
+    [
+     "plant",
+     1,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-bedroom_2x1.png",
+   "theme": "bedroom",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "carpet_ice",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "bed",
+     3,
+     3
+    ],
+    [
+     "wardrobe",
+     14,
+     3
+    ],
+    [
+     "desk",
+     35,
+     9
+    ],
+    [
+     "chair",
+     36,
+     8
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "bed",
+     22,
+     3
+    ],
+    [
+     "wardrobe",
+     32,
+     3
+    ],
+    [
+     "armchair",
+     19,
+     6
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-conservatory_2x2.png",
+   "theme": "conservatory",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "terratile",
+   "wall": "glass",
+   "props": [
+    [
+     "fountain",
+     18,
+     12
+    ],
+    [
+     "palm",
+     2,
+     3
+    ],
+    [
+     "palm",
+     36,
+     3
+    ],
+    [
+     "hedge",
+     2,
+     22
+    ],
+    [
+     "hedge",
+     36,
+     22
+    ],
+    [
+     "plant",
+     5,
+     4
+    ],
+    [
+     "plant",
+     34,
+     4
+    ],
+    [
+     "bench",
+     13,
+     13
+    ],
+    [
+     "bench",
+     24,
+     13
+    ],
+    [
+     "palm",
+     2,
+     12
+    ],
+    [
+     "palm",
+     36,
+     12
+    ],
+    [
+     "hedge",
+     7,
+     22
+    ],
+    [
+     "hedge",
+     31,
+     22
+    ],
+    [
+     "plant",
+     9,
+     6
+    ],
+    [
+     "plant",
+     30,
+     6
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-conservatory_2x1.png",
+   "theme": "conservatory",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "terratile",
+   "wall": "glass",
+   "props": [
+    [
+     "fountain",
+     18,
+     5
+    ],
+    [
+     "palm",
+     2,
+     3
+    ],
+    [
+     "palm",
+     36,
+     3
+    ],
+    [
+     "hedge",
+     2,
+     10
+    ],
+    [
+     "hedge",
+     36,
+     10
+    ],
+    [
+     "plant",
+     5,
+     4
+    ],
+    [
+     "plant",
+     34,
+     4
+    ],
+    [
+     "bench",
+     13,
+     7
+    ],
+    [
+     "bench",
+     24,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-gallery_2x1.png",
+   "theme": "gallery",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "statue",
+     4,
+     5
+    ],
+    [
+     "statue",
+     34,
+     5
+    ],
+    [
+     "statue",
+     10,
+     5
+    ],
+    [
+     "statue",
+     28,
+     5
+    ],
+    [
+     "bench",
+     19,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-gallery_1x2.png",
+   "theme": "gallery",
+   "size": [
+    1,
+    2
+   ],
+   "tiles": [
+    20,
+    24
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "statue",
+     3,
+     5
+    ],
+    [
+     "statue",
+     15,
+     5
+    ],
+    [
+     "statue",
+     3,
+     11
+    ],
+    [
+     "statue",
+     15,
+     11
+    ],
+    [
+     "statue",
+     3,
+     17
+    ],
+    [
+     "statue",
+     15,
+     17
+    ],
+    [
+     "pillar",
+     6,
+     12
+    ],
+    [
+     "pillar",
+     13,
+     12
+    ],
+    [
+     "bench",
+     4,
+     20
+    ],
+    [
+     "bench",
+     13,
+     20
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked",
+    "0,1,w": "closed",
+    "0,1,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-wine_cellar_2x1.png",
+   "theme": "wine_cellar",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "brick",
+   "wall": "brick",
+   "props": [
+    [
+     "wine_rack",
+     1,
+     3
+    ],
+    [
+     "wine_rack",
+     4,
+     3
+    ],
+    [
+     "wine_rack",
+     13,
+     3
+    ],
+    [
+     "wine_rack",
+     16,
+     3
+    ],
+    [
+     "wine_rack",
+     19,
+     3
+    ],
+    [
+     "wine_rack",
+     22,
+     3
+    ],
+    [
+     "wine_rack",
+     25,
+     3
+    ],
+    [
+     "wine_rack",
+     31,
+     3
+    ],
+    [
+     "wine_rack",
+     34,
+     3
+    ],
+    [
+     "barrel_stack",
+     2,
+     9
+    ],
+    [
+     "barrel_stack",
+     36,
+     9
+    ],
+    [
+     "barrel",
+     5,
+     10
+    ],
+    [
+     "barrel",
+     34,
+     10
+    ],
+    [
+     "barrel_stack",
+     19,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-wine_cellar_1x1.png",
+   "theme": "wine_cellar",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "brick",
+   "wall": "brick",
+   "props": [
+    [
+     "wine_rack",
+     1,
+     3
+    ],
+    [
+     "wine_rack",
+     4,
+     3
+    ],
+    [
+     "wine_rack",
+     13,
+     3
+    ],
+    [
+     "wine_rack",
+     16,
+     3
+    ],
+    [
+     "barrel_stack",
+     2,
+     9
+    ],
+    [
+     "barrel_stack",
+     16,
+     9
+    ],
+    [
+     "barrel",
+     5,
+     10
+    ],
+    [
+     "barrel",
+     14,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-basement_1x1.png",
+   "theme": "basement",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "concrete",
+   "wall": "concrete",
+   "props": [
+    [
+     "boiler",
+     2,
+     3
+    ],
+    [
+     "metal_shelf",
+     6,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "crate",
+     2,
+     10
+    ],
+    [
+     "crate",
+     17,
+     10
+    ],
+    [
+     "crate",
+     3,
+     10
+    ],
+    [
+     "barrel",
+     16,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-basement_2x1.png",
+   "theme": "basement",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "concrete",
+   "wall": "concrete",
+   "props": [
+    [
+     "boiler",
+     2,
+     3
+    ],
+    [
+     "metal_shelf",
+     6,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "crate",
+     2,
+     10
+    ],
+    [
+     "crate",
+     37,
+     10
+    ],
+    [
+     "crate",
+     3,
+     10
+    ],
+    [
+     "barrel",
+     36,
+     9
+    ],
+    [
+     "boiler",
+     23,
+     3
+    ],
+    [
+     "metal_shelf",
+     31,
+     3
+    ],
+    [
+     "crate",
+     20,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-basement_2x2.png",
+   "theme": "basement",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "concrete",
+   "wall": "concrete",
+   "props": [
+    [
+     "boiler",
+     2,
+     3
+    ],
+    [
+     "metal_shelf",
+     6,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "crate",
+     2,
+     22
+    ],
+    [
+     "crate",
+     37,
+     22
+    ],
+    [
+     "crate",
+     3,
+     22
+    ],
+    [
+     "barrel",
+     36,
+     21
+    ],
+    [
+     "boiler",
+     23,
+     3
+    ],
+    [
+     "metal_shelf",
+     31,
+     3
+    ],
+    [
+     "crate",
+     20,
+     7
+    ],
+    [
+     "pillar",
+     10,
+     9
+    ],
+    [
+     "pillar",
+     29,
+     9
+    ],
+    [
+     "pillar",
+     10,
+     16
+    ],
+    [
+     "pillar",
+     29,
+     16
+    ],
+    [
+     "metal_shelf",
+     4,
+     11
+    ],
+    [
+     "metal_shelf",
+     34,
+     11
+    ],
+    [
+     "crate",
+     5,
+     17
+    ],
+    [
+     "crate",
+     34,
+     17
+    ],
+    [
+     "crate",
+     6,
+     17
+    ],
+    [
+     "crate",
+     33,
+     17
+    ],
+    [
+     "barrel",
+     7,
+     19
+    ],
+    [
+     "barrel",
+     32,
+     19
+    ],
+    [
+     "boiler",
+     19,
+     12
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-laundry_1x1.png",
+   "theme": "laundry",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "checker",
+   "wall": "tile",
+   "props": [
+    [
+     "washer",
+     2,
+     3
+    ],
+    [
+     "washer",
+     4,
+     3
+    ],
+    [
+     "washer",
+     6,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "basket",
+     3,
+     7
+    ],
+    [
+     "basket",
+     16,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-study_1x1.png",
+   "theme": "study",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "carpet_olive",
+   "wall": "wood",
+   "props": [
+    [
+     "bookshelf",
+     2,
+     3
+    ],
+    [
+     "bookshelf",
+     4,
+     3
+    ],
+    [
+     "bookshelf",
+     14,
+     3
+    ],
+    [
+     "bookshelf",
+     16,
+     3
+    ],
+    [
+     "desk",
+     9,
+     6
+    ],
+    [
+     "globe",
+     2,
+     9
+    ],
+    [
+     "armchair",
+     16,
+     8
+    ],
+    [
+     "clock",
+     12,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-attic_2x1.png",
+   "theme": "attic",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "attic",
+   "wall": "attic",
+   "props": [
+    [
+     "sheet_furniture",
+     2,
+     3
+    ],
+    [
+     "trunk",
+     6,
+     10
+    ],
+    [
+     "crate",
+     13,
+     3
+    ],
+    [
+     "crate",
+     14,
+     3
+    ],
+    [
+     "crate",
+     13,
+     4
+    ],
+    [
+     "coat_rack",
+     37,
+     9
+    ],
+    [
+     "sheet_furniture",
+     35,
+     4
+    ],
+    [
+     "sheet_furniture",
+     23,
+     8
+    ],
+    [
+     "crate",
+     34,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-attic_1x1.png",
+   "theme": "attic",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "attic",
+   "wall": "attic",
+   "props": [
+    [
+     "sheet_furniture",
+     2,
+     3
+    ],
+    [
+     "trunk",
+     6,
+     10
+    ],
+    [
+     "crate",
+     13,
+     3
+    ],
+    [
+     "crate",
+     14,
+     3
+    ],
+    [
+     "crate",
+     13,
+     4
+    ],
+    [
+     "coat_rack",
+     17,
+     9
+    ],
+    [
+     "sheet_furniture",
+     15,
+     4
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-trophy_1x1.png",
+   "theme": "trophy",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "library",
+   "props": [
+    [
+     "trophy_case",
+     2,
+     3
+    ],
+    [
+     "trophy_case",
+     16,
+     3
+    ],
+    [
+     "trophy_case",
+     5,
+     3
+    ],
+    [
+     "trophy_case",
+     13,
+     3
+    ],
+    [
+     "trophy_stand",
+     5,
+     7
+    ],
+    [
+     "trophy_stand",
+     14,
+     7
+    ],
+    [
+     "trophy_stand",
+     7,
+     9
+    ],
+    [
+     "trophy_stand",
+     12,
+     9
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     18,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-trophy_2x1.png",
+   "theme": "trophy",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "library",
+   "props": [
+    [
+     "trophy_case",
+     2,
+     3
+    ],
+    [
+     "trophy_case",
+     36,
+     3
+    ],
+    [
+     "trophy_case",
+     5,
+     3
+    ],
+    [
+     "trophy_case",
+     33,
+     3
+    ],
+    [
+     "trophy_stand",
+     5,
+     7
+    ],
+    [
+     "trophy_stand",
+     34,
+     7
+    ],
+    [
+     "trophy_stand",
+     7,
+     9
+    ],
+    [
+     "trophy_stand",
+     32,
+     9
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     38,
+     10
+    ],
+    [
+     "statue",
+     19,
+     6
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-server_1x1.png",
+   "theme": "server",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "server",
+   "props": [
+    [
+     "server_rack",
+     1,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     3
+    ],
+    [
+     "server_rack",
+     4,
+     3
+    ],
+    [
+     "server_rack",
+     5,
+     3
+    ],
+    [
+     "server_rack",
+     7,
+     3
+    ],
+    [
+     "server_rack",
+     12,
+     3
+    ],
+    [
+     "server_rack",
+     13,
+     3
+    ],
+    [
+     "server_rack",
+     15,
+     3
+    ],
+    [
+     "server_rack",
+     16,
+     3
+    ],
+    [
+     "server_rack",
+     17,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     6
+    ],
+    [
+     "server_rack",
+     5,
+     6
+    ],
+    [
+     "server_rack",
+     14,
+     6
+    ],
+    [
+     "server_rack",
+     16,
+     6
+    ],
+    [
+     "server_rack",
+     3,
+     9
+    ],
+    [
+     "server_rack",
+     5,
+     9
+    ],
+    [
+     "server_rack",
+     14,
+     9
+    ],
+    [
+     "server_rack",
+     16,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-server_2x1.png",
+   "theme": "server",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "server",
+   "props": [
+    [
+     "server_rack",
+     1,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     3
+    ],
+    [
+     "server_rack",
+     4,
+     3
+    ],
+    [
+     "server_rack",
+     5,
+     3
+    ],
+    [
+     "server_rack",
+     7,
+     3
+    ],
+    [
+     "server_rack",
+     12,
+     3
+    ],
+    [
+     "server_rack",
+     13,
+     3
+    ],
+    [
+     "server_rack",
+     15,
+     3
+    ],
+    [
+     "server_rack",
+     16,
+     3
+    ],
+    [
+     "server_rack",
+     17,
+     3
+    ],
+    [
+     "server_rack",
+     19,
+     3
+    ],
+    [
+     "server_rack",
+     20,
+     3
+    ],
+    [
+     "server_rack",
+     21,
+     3
+    ],
+    [
+     "server_rack",
+     23,
+     3
+    ],
+    [
+     "server_rack",
+     24,
+     3
+    ],
+    [
+     "server_rack",
+     25,
+     3
+    ],
+    [
+     "server_rack",
+     27,
+     3
+    ],
+    [
+     "server_rack",
+     32,
+     3
+    ],
+    [
+     "server_rack",
+     33,
+     3
+    ],
+    [
+     "server_rack",
+     35,
+     3
+    ],
+    [
+     "server_rack",
+     36,
+     3
+    ],
+    [
+     "server_rack",
+     37,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     6
+    ],
+    [
+     "server_rack",
+     5,
+     6
+    ],
+    [
+     "server_rack",
+     34,
+     6
+    ],
+    [
+     "server_rack",
+     36,
+     6
+    ],
+    [
+     "server_rack",
+     3,
+     9
+    ],
+    [
+     "server_rack",
+     5,
+     9
+    ],
+    [
+     "server_rack",
+     34,
+     9
+    ],
+    [
+     "server_rack",
+     36,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-server_2x2.png",
+   "theme": "server",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "server",
+   "props": [
+    [
+     "server_rack",
+     1,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     3
+    ],
+    [
+     "server_rack",
+     4,
+     3
+    ],
+    [
+     "server_rack",
+     5,
+     3
+    ],
+    [
+     "server_rack",
+     7,
+     3
+    ],
+    [
+     "server_rack",
+     12,
+     3
+    ],
+    [
+     "server_rack",
+     13,
+     3
+    ],
+    [
+     "server_rack",
+     15,
+     3
+    ],
+    [
+     "server_rack",
+     16,
+     3
+    ],
+    [
+     "server_rack",
+     17,
+     3
+    ],
+    [
+     "server_rack",
+     19,
+     3
+    ],
+    [
+     "server_rack",
+     20,
+     3
+    ],
+    [
+     "server_rack",
+     21,
+     3
+    ],
+    [
+     "server_rack",
+     23,
+     3
+    ],
+    [
+     "server_rack",
+     24,
+     3
+    ],
+    [
+     "server_rack",
+     25,
+     3
+    ],
+    [
+     "server_rack",
+     27,
+     3
+    ],
+    [
+     "server_rack",
+     32,
+     3
+    ],
+    [
+     "server_rack",
+     33,
+     3
+    ],
+    [
+     "server_rack",
+     35,
+     3
+    ],
+    [
+     "server_rack",
+     36,
+     3
+    ],
+    [
+     "server_rack",
+     37,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     6
+    ],
+    [
+     "server_rack",
+     5,
+     6
+    ],
+    [
+     "server_rack",
+     34,
+     6
+    ],
+    [
+     "server_rack",
+     36,
+     6
+    ],
+    [
+     "server_rack",
+     3,
+     9
+    ],
+    [
+     "server_rack",
+     5,
+     9
+    ],
+    [
+     "server_rack",
+     34,
+     9
+    ],
+    [
+     "server_rack",
+     36,
+     9
+    ],
+    [
+     "server_rack",
+     3,
+     12
+    ],
+    [
+     "server_rack",
+     5,
+     12
+    ],
+    [
+     "server_rack",
+     34,
+     12
+    ],
+    [
+     "server_rack",
+     36,
+     12
+    ],
+    [
+     "server_rack",
+     3,
+     15
+    ],
+    [
+     "server_rack",
+     5,
+     15
+    ],
+    [
+     "server_rack",
+     34,
+     15
+    ],
+    [
+     "server_rack",
+     36,
+     15
+    ],
+    [
+     "server_rack",
+     3,
+     18
+    ],
+    [
+     "server_rack",
+     5,
+     18
+    ],
+    [
+     "server_rack",
+     34,
+     18
+    ],
+    [
+     "server_rack",
+     36,
+     18
+    ],
+    [
+     "server_rack",
+     3,
+     21
+    ],
+    [
+     "server_rack",
+     5,
+     21
+    ],
+    [
+     "server_rack",
+     34,
+     21
+    ],
+    [
+     "server_rack",
+     36,
+     21
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-panic_2x2.png",
+   "theme": "panic",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "server",
+   "props": [
+    [
+     "pillar",
+     4,
+     5
+    ],
+    [
+     "pillar",
+     35,
+     5
+    ],
+    [
+     "pillar",
+     4,
+     19
+    ],
+    [
+     "pillar",
+     35,
+     19
+    ],
+    [
+     "server_rack",
+     1,
+     3
+    ],
+    [
+     "server_rack",
+     2,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     3
+    ],
+    [
+     "server_rack",
+     4,
+     3
+    ],
+    [
+     "server_rack",
+     35,
+     3
+    ],
+    [
+     "server_rack",
+     36,
+     3
+    ],
+    [
+     "server_rack",
+     37,
+     3
+    ],
+    [
+     "server_rack",
+     38,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-storage_1x1.png",
+   "theme": "storage",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "metal_shelf",
+     1,
+     3
+    ],
+    [
+     "metal_shelf",
+     4,
+     3
+    ],
+    [
+     "metal_shelf",
+     13,
+     3
+    ],
+    [
+     "metal_shelf",
+     16,
+     3
+    ],
+    [
+     "crate",
+     3,
+     5
+    ],
+    [
+     "crate",
+     16,
+     5
+    ],
+    [
+     "barrel",
+     5,
+     5
+    ],
+    [
+     "barrel",
+     14,
+     5
+    ],
+    [
+     "crate",
+     3,
+     8
+    ],
+    [
+     "crate",
+     16,
+     8
+    ],
+    [
+     "barrel",
+     5,
+     8
+    ],
+    [
+     "barrel",
+     14,
+     8
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-storage_2x1.png",
+   "theme": "storage",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "metal_shelf",
+     1,
+     3
+    ],
+    [
+     "metal_shelf",
+     4,
+     3
+    ],
+    [
+     "metal_shelf",
+     13,
+     3
+    ],
+    [
+     "metal_shelf",
+     16,
+     3
+    ],
+    [
+     "metal_shelf",
+     19,
+     3
+    ],
+    [
+     "metal_shelf",
+     22,
+     3
+    ],
+    [
+     "metal_shelf",
+     25,
+     3
+    ],
+    [
+     "metal_shelf",
+     34,
+     3
+    ],
+    [
+     "metal_shelf",
+     37,
+     3
+    ],
+    [
+     "crate",
+     3,
+     5
+    ],
+    [
+     "crate",
+     36,
+     5
+    ],
+    [
+     "barrel",
+     5,
+     5
+    ],
+    [
+     "barrel",
+     34,
+     5
+    ],
+    [
+     "crate",
+     3,
+     8
+    ],
+    [
+     "crate",
+     36,
+     8
+    ],
+    [
+     "barrel",
+     5,
+     8
+    ],
+    [
+     "barrel",
+     34,
+     8
+    ],
+    [
+     "trunk",
+     19,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-storage_2x2.png",
+   "theme": "storage",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "metal_shelf",
+     1,
+     3
+    ],
+    [
+     "metal_shelf",
+     4,
+     3
+    ],
+    [
+     "metal_shelf",
+     13,
+     3
+    ],
+    [
+     "metal_shelf",
+     16,
+     3
+    ],
+    [
+     "metal_shelf",
+     19,
+     3
+    ],
+    [
+     "metal_shelf",
+     22,
+     3
+    ],
+    [
+     "metal_shelf",
+     25,
+     3
+    ],
+    [
+     "metal_shelf",
+     34,
+     3
+    ],
+    [
+     "metal_shelf",
+     37,
+     3
+    ],
+    [
+     "crate",
+     3,
+     5
+    ],
+    [
+     "crate",
+     36,
+     5
+    ],
+    [
+     "barrel",
+     5,
+     5
+    ],
+    [
+     "barrel",
+     34,
+     5
+    ],
+    [
+     "crate",
+     3,
+     8
+    ],
+    [
+     "crate",
+     36,
+     8
+    ],
+    [
+     "barrel",
+     5,
+     8
+    ],
+    [
+     "barrel",
+     34,
+     8
+    ],
+    [
+     "crate",
+     3,
+     11
+    ],
+    [
+     "crate",
+     36,
+     11
+    ],
+    [
+     "barrel",
+     5,
+     11
+    ],
+    [
+     "barrel",
+     34,
+     11
+    ],
+    [
+     "crate",
+     3,
+     14
+    ],
+    [
+     "crate",
+     36,
+     14
+    ],
+    [
+     "barrel",
+     5,
+     14
+    ],
+    [
+     "barrel",
+     34,
+     14
+    ],
+    [
+     "crate",
+     3,
+     17
+    ],
+    [
+     "crate",
+     36,
+     17
+    ],
+    [
+     "barrel",
+     5,
+     17
+    ],
+    [
+     "barrel",
+     34,
+     17
+    ],
+    [
+     "crate",
+     3,
+     20
+    ],
+    [
+     "crate",
+     36,
+     20
+    ],
+    [
+     "barrel",
+     5,
+     20
+    ],
+    [
+     "barrel",
+     34,
+     20
+    ],
+    [
+     "trunk",
+     19,
+     21
+    ],
+    [
+     "barrel_stack",
+     8,
+     9
+    ],
+    [
+     "barrel_stack",
+     30,
+     9
+    ],
+    [
+     "crate",
+     12,
+     9
+    ],
+    [
+     "crate",
+     27,
+     9
+    ],
+    [
+     "barrel_stack",
+     8,
+     15
+    ],
+    [
+     "barrel_stack",
+     30,
+     15
+    ],
+    [
+     "crate",
+     12,
+     15
+    ],
+    [
+     "crate",
+     27,
+     15
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-boiler_1x1.png",
+   "theme": "boiler",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "brick",
+   "props": [
+    [
+     "boiler",
+     2,
+     3
+    ],
+    [
+     "boiler",
+     16,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "barrel",
+     2,
+     10
+    ],
+    [
+     "barrel",
+     17,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-boiler_2x1.png",
+   "theme": "boiler",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": null,
+   "floor_kind": "grate",
+   "wall": "brick",
+   "props": [
+    [
+     "boiler",
+     2,
+     3
+    ],
+    [
+     "boiler",
+     36,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "boiler",
+     19,
+     3
+    ],
+    [
+     "boiler",
+     23,
+     3
+    ],
+    [
+     "barrel",
+     2,
+     10
+    ],
+    [
+     "barrel",
+     37,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-stairwell_1x1.png",
+   "theme": "stairwell",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "stairs_up",
+     9,
+     5
+    ],
+    [
+     "plant",
+     1,
+     3
+    ],
+    [
+     "plant",
+     18,
+     3
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     18,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ns_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ns_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ns_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ew_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [],
+   "doors": {
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ew_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [],
+   "doors": {
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ew_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [],
+   "doors": {
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ne_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ne_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_ne_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_new_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_new_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_new_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_nesw_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,s": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_nesw_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,s": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_nesw_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [],
+   "doors": {
+    "0,0,n": "arch",
+    "0,0,e": "arch",
+    "0,0,s": "arch",
+    "0,0,w": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_s_f1.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_s_f2.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "hardwood",
+   "wall": "wallpaper",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-hallway_s_f3.png",
+   "theme": "hallway",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": null,
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "plant",
+     8,
+     5
+    ],
+    [
+     "plant",
+     11,
+     5
+    ]
+   ],
+   "doors": {
+    "0,0,s": "arch"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_start_foyer.png",
+   "theme": "foyer",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": "start",
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "dock",
+     19,
+     3
+    ],
+    [
+     "clock",
+     17,
+     3
+    ],
+    [
+     "clock",
+     22,
+     3
+    ],
+    [
+     "pillar",
+     12,
+     5
+    ],
+    [
+     "pillar",
+     27,
+     5
+    ],
+    [
+     "pillar",
+     12,
+     19
+    ],
+    [
+     "pillar",
+     27,
+     19
+    ],
+    [
+     "plant",
+     2,
+     4
+    ],
+    [
+     "plant",
+     37,
+     4
+    ],
+    [
+     "plant",
+     2,
+     21
+    ],
+    [
+     "plant",
+     37,
+     21
+    ],
+    [
+     "coat_rack",
+     4,
+     21
+    ],
+    [
+     "coat_rack",
+     35,
+     21
+    ],
+    [
+     "statue",
+     8,
+     12
+    ],
+    [
+     "statue",
+     30,
+     12
+    ]
+   ],
+   "doors": {
+    "0,0,n": "arch",
+    "1,0,n": "arch",
+    "0,1,s": "front"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_combat_dining.png",
+   "theme": "dining",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "combat",
+   "floor_kind": "parquet",
+   "wall": "wood",
+   "props": [
+    [
+     "dining_table",
+     17,
+     6
+    ],
+    [
+     "chair",
+     17,
+     5
+    ],
+    [
+     "chair",
+     17,
+     8
+    ],
+    [
+     "chair",
+     19,
+     5
+    ],
+    [
+     "chair",
+     19,
+     8
+    ],
+    [
+     "chair",
+     21,
+     5
+    ],
+    [
+     "chair",
+     21,
+     8
+    ],
+    [
+     "chair",
+     22,
+     5
+    ],
+    [
+     "chair",
+     22,
+     8
+    ],
+    [
+     "fireplace",
+     19,
+     3
+    ],
+    [
+     "plant",
+     1,
+     4
+    ],
+    [
+     "plant",
+     38,
+     4
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     38,
+     10
+    ],
+    [
+     "wardrobe",
+     4,
+     3
+    ],
+    [
+     "wardrobe",
+     34,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_elite_gallery.png",
+   "theme": "gallery",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "elite",
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "statue",
+     4,
+     5
+    ],
+    [
+     "statue",
+     34,
+     5
+    ],
+    [
+     "statue",
+     10,
+     5
+    ],
+    [
+     "statue",
+     28,
+     5
+    ],
+    [
+     "bench",
+     19,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_treasure_study.png",
+   "theme": "study",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": "treasure",
+   "floor_kind": "carpet_olive",
+   "wall": "wood",
+   "props": [
+    [
+     "treasure_chest",
+     9,
+     6
+    ],
+    [
+     "coin_pile",
+     9,
+     8
+    ],
+    [
+     "bookshelf",
+     2,
+     3
+    ],
+    [
+     "bookshelf",
+     4,
+     3
+    ],
+    [
+     "bookshelf",
+     14,
+     3
+    ],
+    [
+     "bookshelf",
+     16,
+     3
+    ],
+    [
+     "globe",
+     2,
+     9
+    ],
+    [
+     "armchair",
+     16,
+     8
+    ],
+    [
+     "clock",
+     12,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_shrine_conservatory.png",
+   "theme": "conservatory",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shrine",
+   "floor_kind": "terratile",
+   "wall": "glass",
+   "props": [
+    [
+     "shrine",
+     19,
+     6
+    ],
+    [
+     "palm",
+     2,
+     3
+    ],
+    [
+     "palm",
+     36,
+     3
+    ],
+    [
+     "hedge",
+     2,
+     10
+    ],
+    [
+     "hedge",
+     36,
+     10
+    ],
+    [
+     "plant",
+     5,
+     4
+    ],
+    [
+     "plant",
+     34,
+     4
+    ],
+    [
+     "bench",
+     13,
+     7
+    ],
+    [
+     "bench",
+     24,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_dock_laundry.png",
+   "theme": "laundry",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": "dock",
+   "floor_kind": "checker",
+   "wall": "tile",
+   "props": [
+    [
+     "dock",
+     4,
+     3
+    ],
+    [
+     "washer",
+     2,
+     3
+    ],
+    [
+     "metal_shelf",
+     14,
+     3
+    ],
+    [
+     "basket",
+     3,
+     7
+    ],
+    [
+     "basket",
+     16,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_shop_kitchen.png",
+   "theme": "kitchen",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shop",
+   "floor_kind": "linoleum",
+   "wall": "tile",
+   "props": [
+    [
+     "shop_counter",
+     18,
+     3
+    ],
+    [
+     "counter",
+     2,
+     3
+    ],
+    [
+     "stove",
+     6,
+     3
+    ],
+    [
+     "fridge",
+     8,
+     3
+    ],
+    [
+     "counter",
+     24,
+     3
+    ],
+    [
+     "fridge",
+     34,
+     3
+    ],
+    [
+     "counter",
+     14,
+     3
+    ],
+    [
+     "island",
+     18,
+     7
+    ],
+    [
+     "barrel",
+     1,
+     10
+    ],
+    [
+     "basket",
+     38,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_boss_panic.png",
+   "theme": "panic",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "role": "boss",
+   "floor_kind": "grate",
+   "wall": "server",
+   "props": [
+    [
+     "pillar",
+     4,
+     5
+    ],
+    [
+     "pillar",
+     35,
+     5
+    ],
+    [
+     "pillar",
+     4,
+     19
+    ],
+    [
+     "pillar",
+     35,
+     19
+    ],
+    [
+     "server_rack",
+     1,
+     3
+    ],
+    [
+     "server_rack",
+     2,
+     3
+    ],
+    [
+     "server_rack",
+     3,
+     3
+    ],
+    [
+     "server_rack",
+     4,
+     3
+    ],
+    [
+     "server_rack",
+     35,
+     3
+    ],
+    [
+     "server_rack",
+     36,
+     3
+    ],
+    [
+     "server_rack",
+     37,
+     3
+    ],
+    [
+     "server_rack",
+     38,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,1,s": "open",
+    "1,0,n": "oneway_in",
+    "1,1,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open",
+    "0,1,w": "oneway_in",
+    "1,1,e": "locked"
+   }
+  },
+  {
+   "file": "78-rooms/rooms/78-role_stairs_stairwell.png",
+   "theme": "stairwell",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": "stairs",
+   "floor_kind": "flagstone",
+   "wall": "stone",
+   "props": [
+    [
+     "stairs_down",
+     9,
+     6
+    ],
+    [
+     "plant",
+     1,
+     3
+    ],
+    [
+     "plant",
+     18,
+     3
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     18,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "0,0,w": "oneway_in",
+    "0,0,e": "locked"
+   }
+  }
+ ],
+ "role_props_v2": {
+  "note": "94-96 (v2). The 77f shop_counter / shrine props and the 78 role rooms stay unchanged; Room2 (rm16_g1.py) places these v2 props for the shop and shrine roles.",
+  "shop": {
+   "props": [
+    [
+     "clerk_bot",
+     "2x1",
+     "north row reserved; drawn as an overlay after the room pass with its base 6 px into the counter top, then the counter is re-composited over it",
+     "94b-shopkeeper-bot"
+    ],
+    [
+     "counter_v2",
+     "4x2",
+     "row 1, centred",
+     "94a-counter-v2"
+    ],
+    [
+     "vending",
+     "2x1 wall",
+     "row 0, right of the counter",
+     "94b2-vending-machine"
+    ],
+    [
+     "card_stand_<rarity>",
+     "1x1",
+     "3 stands on row Ih/2+1, spaced 6 tiles (2x1 rooms) / 4 tiles (1x1 rooms)",
+     "94c-card-stand-*"
+    ]
+   ],
+   "ui": {
+    "price_tag": "94d, pinned to the stand base",
+    "price_chip": "94e, floats 6 px above the card; states ok/nope/sale/sold",
+    "buy_prompt": "94e, above the player when in range (1 tile)"
+   },
+   "anims": {
+    "clerk": [
+     "idle loop",
+     "greet on enter",
+     "sell on buy"
+    ],
+    "vending": [
+     "idle loop",
+     "vend (repair item 1 HP-cell)"
+    ],
+    "stand": [
+     "shimmer loop"
+    ],
+    "chip": [
+     "buy -> SOLD"
+    ]
+   },
+   "prices": {
+    "common": 25,
+    "rare": 40,
+    "epic": 90,
+    "legendary": 150,
+    "repair": 10,
+    "reroll_token_bolts": 3
+   }
+  },
+  "shrine": {
+   "props": [
+    [
+     "shrine_v2",
+     "2x2",
+     "room centre",
+     "95-shrine-v2"
+    ],
+    [
+     "shrine_lamp",
+     "1x1",
+     "3 tiles left/right of the shrine",
+     "95-shrine-lamp"
+    ]
+   ],
+   "anims": {
+    "shrine": [
+     "idle loop (glow ring + motes on fx)",
+     "activate (13f: runes light, crystal lifts in telescoping prongs, beam + pick-3 silhouettes) -> spent static"
+    ]
+   }
+  }
+ },
+ "generated_rooms_v2": [
+  {
+   "theme": "kitchen",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shop",
+   "floor_kind": "linoleum",
+   "wall": "tile",
+   "props": [
+    [
+     "clerk_bot",
+     19,
+     3
+    ],
+    [
+     "counter_v2",
+     18,
+     4
+    ],
+    [
+     "vending",
+     24,
+     3
+    ],
+    [
+     "card_stand_common",
+     14,
+     8
+    ],
+    [
+     "card_stand_rare",
+     20,
+     8
+    ],
+    [
+     "card_stand_epic",
+     26,
+     8
+    ],
+    [
+     "counter",
+     2,
+     3
+    ],
+    [
+     "stove",
+     6,
+     3
+    ],
+    [
+     "fridge",
+     8,
+     3
+    ],
+    [
+     "fridge",
+     34,
+     3
+    ],
+    [
+     "counter",
+     14,
+     3
+    ],
+    [
+     "barrel",
+     1,
+     10
+    ],
+    [
+     "basket",
+     38,
+     10
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   },
+   "file": "assets/96-rooms/rooms/96-shop-kitchen_2x1.png",
+   "scene": "assets/96-rooms/scenes/96-shop-kitchen_2x1-scene.png"
+  },
+  {
+   "theme": "gallery",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shop",
+   "floor_kind": "marble",
+   "wall": "plaster",
+   "props": [
+    [
+     "clerk_bot",
+     19,
+     3
+    ],
+    [
+     "counter_v2",
+     18,
+     4
+    ],
+    [
+     "vending",
+     24,
+     3
+    ],
+    [
+     "card_stand_common",
+     14,
+     8
+    ],
+    [
+     "card_stand_rare",
+     20,
+     8
+    ],
+    [
+     "card_stand_epic",
+     26,
+     8
+    ],
+    [
+     "statue",
+     4,
+     5
+    ],
+    [
+     "statue",
+     34,
+     5
+    ],
+    [
+     "statue",
+     10,
+     5
+    ],
+    [
+     "statue",
+     28,
+     5
+    ],
+    [
+     "bench",
+     19,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,s": "open",
+    "1,0,e": "open",
+    "0,0,w": "closed"
+   },
+   "file": "assets/96-rooms/rooms/96-shop-gallery_2x1.png",
+   "scene": "assets/96-rooms/scenes/96-shop-gallery_2x1-scene.png"
+  },
+  {
+   "theme": "study",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": "shop",
+   "floor_kind": "carpet_olive",
+   "wall": "wood",
+   "props": [
+    [
+     "clerk_bot",
+     9,
+     3
+    ],
+    [
+     "counter_v2",
+     8,
+     4
+    ],
+    [
+     "vending",
+     13,
+     3
+    ],
+    [
+     "card_stand_common",
+     6,
+     8
+    ],
+    [
+     "card_stand_rare",
+     10,
+     8
+    ],
+    [
+     "card_stand_epic",
+     14,
+     8
+    ]
+   ],
+   "doors": {
+    "0,0,s": "open",
+    "0,0,e": "open",
+    "0,0,w": "closed"
+   },
+   "file": "assets/96-rooms/rooms/96-shop-study_1x1.png",
+   "scene": "assets/96-rooms/scenes/96-shop-study_1x1-scene.png"
+  },
+  {
+   "theme": "conservatory",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shrine",
+   "floor_kind": "terratile",
+   "wall": "glass",
+   "props": [
+    [
+     "shrine_v2",
+     19,
+     6
+    ],
+    [
+     "shrine_lamp",
+     16,
+     7
+    ],
+    [
+     "shrine_lamp",
+     23,
+     7
+    ],
+    [
+     "palm",
+     2,
+     3
+    ],
+    [
+     "palm",
+     36,
+     3
+    ],
+    [
+     "hedge",
+     2,
+     10
+    ],
+    [
+     "hedge",
+     36,
+     10
+    ],
+    [
+     "plant",
+     5,
+     4
+    ],
+    [
+     "plant",
+     34,
+     4
+    ],
+    [
+     "bench",
+     13,
+     7
+    ],
+    [
+     "bench",
+     24,
+     7
+    ]
+   ],
+   "doors": {
+    "0,0,n": "closed",
+    "0,0,s": "open",
+    "1,0,n": "oneway_in",
+    "1,0,s": "locked",
+    "0,0,w": "closed",
+    "1,0,e": "open"
+   },
+   "file": "assets/96-rooms/rooms/96-shrine-conservatory_2x1.png",
+   "scene": "assets/96-rooms/scenes/96-shrine-conservatory_2x1-scene.png"
+  },
+  {
+   "theme": "library",
+   "size": [
+    2,
+    1
+   ],
+   "tiles": [
+    40,
+    12
+   ],
+   "role": "shrine",
+   "floor_kind": "hardwood",
+   "wall": "library",
+   "props": [
+    [
+     "shrine_v2",
+     19,
+     6
+    ],
+    [
+     "shrine_lamp",
+     16,
+     7
+    ],
+    [
+     "shrine_lamp",
+     23,
+     7
+    ],
+    [
+     "bookshelf",
+     1,
+     3
+    ],
+    [
+     "bookshelf",
+     3,
+     3
+    ],
+    [
+     "bookshelf",
+     5,
+     3
+    ],
+    [
+     "bookshelf",
+     7,
+     3
+    ],
+    [
+     "bookshelf",
+     11,
+     3
+    ],
+    [
+     "bookshelf",
+     13,
+     3
+    ],
+    [
+     "bookshelf",
+     15,
+     3
+    ],
+    [
+     "bookshelf",
+     17,
+     3
+    ],
+    [
+     "bookshelf",
+     19,
+     3
+    ],
+    [
+     "bookshelf",
+     21,
+     3
+    ],
+    [
+     "bookshelf",
+     23,
+     3
+    ],
+    [
+     "bookshelf",
+     25,
+     3
+    ],
+    [
+     "bookshelf",
+     27,
+     3
+    ],
+    [
+     "bookshelf",
+     31,
+     3
+    ],
+    [
+     "bookshelf",
+     33,
+     3
+    ],
+    [
+     "bookshelf",
+     35,
+     3
+    ],
+    [
+     "bookshelf",
+     37,
+     3
+    ],
+    [
+     "chair",
+     20,
+     8
+    ],
+    [
+     "globe",
+     23,
+     5
+    ],
+    [
+     "plant",
+     1,
+     10
+    ],
+    [
+     "plant",
+     38,
+     10
+    ],
+    [
+     "clock",
+     2,
+     9
+    ],
+    [
+     "clock",
+     37,
+     9
+    ]
+   ],
+   "doors": {
+    "0,0,s": "open",
+    "1,0,e": "open",
+    "0,0,w": "closed"
+   },
+   "file": "assets/96-rooms/rooms/96-shrine-library_2x1.png",
+   "scene": "assets/96-rooms/scenes/96-shrine-library_2x1-scene.png"
+  },
+  {
+   "theme": "study",
+   "size": [
+    1,
+    1
+   ],
+   "tiles": [
+    20,
+    12
+   ],
+   "role": "shrine",
+   "floor_kind": "carpet_olive",
+   "wall": "wood",
+   "props": [
+    [
+     "shrine_v2",
+     9,
+     6
+    ],
+    [
+     "shrine_lamp",
+     6,
+     7
+    ],
+    [
+     "shrine_lamp",
+     13,
+     7
+    ],
+    [
+     "bookshelf",
+     2,
+     3
+    ],
+    [
+     "bookshelf",
+     4,
+     3
+    ],
+    [
+     "bookshelf",
+     14,
+     3
+    ],
+    [
+     "bookshelf",
+     16,
+     3
+    ],
+    [
+     "globe",
+     2,
+     9
+    ],
+    [
+     "armchair",
+     16,
+     8
+    ],
+    [
+     "clock",
+     12,
+     3
+    ]
+   ],
+   "doors": {
+    "0,0,s": "open",
+    "0,0,e": "open",
+    "0,0,w": "closed"
+   },
+   "file": "assets/96-rooms/rooms/96-shrine-study_1x1.png",
+   "scene": "assets/96-rooms/scenes/96-shrine-study_1x1-scene.png"
+  }
+ ]
+}

@@ -1,0 +1,316 @@
+{
+ "id": 110,
+ "key": "grandfather",
+ "name": "THE GRANDFATHER",
+ "canvas": [
+  112,
+  128
+ ],
+ "foot": [
+  56,
+  110
+ ],
+ "facings": [
+  "down"
+ ],
+ "facing_note": "one facing: the clock always faces the room (like 87); hops use root motion",
+ "static": "110-grandfather.png (= idle down frame 0)",
+ "sheet": "110-grandfather_sheet.png",
+ "fx_sheet": "110-grandfather_fx_sheet.png",
+ "layers": "body (alpha 0/255) + fx (alpha 64/128/192/255, drawn over the body); per-anim folders in anim/ hold the same frames + a 3-row sheet + json",
+ "shadow": {
+  "rule": "game draws the contact shadow at the foot point",
+  "rx_ry": [
+   30,
+   7
+  ]
+ },
+ "rows": [
+  {
+   "row": 0,
+   "anim": "idle",
+   "frames": 8,
+   "ms": [
+    130,
+    130,
+    130,
+    130,
+    130,
+    130,
+    130,
+    130
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 7
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 1,
+   "anim": "idle_p2",
+   "frames": 6,
+   "ms": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    90
+   ],
+   "tags": [
+    {
+     "name": "loop",
+     "from_": 0,
+     "to": 5
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 2,
+   "anim": "move",
+   "frames": 12,
+   "ms": [
+    80,
+    60,
+    60,
+    50,
+    50,
+    50,
+    60,
+    50,
+    50,
+    50,
+    60,
+    70
+   ],
+   "tags": [
+    {
+     "name": "hop",
+     "from_": 0,
+     "to": 11
+    }
+   ],
+   "loop": true
+  },
+  {
+   "row": 3,
+   "anim": "attack_slam",
+   "frames": 16,
+   "ms": [
+    80,
+    80,
+    90,
+    120,
+    50,
+    50,
+    50,
+    50,
+    60,
+    40,
+    40,
+    30,
+    60,
+    90,
+    100,
+    110
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 12
+    },
+    {
+     "name": "recovery",
+     "from_": 13,
+     "to": 15
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 4,
+   "anim": "attack_gears",
+   "frames": 12,
+   "ms": [
+    80,
+    70,
+    70,
+    60,
+    50,
+    60,
+    60,
+    70,
+    70,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "active",
+     "from_": 3,
+     "to": 8
+    },
+    {
+     "name": "recovery",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 5,
+   "anim": "attack_chime",
+   "frames": 14,
+   "ms": [
+    80,
+    70,
+    70,
+    90,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    90,
+    100
+   ],
+   "tags": [
+    {
+     "name": "windup",
+     "from_": 0,
+     "to": 3
+    },
+    {
+     "name": "active",
+     "from_": 4,
+     "to": 10
+    },
+    {
+     "name": "recovery",
+     "from_": 11,
+     "to": 13
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 6,
+   "anim": "hit",
+   "frames": 6,
+   "ms": [
+    50,
+    60,
+    60,
+    70,
+    80,
+    100
+   ],
+   "tags": [
+    {
+     "name": "flash",
+     "from_": 0,
+     "to": 2
+    },
+    {
+     "name": "recover",
+     "from_": 3,
+     "to": 5
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 7,
+   "anim": "phase",
+   "frames": 12,
+   "ms": [
+    70,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    70,
+    80,
+    90,
+    120
+   ],
+   "tags": [
+    {
+     "name": "shudder",
+     "from_": 0,
+     "to": 8
+    },
+    {
+     "name": "settle",
+     "from_": 9,
+     "to": 11
+    }
+   ],
+   "loop": false
+  },
+  {
+   "row": 8,
+   "anim": "death",
+   "frames": 20,
+   "ms": [
+    70,
+    60,
+    60,
+    60,
+    60,
+    70,
+    60,
+    60,
+    60,
+    60,
+    60,
+    70,
+    70,
+    80,
+    80,
+    90,
+    100,
+    120,
+    160,
+    400
+   ],
+   "tags": [
+    {
+     "name": "break",
+     "from_": 0,
+     "to": 15
+    },
+    {
+     "name": "rest",
+     "from_": 16,
+     "to": 19
+    }
+   ],
+   "loop": false
+  }
+ ]
+}

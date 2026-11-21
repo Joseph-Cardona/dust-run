@@ -1,0 +1,24 @@
+{
+ "name": "103-button-press",
+ "frame_size": [
+  100,
+  25
+ ],
+ "frames": 7,
+ "ms": [
+  120,
+  80,
+  80,
+  60,
+  80,
+  80,
+  200
+ ],
+ "tags": [],
+ "loop": false,
+ "layers": [
+  "body (row 1)",
+  "fx (row 2, alphas 64/128/192/255)",
+  "composite (row 3, preview only)"
+ ]
+}

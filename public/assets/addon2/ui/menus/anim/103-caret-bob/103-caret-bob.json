@@ -1,0 +1,21 @@
+{
+ "name": "103-caret-bob",
+ "frame_size": [
+  15,
+  15
+ ],
+ "frames": 4,
+ "ms": [
+  120,
+  120,
+  120,
+  120
+ ],
+ "tags": [],
+ "loop": true,
+ "layers": [
+  "body (row 1)",
+  "fx (row 2, alphas 64/128/192/255)",
+  "composite (row 3, preview only)"
+ ]
+}

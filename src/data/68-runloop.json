@@ -1,0 +1,900 @@
+{
+ "id": "68",
+ "name": "Run loop: roguelike runs through the mansion",
+ "version": 1,
+ "flow": [
+  "HUB (home dock, 59v2): pick form, buy perks with banked coins, PRESS START (72)",
+  "RUN START: hub panel slides out, HUD + minimap slide in, P0 undocks, FLOOR 1 FOYER banner (same room)",
+  "FLOOR: explore rooms on the minimap (69); doors lock in combat/elite/stairs rooms until ROOM CLEAR",
+  "XP from cleaning/kills -> LEVEL UP pick-3 (64, upgrades.json rules)",
+  "STAIRS room (71a): (floors 3-4: clear the guard wave), drive onto the stairs, sink, curtain + FLOOR N card (71b), arrive in the next start room",
+  "FLOOR 5 boss -> RUN WON, or HP 0 anywhere -> POWERED DOWN (73) -> RESULTS (74) -> NEW RUN or HUB"
+ ],
+ "player": {
+  "hp": 100,
+  "brush_damage": 10,
+  "iframes_ms": 600,
+  "move_px_s": 72,
+  "coin_pull_px": 24,
+  "combo_mult": [
+   1.0,
+   1.1,
+   2.0
+  ],
+  "combo_damage": [
+   10,
+   11,
+   20
+  ],
+  "combo_total": 41,
+  "dash": {
+   "unlock": "mot_dash",
+   "px": 48,
+   "cooldown_s": 4.0
+  },
+  "ram_damage": 30,
+  "whirl_damage": 20
+ },
+ "forms": {
+  "tank": {
+   "P0": 100,
+   "P1": 140,
+   "P2": 180,
+   "P3": 220,
+   "P4": 260,
+   "P5": 300
+  },
+  "bolt_unlock": {
+   "P1": 10,
+   "P2": 25,
+   "P3": 50,
+   "P4": 100,
+   "P5": 200
+  }
+ },
+ "enemies": {
+  "47m3": {
+   "role": "standard rival",
+   "hp": 30,
+   "contact_damage": 10,
+   "xp": 6,
+   "drop": {
+    "coins": 5,
+    "coin_sprite": "58a"
+   },
+   "dirt_on_death": 0
+  },
+  "48m2": {
+   "role": "elite rival",
+   "hp": 90,
+   "contact_damage": 15,
+   "xp": 18,
+   "drop": {
+    "coins": 25,
+    "coin_sprite": "58c",
+    "bolts": 1
+   }
+  },
+  "boss": {
+   "role": "floor-5 boss: 89 THE HEAD BUTLER (final/enemies/89-head-butler), 3 phases",
+   "hp": 300,
+   "contact_damage": 20,
+   "xp": 60,
+   "drop": {
+    "coins": 100,
+    "bolts": 5
+   }
+  }
+ },
+ "floors": [
+  {
+   "floor": 1,
+   "name": "FOYER",
+   "theme": "marble tiles, home dock",
+   "hp_mult": 1.0,
+   "dmg_mult": 1.0,
+   "enemies_per_room": 3,
+   "waves": 1,
+   "elite_rooms": 0,
+   "elite_extra_chance": 0.1,
+   "rooms": 8,
+   "treasure_coins": 30,
+   "shop_price_mult": 1.0,
+   "enemy_hp": {
+    "47m3": 30,
+    "48m2": 90
+   },
+   "enemy_damage": {
+    "47m3": 10,
+    "48m2": 15
+   }
+  },
+  {
+   "floor": 2,
+   "name": "GALLERY",
+   "theme": "rugs + statues",
+   "hp_mult": 1.25,
+   "dmg_mult": 1.15,
+   "enemies_per_room": 4,
+   "waves": 1,
+   "elite_rooms": 1,
+   "elite_extra_chance": 0.15,
+   "rooms": 9,
+   "treasure_coins": 40,
+   "shop_price_mult": 1.1,
+   "enemy_hp": {
+    "47m3": 38,
+    "48m2": 113
+   },
+   "enemy_damage": {
+    "47m3": 12,
+    "48m2": 17
+   }
+  },
+  {
+   "floor": 3,
+   "name": "WINE CELLAR",
+   "theme": "stone, damp: decals x1.5 dirt",
+   "hp_mult": 1.5,
+   "dmg_mult": 1.3,
+   "enemies_per_room": 5,
+   "waves": 2,
+   "elite_rooms": 1,
+   "elite_extra_chance": 0.2,
+   "rooms": 10,
+   "treasure_coins": 50,
+   "shop_price_mult": 1.2,
+   "enemy_hp": {
+    "47m3": 45,
+    "48m2": 135
+   },
+   "enemy_damage": {
+    "47m3": 13,
+    "48m2": 20
+   }
+  },
+  {
+   "floor": 4,
+   "name": "SERVER VAULT",
+   "theme": "cables, 47m3 move +10%",
+   "hp_mult": 1.75,
+   "dmg_mult": 1.45,
+   "enemies_per_room": 6,
+   "waves": 2,
+   "elite_rooms": 2,
+   "elite_extra_chance": 0.25,
+   "rooms": 11,
+   "treasure_coins": 60,
+   "shop_price_mult": 1.3,
+   "enemy_hp": {
+    "47m3": 53,
+    "48m2": 158
+   },
+   "enemy_damage": {
+    "47m3": 15,
+    "48m2": 22
+   }
+  },
+  {
+   "floor": 5,
+   "name": "PANIC ROOM",
+   "theme": "boss floor",
+   "hp_mult": 2.0,
+   "dmg_mult": 1.6,
+   "enemies_per_room": 7,
+   "waves": 2,
+   "elite_rooms": 2,
+   "elite_extra_chance": 0.3,
+   "rooms": 11,
+   "treasure_coins": 70,
+   "shop_price_mult": 1.4,
+   "enemy_hp": {
+    "47m3": 60,
+    "48m2": 180,
+    "boss": 600
+   },
+   "enemy_damage": {
+    "47m3": 16,
+    "48m2": 24,
+    "boss": 32
+   }
+  }
+ ],
+ "generator": {
+  "grid": [
+   5,
+   4
+  ],
+  "rooms": "min(7+floor,11) cells grown by random walk from start (column 0); doors = walk edges (a tree, no loops)",
+  "stairs": "farthest room by BFS (ties: rightmost)",
+  "specials": "treasure 1, shrine 1, shop 1 (floor 2+), dock 1, elites per scale; rest combat",
+  "seed": "run seed; floor seed = seed*100+floor"
+ },
+ "room_types": {
+  "start": {
+   "icon": "ring (ice)",
+   "rule": "arrival room, no enemies. Floor 1 start = the home dock room (59v2 dock, leave by undocking)."
+  },
+  "combat": {
+   "icon": "X (ember)",
+   "rule": "doors lock on entry; enemies_per_room 47m3 (2 waves from floor 3); doors open on ROOM CLEAR"
+  },
+  "elite": {
+   "icon": "crown (gold)",
+   "rule": "doors lock; 1 x 48m2 elite + (floor-1) x 47m3; elite drops 25 coins + 1 bolt"
+  },
+  "treasure": {
+   "icon": "coin (gold)",
+   "rule": "no enemies; coin pile worth 20+10*floor (58c + 58a) and 1 bolt"
+  },
+  "shrine": {
+   "icon": "diamond (ice)",
+   "rule": "free pick-3 (upgrade tree rules) with slot 0 forced rare+ (70/25/5); once per floor"
+  },
+  "dock": {
+   "icon": "U (ice)",
+   "rule": "59v2 dock: empties the tank (+1 XP per 10% emptied) and heals 25% max HP once"
+  },
+  "shop": {
+   "icon": "bag (terracotta)",
+   "rule": "3 cards for coins + repair kit + tank flush; floors 2-5"
+  },
+  "stairs": {
+   "icon": "steps (steel)",
+   "rule": "farthest room from start (BFS); floors 3-4 guarded by one combat wave (stairs open on clear); +1 bolt on descending"
+  },
+  "boss": {
+   "icon": "crown (ember)",
+   "rule": "floor 5 farthest room; boss fight; clear = RUN WON"
+  }
+ },
+ "room_clear": {
+  "lock": "doors show the 71c ice gate while enemies live",
+  "banner": "ROOM CLEAR banner 900 ms",
+  "reward": "+3 XP; drops vacuum up within coin_pull_px; minimap icon goes steel (cleared)",
+  "doors": "gates retract (3 frames)"
+ },
+ "xp": {
+  "sources": {
+   "decal_stage": 1,
+   "kill_standard": 6,
+   "kill_elite": 18,
+   "kill_boss": 60,
+   "room_clear": 3,
+   "dock_empty_per_10pct": 1,
+   "coin": 0
+  },
+  "to_next": "12 + 6*(level-1)",
+  "table": {
+   "1": 12,
+   "2": 18,
+   "3": 24,
+   "4": 30,
+   "5": 36,
+   "6": 42,
+   "7": 48,
+   "8": 54,
+   "9": 60,
+   "10": 66,
+   "11": 72,
+   "12": 78,
+   "13": 84,
+   "14": 90,
+   "15": 96
+  },
+  "level_up": "game pauses at the end of the current hit-stop; 64 pick-3 screen; extra level-ups queue; reroll 10+10n coins; skip +5 coins; pity after 3 levels without rare+"
+ },
+ "upgrades": {
+  "source": "final/upgrades/upgrades.json",
+  "rules": {
+   "options_per_level": 3,
+   "rarity_weights": {
+    "common": 60,
+    "rare": 28,
+    "epic": 10,
+    "legendary": 2
+   },
+   "legendary_requires_form": true,
+   "no_duplicates_in_offer": true,
+   "maxed_nodes_removed": true,
+   "reroll": {
+    "base_cost": 10,
+    "cost_step": 10,
+    "resets_each_level": true,
+    "max_per_level": null
+   },
+   "skip": {
+    "cost": 0,
+    "refund_coins": 5
+   },
+   "pity": {
+    "levels_without_rare_plus": 3,
+    "forced_slot": 0,
+    "forced_weights": {
+     "rare": 70,
+     "epic": 25,
+     "legendary": 5
+    }
+   },
+   "branch_guarantee": {
+    "rule": "if all 3 offers share one branch, or the pool has a branch the player has never picked from and the last 2 offers skipped it, slot 2 is re-rolled from the least-picked branch"
+   },
+   "fallback_when_pool_short": [
+    "fb_coins",
+    "fb_repair"
+   ],
+   "xp": {
+    "decal_stage": 1,
+    "coin": 0,
+    "kill_standard": 6,
+    "kill_elite": 18,
+    "dock_empty_per_10pct": 1
+   },
+   "xp_to_next": "12 + 6*(level-1)  (level 1->2 needs 12 XP; level 10->11 needs 66)"
+  }
+ },
+ "shop": {
+  "card": {
+   "common": 25,
+   "rare": 50,
+   "epic": 90,
+   "legendary": 150
+  },
+  "repair_kit": {
+   "price": 20,
+   "heal": 30
+  },
+  "tank_flush": {
+   "price": 10
+  },
+  "stock": "3 cards drawn with the level-up rarity weights; legendary needs min_form",
+  "price_mult": "shop_price_mult per floor, rounded"
+ },
+ "dirt": {
+  "per_decal_stage": 5,
+  "xp_per_decal_stage": 1,
+  "decals_per_room": "3+floor (2 stages each)",
+  "warn_pct": 90,
+  "full": {
+   "pickup": false,
+   "speed_mult": 0.8,
+   "motor_strain_hp": 5,
+   "motor_strain_every_s": 10,
+   "coins_still_collect": true
+  },
+  "empty_at": "dock room, home dock, shop tank flush",
+  "dock_xp_per_10pct": 1
+ },
+ "death": {
+  "conditions": [
+   "HP <= 0 (contact damage from rivals, boss attacks, motor strain while the tank is full)"
+  ],
+  "win": "clear the floor-5 boss room: results title SPOTLESS!, coins banked 100%",
+  "sequence": "hit flash -> sparks + LED flicker -> brushes spin down, LED dims then off, chassis slumps -> smoke -> results"
+ },
+ "results": [
+  "floor reached + name",
+  "rooms cleared / visited",
+  "kills (47m3, elite)",
+  "level",
+  "upgrades (icon row)",
+  "dirt cleaned",
+  "coins collected -> banked (50%)",
+  "bolts",
+  "time",
+  "cause of death"
+ ],
+ "meta": {
+  "bolts_kept": 1.0,
+  "coins_banked_on_death": 0.5,
+  "coins_banked_on_win": 1.0,
+  "rounding": "floor",
+  "evolution": "lifetime bolts unlock forms P1-P5 at 10/25/50/100/200; choose the starting form at the hub dock; forms gate min_form cards",
+  "hub_perks": [
+   {
+    "id": "perk_reroll",
+    "name": "REROLL TOKEN",
+    "cost": [
+     60
+    ],
+    "effect": "1 free reroll per run"
+   },
+   {
+    "id": "perk_plating",
+    "name": "PLATING",
+    "cost": [
+     80,
+     160,
+     240
+    ],
+    "effect": "+10 max HP per rank"
+   },
+   {
+    "id": "perk_starter",
+    "name": "STARTER CARD",
+    "cost": [
+     100
+    ],
+    "effect": "start each run with a random common"
+   },
+   {
+    "id": "perk_tank",
+    "name": "BIGGER BAG",
+    "cost": [
+     70,
+     140
+    ],
+    "effect": "+10% tank per rank"
+   }
+  ],
+  "persists": [
+   "bolts (lifetime)",
+   "banked coins",
+   "unlocked forms",
+   "bought perks",
+   "best floor",
+   "run count"
+  ],
+  "resets": [
+   "level/XP",
+   "upgrades taken",
+   "run coins",
+   "HP",
+   "dirt"
+  ]
+ },
+ "minimap": {
+  "states": {
+   "unknown": "not drawn",
+   "seen": "stone cell, special rooms show a muted icon",
+   "explored": "pearl cell + colour icon",
+   "cleared": "pearl cell + steel icon"
+  },
+  "current": "ice inner rim, 2-frame pulse 400 ms",
+  "reveal": "entering a room marks its neighbours seen",
+  "tec_scanner": "upgrade marks dirt (soil dot) on explored cells"
+ },
+ "demo_seed": {
+  "seed": 360,
+  "floor1": {
+   "(0, 0)": "start",
+   "(0, 1)": "combat",
+   "(0, 2)": "combat",
+   "(0, 3)": "shrine",
+   "(1, 0)": "combat",
+   "(2, 0)": "treasure",
+   "(1, 2)": "dock",
+   "(3, 0)": "stairs"
+  },
+  "floor1_route": [
+   [
+    0,
+    0
+   ],
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    3,
+    0
+   ]
+  ],
+  "floor2": {
+   "(0, 0)": "start",
+   "(1, 0)": "elite",
+   "(2, 0)": "combat",
+   "(2, 1)": "combat",
+   "(3, 1)": "treasure",
+   "(3, 0)": "shrine",
+   "(1, 1)": "dock",
+   "(4, 1)": "stairs",
+   "(3, 2)": "shop"
+  }
+ },
+ "assets": {
+  "69": "69-minimap/",
+  "70": "70-hud/",
+  "71": "71-stairs/",
+  "72": "72-run-start/",
+  "73": "73-power-down/",
+  "74": "74-results/",
+  "75": "75-demo/",
+  "76": "76-font/"
+ },
+ "mansion": {
+  "source": "final/mansion/78-rooms/rooms.json + final/mansion/79-floors/79-generator.json",
+  "replaces": "generator (5x4 random walk) for room placement; the minimap (69) shows one icon per room cell",
+  "themes_per_floor": {
+   "1": [
+    "foyer",
+    "hallway",
+    "dining",
+    "kitchen",
+    "library",
+    "ballroom",
+    "conservatory",
+    "gallery",
+    "study",
+    "stairwell"
+   ],
+   "2": [
+    "hallway",
+    "library",
+    "bathroom",
+    "bedroom",
+    "gallery",
+    "laundry",
+    "study",
+    "attic",
+    "trophy",
+    "stairwell"
+   ],
+   "3": [
+    "hallway",
+    "wine_cellar",
+    "basement",
+    "laundry",
+    "storage",
+    "boiler",
+    "stairwell"
+   ],
+   "4": [
+    "hallway",
+    "basement",
+    "server",
+    "storage",
+    "boiler",
+    "stairwell"
+   ],
+   "5": [
+    "hallway",
+    "ballroom",
+    "server",
+    "panic",
+    "stairwell"
+   ]
+  },
+  "rules": [
+   "grid: floor 1 10x6 cells, floors 2 10x6, 3-4 9x6, 5 8x6 (cell = 320x192 px)",
+   "start at bottom centre: floor 1 = 2x2 FOYER with the front door; floors 2-5 = 1x1 STAIRWELL landing (arrival)",
+   "skeleton by plan: manor (gallery corridor across + 2 wing corridors north), ring (corridor ring), cross (north spine + cross corridor + side spurs)",
+   "fill: repeatedly place the largest room (2x2 > 2x1/1x2 > 1x1) that touches a corridor; theme from that floor's list, capped per theme",
+   "symmetry: every placement is mirrored into the other wing (same size, different theme); if that fails, the mirrored footprint is filled with smaller rooms",
+   "doors: corridor-corridor arch; each room gets 1 door (2 for multi-cell) to a touching corridor; 35% of room-room neighbours get an extra door, half of them one-way back toward the start",
+   "roles: stairs = farthest room by door distance (or the farthest 1x1 becomes a STAIRWELL), boss on floor 5 (largest far room), elites 0/1/1/2/2 in multi-cell rooms, then treasure, shrine, dock, shop (floor 2+); the rest combat",
+   "treasure doors are locked (key from the floor elite)"
+  ],
+  "size_rules": {
+   "allowed": [
+    "1x1",
+    "2x1",
+    "1x2",
+    "2x2"
+   ],
+   "room_px": "w*320 x h*192",
+   "interior": "x 1..W-2, y 3..H-2 (north wall 3 tiles: cap + 2 face rows; other walls 1 tile)",
+   "walls": "every room is closed on all four sides; the only openings are door sockets",
+   "hallways": "1x1 cells; corridor 4 tiles wide, arms only toward connected sockets (straight, corner, T, cross, dead end)"
+  },
+  "sockets": {
+   "per_cell_side": "every cell side on the room perimeter has exactly one socket at its centre",
+   "n": [
+    9,
+    10
+   ],
+   "s": [
+    9,
+    10
+   ],
+   "e": [
+    6,
+    7
+   ],
+   "w": [
+    6,
+    7
+   ],
+   "snap": "rooms on neighbouring grid cells always share socket positions, so any two rooms connect"
+  },
+  "door_states": {
+   "open": "passable, no leaf",
+   "arch": "corridor arch (= open sprite)",
+   "closed": "opens on touch (wood leaf)",
+   "locked": "ice bars + brass plate; opens when the floor elite drops its key",
+   "oneway_in": "chevrons point into this room: enter only",
+   "oneway_out": "chevrons point out: exit only (shortcut back toward the start)",
+   "front": "mansion front door (floor 1 foyer)"
+  },
+  "hazards": {
+   "water": "slide: -grip, shorts out on wires",
+   "oil": "slide 2x",
+   "coffee": "dirt 3 stages",
+   "juice": "dirt 3 stages, sticky -20% speed",
+   "soot": "dirt 3 stages",
+   "wire_ew": "5 dmg on contact, x3 when standing in water"
+  }
+ },
+ "bestiary": {
+  "source": "final/enemies/enemies.json",
+  "spawn_rules": [
+   "room budget = enemies_per_room for the floor (3,4,5,6,7); 47m3 costs 1, every 81-87 enemy costs its cost (dust bunny groups 1, chandelier 2)",
+   "pool for a combat room = 47m3 + every enemy whose themes include the room theme and whose floors include the floor; at least half the budget comes from the theme pool when it is not empty",
+   "max 2 of one kind per room (bunny groups excepted); chandelier max 1 and only in 2x1/1x2/2x2 rooms",
+   "elite rooms: the elite is 48m2 or 88 vacuum brute (50/50 when the theme fits the brute) + (floor-1) budget filled as above",
+   "waves (floors 3-5): wave 2 repeats the pool with a fresh roll",
+   "boss: floor 5 PANIC ROOM (2x2) hosts 89 THE HEAD BUTLER; the stairs/boss rule of runloop.json is unchanged"
+  ],
+  "boss_arena": {
+   "room": "panic",
+   "size": [
+    2,
+    2
+   ],
+   "tiles": [
+    40,
+    24
+   ],
+   "boss_spawn": "seal centre: pixel (320,218) = the boss foot point (tile 20,13)",
+   "minion_spawns": "4 corner points, tiles (4,6), (35,6), (4,20), (35,20)",
+   "player_entry": "the room door (locks behind the player)",
+   "phase_changes": "at 60% and 30% HP; phase 3 plays the 89 phase animation (0.95 s, invulnerable)",
+   "hazards": "none placed; the boss spawns dust bunnies (max 6 alive)"
+  },
+  "roster": {
+   "dust_bunny": {
+    "id": 81,
+    "name": "DUST BUNNY",
+    "tier": "swarm",
+    "hp": 8,
+    "damage": 4,
+    "speed_px_s": 96,
+    "xp": 2,
+    "coins": 1,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "themes": [
+     "attic",
+     "storage",
+     "basement",
+     "bedroom",
+     "library",
+     "study",
+     "hallway",
+     "stairwell",
+     "ballroom",
+     "server"
+    ],
+    "attack": "pounce (contact)",
+    "behaviour": "Swarm. Idles in corners, then hops at the player in short bursts. Pounce: 0.26 s crouch (ears back, amber glint), a 0.13 s leap, then 0.3 s landing lag. Three bunnies die to one brush combo. On death it leaves a dust smudge (1 dirt decal stage, +1 XP when cleaned)."
+   },
+   "snap_trap": {
+    "id": 82,
+    "name": "SNAP TRAP",
+    "tier": "standard",
+    "hp": 20,
+    "damage": 14,
+    "speed_px_s": 40,
+    "xp": 5,
+    "coins": 4,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "themes": [
+     "kitchen",
+     "dining",
+     "storage",
+     "wine_cellar",
+     "basement",
+     "laundry",
+     "boiler"
+    ],
+    "attack": "snap (front, 14 px)",
+    "behaviour": "Hops toward the player in 0.4 s hops, stopping between hops. Within 14 px it shivers for 0.35 s (amber glint on the bait), then snaps. After a snap it takes 0.73 s to re-arm and takes x1.5 damage meanwhile. Stepping on its bait from behind does nothing."
+   },
+   "rogue_mop": {
+    "id": 83,
+    "name": "ROGUE MOP",
+    "tier": "standard",
+    "hp": 34,
+    "damage": 11,
+    "speed_px_s": 52,
+    "xp": 7,
+    "coins": 6,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "themes": [
+     "kitchen",
+     "bathroom",
+     "laundry",
+     "foyer",
+     "hallway",
+     "conservatory",
+     "boiler",
+     "wine_cellar"
+    ],
+    "attack": "arc sweep (110 deg, 28 px)",
+    "behaviour": "Shuffles toward the player. Sweep: 0.38 s wind-up (the head swings back, amber glint), then a 0.21 s 220-degree arc with 28 px reach. It leaves a wet streak for 3 s that slows the player to 0.7x and makes them slide. The swept water counts as a dirt decal (2 stages)."
+   },
+   "toaster": {
+    "id": 84,
+    "name": "TOASTER TURRET",
+    "tier": "standard",
+    "hp": 26,
+    "damage": 8,
+    "speed_px_s": 16,
+    "xp": 7,
+    "coins": 6,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "themes": [
+     "kitchen",
+     "dining",
+     "storage",
+     "basement"
+    ],
+    "attack": "lobbed toast (lands 40-96 px away, 0.7 s flight, 12 px splash)",
+    "behaviour": "Turret. Keeps its distance and repositions slowly. Every 2.6 s: 0.48 s wind-up (lever down, slots glow amber then ember, heat shimmer), then it pops a toast. The toast lands where the player was, and an amber ring marks the landing spot during the flight. Shoot it from the side: the toast always flies forward."
+   },
+   "tin_soldier": {
+    "id": 85,
+    "name": "TIN SOLDIER",
+    "tier": "standard",
+    "hp": 28,
+    "damage": 9,
+    "speed_px_s": 48,
+    "xp": 6,
+    "coins": 5,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "themes": [
+     "trophy",
+     "bedroom",
+     "attic",
+     "gallery",
+     "study",
+     "library",
+     "storage"
+    ],
+    "attack": "cork shot (straight, 140 px/s)",
+    "behaviour": "Marches in straight lines and turns 90 degrees at walls. Every 3 s, if the player is in line: 0.44 s aim (musket levels, amber glint at the muzzle), then it fires a cork. Every 7 s its key runs down: it stands still for 2 s (key stops) and takes x1.5 damage."
+   },
+   "sheet_ghost": {
+    "id": 86,
+    "name": "SHEET GHOST",
+    "tier": "standard",
+    "hp": 24,
+    "damage": 10,
+    "speed_px_s": 58,
+    "xp": 8,
+    "coins": 6,
+    "bolts": 0,
+    "cost": 1,
+    "floors": [
+     2,
+     3,
+     5
+    ],
+    "themes": [
+     "attic",
+     "ballroom",
+     "gallery",
+     "bedroom",
+     "stairwell",
+     "wine_cellar"
+    ],
+    "attack": "swoop (forward 24 px)",
+    "behaviour": "Floats over puddles, wires and props. Swoop: 0.42 s rise and inflate (eyes turn amber), then a fast 24 px lunge. Every 4 s it drops into a crumpled sheet for 1.2 s. While dropped it is invulnerable and drifts 32 px, then it rises again."
+   },
+   "chandelier": {
+    "id": 87,
+    "name": "CHANDELIER",
+    "tier": "ambusher",
+    "hp": 40,
+    "damage": 22,
+    "speed_px_s": 40,
+    "xp": 12,
+    "coins": 10,
+    "bolts": 0,
+    "cost": 2,
+    "floors": [
+     1,
+     2,
+     5
+    ],
+    "themes": [
+     "ballroom",
+     "dining",
+     "foyer",
+     "gallery",
+     "library"
+    ],
+    "attack": "crash (AoE radius 26 px)",
+    "behaviour": "Hangs from the ceiling and slides along it, out of reach. When the player passes under it: 0.55 s telegraph (chain shakes, candles flare, an amber ring tightens on the floor), then it drops and crashes (AoE). It stays down for 0.6 s, the only time it can be hit, then winches back up over 0.55 s. Max 1 per room, 2x1 or 2x2 rooms only."
+   },
+   "vacuum_brute": {
+    "id": 88,
+    "name": "VACUUM BRUTE",
+    "tier": "elite",
+    "hp": 95,
+    "damage": 17,
+    "speed_px_s": 34,
+    "xp": 20,
+    "coins": 25,
+    "bolts": 1,
+    "cost": "elite slot",
+    "floors": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "themes": [
+     "laundry",
+     "storage",
+     "server",
+     "ballroom",
+     "basement",
+     "boiler",
+     "trophy"
+    ],
+    "attack": "suction pull (60 deg cone, 56 px, pulls 42 px/s) + nozzle slam (front 20 px)",
+    "behaviour": "Elite (it replaces 48m2 in half of the elite rooms where its theme fits). It rolls slowly after the player. Pull: 0.41 s wind-up (nozzle rises and aims, amber glint), then 0.48 s of suction that drags the player in, then a nozzle slam. Hitting it from behind while it pulls does x1.5. On death its lid pops and a dust cloud bursts (3 dirt decals)."
+   },
+   "head_butler": {
+    "id": 89,
+    "name": "THE HEAD BUTLER",
+    "tier": "boss",
+    "hp": 300,
+    "damage": 20,
+    "speed_px_s": 44,
+    "xp": 60,
+    "coins": 100,
+    "bolts": 5,
+    "cost": "boss",
+    "floors": [
+     5
+    ],
+    "themes": [
+     "panic"
+    ],
+    "attack": "charge 24, spin 14/tick (pull), slam 28 (AoE radius 48 px), summon 3 dust bunnies",
+    "behaviour": "Floor-5 boss, a giant upright vacuum in a butler coat. It replaces the 48m2 placeholder. Phase 1 (100-60% HP): charge, a 0.53 s lean-back telegraph then a fast lunge, and summon, where the bag inflates and spits 3 dust bunnies. Phase 2 (60-30%): adds spin, a 0.33 s arms-out telegraph then a 360-degree cyclone that pulls the player in. Phase 3 (under 30%, after the 0.95 s shudder transition): eye goes ember and vents glow. It is 1.25x faster and alternates slam (AoE shockwave) and charge. The vents take x1.5 damage. Death: it collapses onto its base."
+   }
+  }
+ }
+}

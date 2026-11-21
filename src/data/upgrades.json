@@ -1,0 +1,1279 @@
+{
+ "version": "61-2026-11-16 +105-2026-11-18",
+ "branches": [
+  {
+   "id": "suction",
+   "name": "SUCTION",
+   "accent_ramp": "ice",
+   "role": "cleaning: pickup speed, tank, intake"
+  },
+  {
+   "id": "blades",
+   "name": "BLADES",
+   "accent_ramp": "ember",
+   "role": "combat: side brushes and spinning blades"
+  },
+  {
+   "id": "chassis",
+   "name": "CHASSIS",
+   "accent_ramp": "terracotta",
+   "role": "armour: HP, damage taken, shields"
+  },
+  {
+   "id": "motor",
+   "name": "MOTOR",
+   "accent_ramp": "olive",
+   "role": "mobility: speed, handling, dash"
+  },
+  {
+   "id": "tech",
+   "name": "TECH",
+   "accent_ramp": "amber",
+   "role": "utility: coins, scanners, dock, luck"
+  }
+ ],
+ "rarities": {
+  "common": {
+   "weight": 60,
+   "pips": 1,
+   "frame": "frames/62-card-common.png"
+  },
+  "rare": {
+   "weight": 28,
+   "pips": 2,
+   "frame": "frames/62-card-rare.png"
+  },
+  "epic": {
+   "weight": 10,
+   "pips": 3,
+   "frame": "frames/62-card-epic.png"
+  },
+  "legendary": {
+   "weight": 2,
+   "pips": 4,
+   "frame": "frames/62-card-legendary.png"
+  }
+ },
+ "forms": [
+  "P0 base",
+  "P1 scrapper",
+  "P2 sentinel",
+  "P3 bulwark",
+  "P4 reaver",
+  "P5 omnivac"
+ ],
+ "rules": {
+  "options_per_level": 3,
+  "rarity_weights": {
+   "common": 60,
+   "rare": 28,
+   "epic": 10,
+   "legendary": 2
+  },
+  "legendary_requires_form": true,
+  "no_duplicates_in_offer": true,
+  "maxed_nodes_removed": true,
+  "reroll": {
+   "base_cost": 10,
+   "cost_step": 10,
+   "resets_each_level": true,
+   "max_per_level": null
+  },
+  "skip": {
+   "cost": 0,
+   "refund_coins": 5
+  },
+  "pity": {
+   "levels_without_rare_plus": 3,
+   "forced_slot": 0,
+   "forced_weights": {
+    "rare": 70,
+    "epic": 25,
+    "legendary": 5
+   }
+  },
+  "branch_guarantee": {
+   "rule": "if all 3 offers share one branch, or the pool has a branch the player has never picked from and the last 2 offers skipped it, slot 2 is re-rolled from the least-picked branch"
+  },
+  "fallback_when_pool_short": [
+   "fb_coins",
+   "fb_repair"
+  ],
+  "xp": {
+   "decal_stage": 1,
+   "coin": 0,
+   "kill_standard": 6,
+   "kill_elite": 18,
+   "dock_empty_per_10pct": 1
+  },
+  "xp_to_next": "12 + 6*(level-1)  (level 1->2 needs 12 XP; level 10->11 needs 66)"
+ },
+ "nodes": [
+  {
+   "id": "suc_power",
+   "name": "POWER SUCTION",
+   "branch": "suction",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dirt_pickup_rate",
+     "op": "mul",
+     "value": 0.2,
+     "unit": ""
+    }
+   ],
+   "text": "+20% DIRT PICKUP SPEED",
+   "icon": "icons/61-suc_power.png",
+   "tree_pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "suc_tank",
+   "name": "BIG TANK",
+   "branch": "suction",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "tank_capacity",
+     "op": "mul",
+     "value": 0.25,
+     "unit": ""
+    }
+   ],
+   "text": "+25% TANK CAPACITY",
+   "icon": "icons/61-suc_tank.png",
+   "tree_pos": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "suc_intake",
+   "name": "WIDE INTAKE",
+   "branch": "suction",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "suc_power": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "clean_width",
+     "op": "add",
+     "value": 3,
+     "unit": "px"
+    }
+   ],
+   "text": "+3 PX CLEANING WIDTH",
+   "icon": "icons/61-suc_intake.png",
+   "tree_pos": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "suc_compactor",
+   "name": "COMPACTOR",
+   "branch": "suction",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "suc_tank": 2
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dirt_volume",
+     "op": "mul",
+     "value": -0.2,
+     "unit": ""
+    },
+    {
+     "stat": "full_slowdown",
+     "op": "set",
+     "value": 0,
+     "unit": ""
+    }
+   ],
+   "text": "DIRT TAKES 20% LESS ROOM. NO SLOWDOWN WHEN FULL",
+   "icon": "icons/61-suc_compactor.png",
+   "tree_pos": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "suc_vortex",
+   "name": "VORTEX",
+   "branch": "suction",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "suc_intake": 1,
+    "suc_power": 2
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "pull_radius",
+     "op": "add",
+     "value": 24,
+     "unit": "px"
+    },
+    {
+     "stat": "front_enemy_slow",
+     "op": "add",
+     "value": 0.3,
+     "unit": ""
+    }
+   ],
+   "text": "PULLS DIRT AND PARTS IN 24 PX. SLOWS RIVALS AHEAD 30%",
+   "icon": "icons/61-suc_vortex.png",
+   "tree_pos": [
+    2,
+    0
+   ]
+  },
+  {
+   "id": "suc_cyclone",
+   "name": "CYCLONE CORE",
+   "branch": "suction",
+   "tier": 4,
+   "max_stacks": 1,
+   "rarity": "legendary",
+   "prereqs": {
+    "suc_vortex": 1
+   },
+   "min_form": 3,
+   "effects_per_stack": [
+    {
+     "stat": "cyclone_interval",
+     "op": "set",
+     "value": 8,
+     "unit": "s"
+    },
+    {
+     "stat": "cyclone_radius",
+     "op": "set",
+     "value": 48,
+     "unit": "px"
+    },
+    {
+     "stat": "cyclone_damage",
+     "op": "set",
+     "value": 25,
+     "unit": ""
+    }
+   ],
+   "text": "EVERY 8 S A CYCLONE CLEANS 48 PX, 25 DMG",
+   "icon": "icons/61-suc_cyclone.png",
+   "tree_pos": [
+    3,
+    0
+   ]
+  },
+  {
+   "id": "bla_brush",
+   "name": "SIDE BRUSHES",
+   "branch": "blades",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "brush_damage",
+     "op": "mul",
+     "value": 0.15,
+     "unit": ""
+    }
+   ],
+   "text": "+15% BRUSH DAMAGE",
+   "icon": "icons/61-bla_brush.png",
+   "tree_pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "bla_rpm",
+   "name": "HIGH RPM",
+   "branch": "blades",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "attack_rate",
+     "op": "mul",
+     "value": 0.2,
+     "unit": ""
+    }
+   ],
+   "text": "+20% BRUSH SPIN RATE",
+   "icon": "icons/61-bla_rpm.png",
+   "tree_pos": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "bla_third",
+   "name": "THIRD BRUSH",
+   "branch": "blades",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "bla_brush": 1
+   },
+   "min_form": 1,
+   "effects_per_stack": [
+    {
+     "stat": "extra_brushes",
+     "op": "add",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "BOLT ON A STOLEN BRUSH: +1 HIT PER CONTACT",
+   "icon": "icons/61-bla_third.png",
+   "tree_pos": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "bla_razor",
+   "name": "RAZOR EDGE",
+   "branch": "blades",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "bla_brush": 2
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "crit_chance",
+     "op": "add",
+     "value": 0.1,
+     "unit": ""
+    },
+    {
+     "stat": "crit_mult",
+     "op": "set",
+     "value": 2.0,
+     "unit": ""
+    }
+   ],
+   "text": "+10% CRIT CHANCE. CRITS DO 2X",
+   "icon": "icons/61-bla_razor.png",
+   "tree_pos": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "bla_whirl",
+   "name": "WHIRLWIND",
+   "branch": "blades",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "bla_rpm": 2,
+    "bla_razor": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "spin_interval",
+     "op": "set",
+     "value": 4,
+     "unit": "s"
+    },
+    {
+     "stat": "spin_radius",
+     "op": "set",
+     "value": 28,
+     "unit": "px"
+    },
+    {
+     "stat": "spin_damage",
+     "op": "set",
+     "value": 20,
+     "unit": ""
+    }
+   ],
+   "text": "EVERY 4 S SPIN 360: 20 DMG IN 28 PX",
+   "icon": "icons/61-bla_whirl.png",
+   "tree_pos": [
+    2,
+    1
+   ]
+  },
+  {
+   "id": "bla_reaver",
+   "name": "REAVER BLADES",
+   "branch": "blades",
+   "tier": 4,
+   "max_stacks": 1,
+   "rarity": "legendary",
+   "prereqs": {
+    "bla_whirl": 1
+   },
+   "min_form": 4,
+   "effects_per_stack": [
+    {
+     "stat": "brush_damage",
+     "op": "mul",
+     "value": 0.5,
+     "unit": ""
+    },
+    {
+     "stat": "kill_bolts",
+     "op": "add",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "+50% DAMAGE. KILLS DROP +1 BOLT",
+   "icon": "icons/61-bla_reaver.png",
+   "tree_pos": [
+    3,
+    1
+   ]
+  },
+  {
+   "id": "cha_armor",
+   "name": "ARMOR PLATE",
+   "branch": "chassis",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "max_hp",
+     "op": "add",
+     "value": 20,
+     "unit": ""
+    }
+   ],
+   "text": "+20 MAX HP",
+   "icon": "icons/61-cha_armor.png",
+   "tree_pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "cha_bumper",
+   "name": "SOFT BUMPER",
+   "branch": "chassis",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "contact_damage_taken",
+     "op": "mul",
+     "value": -0.15,
+     "unit": ""
+    }
+   ],
+   "text": "-15% CONTACT DAMAGE TAKEN",
+   "icon": "icons/61-cha_bumper.png",
+   "tree_pos": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "cha_skirts",
+   "name": "SIDE SKIRTS",
+   "branch": "chassis",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "cha_armor": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "knockback_taken",
+     "op": "mul",
+     "value": -0.5,
+     "unit": ""
+    }
+   ],
+   "text": "-50% KNOCKBACK. HOLD YOUR LINE",
+   "icon": "icons/61-cha_skirts.png",
+   "tree_pos": [
+    1,
+    0
+   ],
+   "icon_v2": "icons/61-cha_skirts-v2.png"
+  },
+  {
+   "id": "cha_repair",
+   "name": "SELF REPAIR",
+   "branch": "chassis",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "cha_armor": 2
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "hp_regen",
+     "op": "add",
+     "value": 0.33,
+     "unit": "hp/s"
+    }
+   ],
+   "text": "REGEN 1 HP EVERY 3 S",
+   "icon": "icons/61-cha_repair.png",
+   "tree_pos": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "cha_shield",
+   "name": "SHIELD DECK",
+   "branch": "chassis",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "cha_skirts": 1,
+    "cha_repair": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "shield_hits",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    },
+    {
+     "stat": "shield_recharge",
+     "op": "set",
+     "value": 15,
+     "unit": "s"
+    }
+   ],
+   "text": "BLOCKS 1 HIT, RECHARGES EVERY 15 S",
+   "icon": "icons/61-cha_shield.png",
+   "tree_pos": [
+    2,
+    0
+   ]
+  },
+  {
+   "id": "cha_omni",
+   "name": "OMNI HULL",
+   "branch": "chassis",
+   "tier": 4,
+   "max_stacks": 1,
+   "rarity": "legendary",
+   "prereqs": {
+    "cha_shield": 1
+   },
+   "min_form": 5,
+   "effects_per_stack": [
+    {
+     "stat": "max_hp",
+     "op": "mul",
+     "value": 0.5,
+     "unit": ""
+    },
+    {
+     "stat": "stun_immune",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    },
+    {
+     "stat": "dock_full_heal",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "+50% MAX HP. STUN IMMUNE. DOCK HEALS FULLY",
+   "icon": "icons/61-cha_omni.png",
+   "tree_pos": [
+    3,
+    0
+   ]
+  },
+  {
+   "id": "mot_turbo",
+   "name": "TURBO MOTOR",
+   "branch": "motor",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "move_speed",
+     "op": "mul",
+     "value": 0.1,
+     "unit": ""
+    }
+   ],
+   "text": "+10% MOVE SPEED",
+   "icon": "icons/61-mot_turbo.png",
+   "tree_pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "mot_grip",
+   "name": "GRIP WHEELS",
+   "branch": "motor",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "turn_rate",
+     "op": "mul",
+     "value": 0.25,
+     "unit": ""
+    },
+    {
+     "stat": "slide",
+     "op": "mul",
+     "value": -0.3,
+     "unit": ""
+    }
+   ],
+   "text": "+25% TURN RATE, LESS SLIDE ON MARBLE",
+   "icon": "icons/61-mot_grip.png",
+   "tree_pos": [
+    0,
+    1
+   ],
+   "icon_v2": "icons/61-mot_grip-v2.png"
+  },
+  {
+   "id": "mot_dash",
+   "name": "DASH",
+   "branch": "motor",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "mot_turbo": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dash_distance",
+     "op": "set",
+     "value": 48,
+     "unit": "px"
+    },
+    {
+     "stat": "dash_cooldown",
+     "op": "set",
+     "value": 4.0,
+     "unit": "s"
+    },
+    {
+     "stat": "dash_iframes",
+     "op": "set",
+     "value": 0.2,
+     "unit": "s"
+    }
+   ],
+   "text": "UNLOCK DASH: 48 PX, 4 S COOLDOWN",
+   "icon": "icons/61-mot_dash.png",
+   "tree_pos": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "mot_quick",
+   "name": "QUICK DASH",
+   "branch": "motor",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "mot_dash": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dash_cooldown",
+     "op": "add",
+     "value": -0.8,
+     "unit": "s"
+    }
+   ],
+   "text": "-0.8 S DASH COOLDOWN",
+   "icon": "icons/61-mot_quick.png",
+   "tree_pos": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "mot_ram",
+   "name": "RAM DASH",
+   "branch": "motor",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "mot_quick": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dash_damage",
+     "op": "set",
+     "value": 30,
+     "unit": ""
+    },
+    {
+     "stat": "dash_breaks_parts",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "DASH DEALS 30 DMG AND KNOCKS PARTS LOOSE",
+   "icon": "icons/61-mot_ram.png",
+   "tree_pos": [
+    2,
+    1
+   ]
+  },
+  {
+   "id": "mot_overdrive",
+   "name": "OVERDRIVE",
+   "branch": "motor",
+   "tier": 4,
+   "max_stacks": 1,
+   "rarity": "legendary",
+   "prereqs": {
+    "mot_ram": 1
+   },
+   "min_form": 4,
+   "effects_per_stack": [
+    {
+     "stat": "kill_haste",
+     "op": "set",
+     "value": 0.4,
+     "unit": ""
+    },
+    {
+     "stat": "kill_haste_time",
+     "op": "set",
+     "value": 4,
+     "unit": "s"
+    },
+    {
+     "stat": "kill_dash_reset",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "KILLS GIVE +40% SPEED FOR 4 S AND RESET DASH",
+   "icon": "icons/61-mot_overdrive.png",
+   "tree_pos": [
+    3,
+    1
+   ],
+   "icon_v2": "icons/61-mot_overdrive-v2.png"
+  },
+  {
+   "id": "tec_magnet",
+   "name": "COIN MAGNET",
+   "branch": "tech",
+   "tier": 1,
+   "max_stacks": 3,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "coin_pull_radius",
+     "op": "add",
+     "value": 16,
+     "unit": "px"
+    }
+   ],
+   "text": "+16 PX COIN PULL RANGE",
+   "icon": "icons/61-tec_magnet.png",
+   "tree_pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "tec_scanner",
+   "name": "DIRT SCANNER",
+   "branch": "tech",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "clean_xp",
+     "op": "mul",
+     "value": 0.15,
+     "unit": ""
+    },
+    {
+     "stat": "reveal_dirt",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "+15% CLEANING XP. MARKS ALL DIRT ON THE MAP",
+   "icon": "icons/61-tec_scanner.png",
+   "tree_pos": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "tec_dock",
+   "name": "FAST DOCK",
+   "branch": "tech",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "dock_empty_time",
+     "op": "mul",
+     "value": -0.3,
+     "unit": ""
+    }
+   ],
+   "text": "-30% DOCK EMPTY TIME",
+   "icon": "icons/61-tec_dock.png",
+   "tree_pos": [
+    0,
+    2
+   ]
+  },
+  {
+   "id": "tec_lucky",
+   "name": "LUCKY CHIP",
+   "branch": "tech",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "tec_magnet": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "rare_weight",
+     "op": "mul",
+     "value": 0.25,
+     "unit": ""
+    },
+    {
+     "stat": "coin_value",
+     "op": "mul",
+     "value": 0.1,
+     "unit": ""
+    }
+   ],
+   "text": "RARER LEVEL-UP CARDS. +10% COIN VALUE",
+   "icon": "icons/61-tec_lucky.png",
+   "tree_pos": [
+    1,
+    0
+   ],
+   "icon_v2": "icons/61-tec_lucky-v2.png"
+  },
+  {
+   "id": "tec_drone",
+   "name": "MINI DRONE",
+   "branch": "tech",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "tec_scanner": 1,
+    "tec_lucky": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "drone_radius",
+     "op": "set",
+     "value": 64,
+     "unit": "px"
+    },
+    {
+     "stat": "drone_interval",
+     "op": "set",
+     "value": 3,
+     "unit": "s"
+    }
+   ],
+   "text": "A DRONE FETCHES COINS AND BOLTS IN 64 PX",
+   "icon": "icons/61-tec_drone.png",
+   "tree_pos": [
+    2,
+    0
+   ]
+  },
+  {
+   "id": "tec_sentinel",
+   "name": "SENTINEL EYE",
+   "branch": "tech",
+   "tier": 4,
+   "max_stacks": 1,
+   "rarity": "legendary",
+   "prereqs": {
+    "tec_drone": 1
+   },
+   "min_form": 2,
+   "effects_per_stack": [
+    {
+     "stat": "mark_damage",
+     "op": "mul",
+     "value": 0.25,
+     "unit": ""
+    },
+    {
+     "stat": "see_through_walls",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "MARKS THE NEAREST RIVAL: +25% DMG. SEE THROUGH WALLS",
+   "icon": "icons/61-tec_sentinel.png",
+   "tree_pos": [
+    3,
+    0
+   ],
+   "icon_v2": "icons/61-tec_sentinel-v2.png"
+  },
+  {
+   "id": "suc_sweeper",
+   "name": "SIDE SWEEPER",
+   "branch": "suction",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "pickup_reach",
+     "op": "add",
+     "value": 6,
+     "unit": "px"
+    }
+   ],
+   "text": "+6 PX PICKUP REACH",
+   "tree_pos": [
+    0,
+    2
+   ],
+   "icon": "icons/61-suc_sweeper.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "suc_filter",
+   "name": "HEPA FILTER",
+   "branch": "suction",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "suc_tank": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "clean_xp",
+     "op": "mul",
+     "value": 0.1,
+     "unit": ""
+    },
+    {
+     "stat": "soot_slow",
+     "op": "set",
+     "value": 0,
+     "unit": ""
+    }
+   ],
+   "text": "+10% CLEANING XP. SOOT NO LONGER SLOWS",
+   "tree_pos": [
+    1,
+    2
+   ],
+   "icon": "icons/61-suc_filter.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "bla_spark",
+   "name": "SPARK BRUSH",
+   "branch": "blades",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "bla_rpm": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "shock_chance",
+     "op": "add",
+     "value": 0.1,
+     "unit": ""
+    },
+    {
+     "stat": "shock_damage",
+     "op": "set",
+     "value": 8,
+     "unit": ""
+    }
+   ],
+   "text": "10% OF HITS SHOCK FOR 8 DMG",
+   "tree_pos": [
+    1,
+    2
+   ],
+   "icon": "icons/61-bla_spark.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "bla_twin",
+   "name": "TWIN SPIN",
+   "branch": "blades",
+   "tier": 3,
+   "max_stacks": 1,
+   "rarity": "epic",
+   "prereqs": {
+    "bla_third": 1
+   },
+   "min_form": 1,
+   "effects_per_stack": [
+    {
+     "stat": "combo_finisher_hits",
+     "op": "add",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "COMBO FINISHERS HIT TWICE",
+   "tree_pos": [
+    2,
+    2
+   ],
+   "icon": "icons/61-bla_twin.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "cha_crumple",
+   "name": "CRUMPLE ZONE",
+   "branch": "chassis",
+   "tier": 1,
+   "max_stacks": 2,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "hit_iframes",
+     "op": "add",
+     "value": 0.15,
+     "unit": "s"
+    }
+   ],
+   "text": "+0.15 S SAFE TIME AFTER A HIT",
+   "tree_pos": [
+    0,
+    2
+   ],
+   "icon": "icons/61-cha_crumple.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "mot_drift",
+   "name": "DRIFT TIRES",
+   "branch": "motor",
+   "tier": 2,
+   "max_stacks": 1,
+   "rarity": "rare",
+   "prereqs": {
+    "mot_grip": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "drift_boost",
+     "op": "set",
+     "value": 0.2,
+     "unit": ""
+    },
+    {
+     "stat": "drift_boost_time",
+     "op": "set",
+     "value": 1,
+     "unit": "s"
+    }
+   ],
+   "text": "HARD TURNS GIVE +20% SPEED FOR 1 S",
+   "tree_pos": [
+    1,
+    2
+   ],
+   "icon": "icons/61-mot_drift.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "tec_cell",
+   "name": "SPARE CELL",
+   "branch": "tech",
+   "tier": 2,
+   "max_stacks": 2,
+   "rarity": "rare",
+   "prereqs": {
+    "tec_dock": 1
+   },
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "battery_drop_chance",
+     "op": "add",
+     "value": 0.05,
+     "unit": ""
+    }
+   ],
+   "text": "+5% BATTERY DROPS FROM RIVALS",
+   "tree_pos": [
+    1,
+    2
+   ],
+   "icon": "icons/61-tec_cell.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "tec_map",
+   "name": "MANSION MAP",
+   "branch": "tech",
+   "tier": 1,
+   "max_stacks": 1,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "reveal_room_types",
+     "op": "set",
+     "value": 1,
+     "unit": ""
+    }
+   ],
+   "text": "SHOWS ROOM TYPES ON THE MINIMAP",
+   "tree_pos": [
+    0,
+    3
+   ],
+   "icon": "icons/61-tec_map.png",
+   "added": "105 (2026-11-18)"
+  },
+  {
+   "id": "fb_coins",
+   "name": "SPARE CHANGE",
+   "branch": "fallback",
+   "tier": null,
+   "max_stacks": null,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "coins",
+     "op": "add",
+     "value": 20,
+     "unit": ""
+    }
+   ],
+   "text": "+20 COINS",
+   "icon": "icons/61-fb_coins.png",
+   "tree_pos": null
+  },
+  {
+   "id": "fb_repair",
+   "name": "REPAIR KIT",
+   "branch": "fallback",
+   "tier": null,
+   "max_stacks": null,
+   "rarity": "common",
+   "prereqs": {},
+   "min_form": 0,
+   "effects_per_stack": [
+    {
+     "stat": "heal",
+     "op": "mul",
+     "value": 0.5,
+     "unit": ""
+    }
+   ],
+   "text": "HEAL 50% HP",
+   "icon": "icons/61-fb_repair.png",
+   "tree_pos": null
+  }
+ ],
+ "ui_icons_v2": {
+  "ui_reroll": "icons/61-ui_reroll-v2.png"
+ }
+}

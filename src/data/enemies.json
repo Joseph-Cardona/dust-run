@@ -1,0 +1,1364 @@
+{
+ "id": "81-89",
+ "name": "mansion enemies",
+ "rules": [
+  "stats are floor-1 values; hp x hp_mult and damage x dmg_mult per floor (runloop.json floors); the boss uses absolute values",
+  "telegraph language: every attack wind-up shows an amber glint on the striking part (+ a body shiver); ambush and lob attacks also mark the floor with an amber ring",
+  "tags give [first frame, last frame, ms]; hitboxes are active only inside the active/fall/impact/pull/slam tags"
+ ],
+ "spawn_rules": [
+  "room budget = enemies_per_room for the floor (3,4,5,6,7); 47m3 costs 1, every 81-87 enemy costs its cost (dust bunny groups 1, chandelier 2)",
+  "pool for a combat room = 47m3 + every enemy whose themes include the room theme and whose floors include the floor; at least half the budget comes from the theme pool when it is not empty",
+  "max 2 of one kind per room (bunny groups excepted); chandelier max 1 and only in 2x1/1x2/2x2 rooms",
+  "elite rooms: the elite is 48m2 or 88 vacuum brute (50/50 when the theme fits the brute) + (floor-1) budget filled as above",
+  "waves (floors 3-5): wave 2 repeats the pool with a fresh roll",
+  "boss: floor 5 PANIC ROOM (2x2) hosts 89 THE HEAD BUTLER; the stairs/boss rule of runloop.json is unchanged"
+ ],
+ "boss_arena": {
+  "room": "panic",
+  "size": [
+   2,
+   2
+  ],
+  "tiles": [
+   40,
+   24
+  ],
+  "boss_spawn": "seal centre: pixel (320,218) = the boss foot point (tile 20,13)",
+  "minion_spawns": "4 corner points, tiles (4,6), (35,6), (4,20), (35,20)",
+  "player_entry": "the room door (locks behind the player)",
+  "phase_changes": "at 60% and 30% HP; phase 3 plays the 89 phase animation (0.95 s, invulnerable)",
+  "hazards": "none placed; the boss spawns dust bunnies (max 6 alive)"
+ },
+ "enemies": {
+  "dust_bunny": {
+   "tier": "swarm",
+   "hp": 8,
+   "damage": 4,
+   "attack": "pounce (contact)",
+   "speed_px_s": 96,
+   "xp": 2,
+   "coins": 1,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "group": "3-5 per spawn point (cost 1 per group)",
+   "behaviour": "Swarm. Idles in corners, then hops at the player in short bursts. Pounce: 0.26 s crouch (ears back, amber glint), a 0.13 s leap, then 0.3 s landing lag. Three bunnies die to one brush combo. On death it leaves a dust smudge (1 dirt decal stage, +1 XP when cleaned).",
+   "floors": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "themes": [
+    "attic",
+    "storage",
+    "basement",
+    "bedroom",
+    "library",
+    "study",
+    "hallway",
+    "stairwell",
+    "ballroom",
+    "server"
+   ],
+   "id": 81,
+   "name": "DUST BUNNY",
+   "folder": "final/enemies/81-dust-bunny",
+   "json": "final/enemies/81-dust-bunny/81-dust-bunny.json",
+   "facings": [
+    "down"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 8,
+     "damage": 4
+    },
+    "2": {
+     "hp": 10,
+     "damage": 5
+    },
+    "3": {
+     "hp": 12,
+     "damage": 5
+    },
+    "4": {
+     "hp": 14,
+     "damage": 6
+    },
+    "5": {
+     "hp": 16,
+     "damage": 6
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 720,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       720
+      ]
+     }
+    },
+    "move": {
+     "frames": 6,
+     "ms": 370,
+     "tags": {
+      "hop": [
+       0,
+       5,
+       370
+      ]
+     }
+    },
+    "attack": {
+     "frames": 10,
+     "ms": 700,
+     "tags": {
+      "windup": [
+       0,
+       2,
+       260
+      ],
+      "active": [
+       3,
+       5,
+       130
+      ],
+      "recovery": [
+       6,
+       9,
+       310
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 10,
+     "ms": 930,
+     "tags": {
+      "break": [
+       0,
+       6,
+       510
+      ],
+      "rest": [
+       7,
+       9,
+       420
+      ]
+     }
+    }
+   }
+  },
+  "snap_trap": {
+   "tier": "standard",
+   "hp": 20,
+   "damage": 14,
+   "attack": "snap (front, 14 px)",
+   "speed_px_s": 40,
+   "xp": 5,
+   "coins": 4,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "behaviour": "Hops toward the player in 0.4 s hops, stopping between hops. Within 14 px it shivers for 0.35 s (amber glint on the bait), then snaps. After a snap it takes 0.73 s to re-arm and takes x1.5 damage meanwhile. Stepping on its bait from behind does nothing.",
+   "floors": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "themes": [
+    "kitchen",
+    "dining",
+    "storage",
+    "wine_cellar",
+    "basement",
+    "laundry",
+    "boiler"
+   ],
+   "id": 82,
+   "name": "SNAP TRAP",
+   "folder": "final/enemies/82-snap-trap",
+   "json": "final/enemies/82-snap-trap/82-snap-trap.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 20,
+     "damage": 14
+    },
+    "2": {
+     "hp": 25,
+     "damage": 16
+    },
+    "3": {
+     "hp": 30,
+     "damage": 18
+    },
+    "4": {
+     "hp": 35,
+     "damage": 20
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "ms": 560,
+     "tags": {
+      "loop": [
+       0,
+       3,
+       560
+      ]
+     }
+    },
+    "move": {
+     "frames": 7,
+     "ms": 430,
+     "tags": {
+      "hop": [
+       0,
+       6,
+       430
+      ]
+     }
+    },
+    "attack": {
+     "frames": 13,
+     "ms": 1210,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       340
+      ],
+      "active": [
+       4,
+       6,
+       140
+      ],
+      "recovery": [
+       7,
+       12,
+       730
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 9,
+     "ms": 850,
+     "tags": {
+      "break": [
+       0,
+       6,
+       530
+      ],
+      "rest": [
+       7,
+       8,
+       320
+      ]
+     }
+    }
+   }
+  },
+  "rogue_mop": {
+   "tier": "standard",
+   "hp": 34,
+   "damage": 11,
+   "attack": "arc sweep (110 deg, 28 px)",
+   "speed_px_s": 52,
+   "xp": 7,
+   "coins": 6,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "behaviour": "Shuffles toward the player. Sweep: 0.38 s wind-up (the head swings back, amber glint), then a 0.21 s 220-degree arc with 28 px reach. It leaves a wet streak for 3 s that slows the player to 0.7x and makes them slide. The swept water counts as a dirt decal (2 stages).",
+   "floors": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "themes": [
+    "kitchen",
+    "bathroom",
+    "laundry",
+    "foyer",
+    "hallway",
+    "conservatory",
+    "boiler",
+    "wine_cellar"
+   ],
+   "id": 83,
+   "name": "ROGUE MOP",
+   "folder": "final/enemies/83-rogue-mop",
+   "json": "final/enemies/83-rogue-mop/83-rogue-mop.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 34,
+     "damage": 11
+    },
+    "2": {
+     "hp": 42,
+     "damage": 13
+    },
+    "3": {
+     "hp": 51,
+     "damage": 14
+    },
+    "4": {
+     "hp": 60,
+     "damage": 16
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 720,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       720
+      ]
+     }
+    },
+    "move": {
+     "frames": 6,
+     "ms": 480,
+     "tags": {
+      "hop": [
+       0,
+       5,
+       480
+      ]
+     }
+    },
+    "attack": {
+     "frames": 13,
+     "ms": 950,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       380
+      ],
+      "active": [
+       4,
+       8,
+       210
+      ],
+      "recovery": [
+       9,
+       12,
+       360
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 11,
+     "ms": 990,
+     "tags": {
+      "break": [
+       0,
+       8,
+       670
+      ],
+      "rest": [
+       9,
+       10,
+       320
+      ]
+     }
+    }
+   }
+  },
+  "toaster": {
+   "tier": "standard",
+   "hp": 26,
+   "damage": 8,
+   "attack": "lobbed toast (lands 40-96 px away, 0.7 s flight, 12 px splash)",
+   "speed_px_s": 16,
+   "xp": 7,
+   "coins": 6,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "behaviour": "Turret. Keeps its distance and repositions slowly. Every 2.6 s: 0.48 s wind-up (lever down, slots glow amber then ember, heat shimmer), then it pops a toast. The toast lands where the player was, and an amber ring marks the landing spot during the flight. Shoot it from the side: the toast always flies forward.",
+   "floors": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "themes": [
+    "kitchen",
+    "dining",
+    "storage",
+    "basement"
+   ],
+   "id": 84,
+   "name": "TOASTER TURRET",
+   "folder": "final/enemies/84-toaster",
+   "json": "final/enemies/84-toaster/84-toaster.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 26,
+     "damage": 8
+    },
+    "2": {
+     "hp": 32,
+     "damage": 9
+    },
+    "3": {
+     "hp": 39,
+     "damage": 10
+    },
+    "4": {
+     "hp": 46,
+     "damage": 12
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "ms": 640,
+     "tags": {
+      "loop": [
+       0,
+       3,
+       640
+      ]
+     }
+    },
+    "move": {
+     "frames": 8,
+     "ms": 720,
+     "tags": {
+      "shuffle": [
+       0,
+       7,
+       720
+      ]
+     }
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 990,
+     "tags": {
+      "windup": [
+       0,
+       4,
+       480
+      ],
+      "active": [
+       5,
+       7,
+       140
+      ],
+      "recovery": [
+       8,
+       11,
+       370
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 11,
+     "ms": 950,
+     "tags": {
+      "break": [
+       0,
+       8,
+       630
+      ],
+      "rest": [
+       9,
+       10,
+       320
+      ]
+     }
+    }
+   }
+  },
+  "tin_soldier": {
+   "tier": "standard",
+   "hp": 28,
+   "damage": 9,
+   "contact_damage": 8,
+   "attack": "cork shot (straight, 140 px/s)",
+   "speed_px_s": 48,
+   "xp": 6,
+   "coins": 5,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "behaviour": "Marches in straight lines and turns 90 degrees at walls. Every 3 s, if the player is in line: 0.44 s aim (musket levels, amber glint at the muzzle), then it fires a cork. Every 7 s its key runs down: it stands still for 2 s (key stops) and takes x1.5 damage.",
+   "floors": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "themes": [
+    "trophy",
+    "bedroom",
+    "attic",
+    "gallery",
+    "study",
+    "library",
+    "storage"
+   ],
+   "id": 85,
+   "name": "TIN SOLDIER",
+   "folder": "final/enemies/85-tin-soldier",
+   "json": "final/enemies/85-tin-soldier/85-tin-soldier.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 28,
+     "damage": 9
+    },
+    "2": {
+     "hp": 35,
+     "damage": 10
+    },
+    "3": {
+     "hp": 42,
+     "damage": 12
+    },
+    "4": {
+     "hp": 49,
+     "damage": 13
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "ms": 600,
+     "tags": {
+      "loop": [
+       0,
+       3,
+       600
+      ]
+     }
+    },
+    "move": {
+     "frames": 8,
+     "ms": 720,
+     "tags": {
+      "march": [
+       0,
+       7,
+       720
+      ]
+     }
+    },
+    "attack": {
+     "frames": 11,
+     "ms": 970,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       440
+      ],
+      "active": [
+       4,
+       6,
+       160
+      ],
+      "recovery": [
+       7,
+       10,
+       370
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 11,
+     "ms": 1060,
+     "tags": {
+      "break": [
+       0,
+       8,
+       730
+      ],
+      "rest": [
+       9,
+       10,
+       330
+      ]
+     }
+    }
+   }
+  },
+  "sheet_ghost": {
+   "tier": "standard",
+   "hp": 24,
+   "damage": 10,
+   "attack": "swoop (forward 24 px)",
+   "speed_px_s": 58,
+   "xp": 8,
+   "coins": 6,
+   "coin_sprite": "58a",
+   "cost": 1,
+   "behaviour": "Floats over puddles, wires and props. Swoop: 0.42 s rise and inflate (eyes turn amber), then a fast 24 px lunge. Every 4 s it drops into a crumpled sheet for 1.2 s. While dropped it is invulnerable and drifts 32 px, then it rises again.",
+   "floors": [
+    2,
+    3,
+    5
+   ],
+   "themes": [
+    "attic",
+    "ballroom",
+    "gallery",
+    "bedroom",
+    "stairwell",
+    "wine_cellar"
+   ],
+   "id": 86,
+   "name": "SHEET GHOST",
+   "folder": "final/enemies/86-sheet-ghost",
+   "json": "final/enemies/86-sheet-ghost/86-sheet-ghost.json",
+   "facings": [
+    "down"
+   ],
+   "per_floor": {
+    "2": {
+     "hp": 30,
+     "damage": 12
+    },
+    "3": {
+     "hp": 36,
+     "damage": 13
+    },
+    "5": {
+     "hp": 48,
+     "damage": 16
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 780,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       780
+      ]
+     }
+    },
+    "move": {
+     "frames": 6,
+     "ms": 600,
+     "tags": {
+      "float": [
+       0,
+       5,
+       600
+      ]
+     }
+    },
+    "attack": {
+     "frames": 11,
+     "ms": 930,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       420
+      ],
+      "active": [
+       4,
+       6,
+       130
+      ],
+      "recovery": [
+       7,
+       10,
+       380
+      ]
+     }
+    },
+    "phase": {
+     "frames": 13,
+     "ms": 1340,
+     "tags": {
+      "phase_out": [
+       0,
+       4,
+       370
+      ],
+      "hidden": [
+       5,
+       7,
+       600
+      ],
+      "phase_in": [
+       8,
+       12,
+       370
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 11,
+     "ms": 1150,
+     "tags": {
+      "break": [
+       0,
+       7,
+       660
+      ],
+      "rest": [
+       8,
+       10,
+       490
+      ]
+     }
+    }
+   }
+  },
+  "chandelier": {
+   "tier": "ambusher",
+   "hp": 40,
+   "damage": 22,
+   "attack": "crash (AoE radius 26 px)",
+   "speed_px_s": 40,
+   "xp": 12,
+   "coins": 10,
+   "coin_sprite": "58c",
+   "cost": 2,
+   "behaviour": "Hangs from the ceiling and slides along it, out of reach. When the player passes under it: 0.55 s telegraph (chain shakes, candles flare, an amber ring tightens on the floor), then it drops and crashes (AoE). It stays down for 0.6 s, the only time it can be hit, then winches back up over 0.55 s. Max 1 per room, 2x1 or 2x2 rooms only.",
+   "floors": [
+    1,
+    2,
+    5
+   ],
+   "themes": [
+    "ballroom",
+    "dining",
+    "foyer",
+    "gallery",
+    "library"
+   ],
+   "id": 87,
+   "name": "CHANDELIER",
+   "folder": "final/enemies/87-chandelier",
+   "json": "final/enemies/87-chandelier/87-chandelier.json",
+   "facings": [
+    "down"
+   ],
+   "per_floor": {
+    "1": {
+     "hp": 40,
+     "damage": 22
+    },
+    "2": {
+     "hp": 50,
+     "damage": 25
+    },
+    "5": {
+     "hp": 80,
+     "damage": 35
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 840,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       840
+      ]
+     }
+    },
+    "move": {
+     "frames": 6,
+     "ms": 660,
+     "tags": {
+      "glide": [
+       0,
+       5,
+       660
+      ]
+     }
+    },
+    "attack": {
+     "frames": 19,
+     "ms": 1840,
+     "tags": {
+      "windup": [
+       0,
+       4,
+       550
+      ],
+      "fall": [
+       5,
+       8,
+       160
+      ],
+      "impact": [
+       9,
+       12,
+       580
+      ],
+      "winch": [
+       13,
+       18,
+       550
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 10,
+     "ms": 950,
+     "tags": {
+      "break": [
+       0,
+       7,
+       620
+      ],
+      "rest": [
+       8,
+       9,
+       330
+      ]
+     }
+    }
+   }
+  },
+  "vacuum_brute": {
+   "tier": "elite",
+   "hp": 95,
+   "damage": 17,
+   "attack": "suction pull (60 deg cone, 56 px, pulls 42 px/s) + nozzle slam (front 20 px)",
+   "speed_px_s": 34,
+   "xp": 20,
+   "coins": 25,
+   "bolts": 1,
+   "coin_sprite": "58c",
+   "cost": "elite slot",
+   "behaviour": "Elite (it replaces 48m2 in half of the elite rooms where its theme fits). It rolls slowly after the player. Pull: 0.41 s wind-up (nozzle rises and aims, amber glint), then 0.48 s of suction that drags the player in, then a nozzle slam. Hitting it from behind while it pulls does x1.5. On death its lid pops and a dust cloud bursts (3 dirt decals).",
+   "floors": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "themes": [
+    "laundry",
+    "storage",
+    "server",
+    "ballroom",
+    "basement",
+    "boiler",
+    "trophy"
+   ],
+   "id": 88,
+   "name": "VACUUM BRUTE",
+   "folder": "final/enemies/88-vacuum-brute",
+   "json": "final/enemies/88-vacuum-brute/88-vacuum-brute.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "2": {
+     "hp": 119,
+     "damage": 20
+    },
+    "3": {
+     "hp": 142,
+     "damage": 22
+    },
+    "4": {
+     "hp": 166,
+     "damage": 25
+    },
+    "5": {
+     "hp": 190,
+     "damage": 27
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 720,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       720
+      ]
+     }
+    },
+    "move": {
+     "frames": 6,
+     "ms": 600,
+     "tags": {
+      "roll": [
+       0,
+       5,
+       600
+      ]
+     }
+    },
+    "attack": {
+     "frames": 16,
+     "ms": 1370,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       410
+      ],
+      "pull": [
+       4,
+       9,
+       480
+      ],
+      "slam": [
+       10,
+       12,
+       180
+      ],
+      "recovery": [
+       13,
+       15,
+       300
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 10,
+     "ms": 1030,
+     "tags": {
+      "break": [
+       0,
+       7,
+       690
+      ],
+      "rest": [
+       8,
+       9,
+       340
+      ]
+     }
+    }
+   }
+  },
+  "head_butler": {
+   "tier": "boss",
+   "hp": 300,
+   "damage": 20,
+   "contact_damage": 20,
+   "attack": "charge 24, spin 14/tick (pull), slam 28 (AoE radius 48 px), summon 3 dust bunnies",
+   "speed_px_s": 44,
+   "xp": 60,
+   "coins": 100,
+   "bolts": 5,
+   "coin_sprite": "58c",
+   "cost": "boss",
+   "behaviour": "Floor-5 boss, a giant upright vacuum in a butler coat. It replaces the 48m2 placeholder. Phase 1 (100-60% HP): charge, a 0.53 s lean-back telegraph then a fast lunge, and summon, where the bag inflates and spits 3 dust bunnies. Phase 2 (60-30%): adds spin, a 0.33 s arms-out telegraph then a 360-degree cyclone that pulls the player in. Phase 3 (under 30%, after the 0.95 s shudder transition): eye goes ember and vents glow. It is 1.25x faster and alternates slam (AoE shockwave) and charge. The vents take x1.5 damage. Death: it collapses onto its base.",
+   "floors": [
+    5
+   ],
+   "themes": [
+    "panic"
+   ],
+   "phases": [
+    {
+     "name": "P1",
+     "hp": "100-60%",
+     "attacks": [
+      "attack_charge",
+      "attack_summon"
+     ],
+     "idle": "idle"
+    },
+    {
+     "name": "P2",
+     "hp": "60-30%",
+     "attacks": [
+      "attack_charge",
+      "attack_summon",
+      "attack_spin"
+     ],
+     "idle": "idle"
+    },
+    {
+     "name": "P3",
+     "hp": "<30%",
+     "attacks": [
+      "attack_slam",
+      "attack_charge"
+     ],
+     "idle": "idle_p3",
+     "transition": "phase",
+     "speed_mult": 1.25,
+     "vents_damage_mult": 1.5
+    }
+   ],
+   "id": 89,
+   "name": "THE HEAD BUTLER",
+   "folder": "final/enemies/89-head-butler",
+   "json": "final/enemies/89-head-butler/89-head-butler.json",
+   "facings": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "per_floor": {
+    "5": {
+     "hp": 300,
+     "damage": 20
+    }
+   },
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "ms": 840,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       840
+      ]
+     }
+    },
+    "idle_p3": {
+     "frames": 6,
+     "ms": 660,
+     "tags": {
+      "loop": [
+       0,
+       5,
+       660
+      ]
+     }
+    },
+    "move": {
+     "frames": 8,
+     "ms": 800,
+     "tags": {
+      "roll": [
+       0,
+       7,
+       800
+      ]
+     }
+    },
+    "attack_charge": {
+     "frames": 12,
+     "ms": 1000,
+     "tags": {
+      "windup": [
+       0,
+       4,
+       530
+      ],
+      "active": [
+       5,
+       8,
+       170
+      ],
+      "recovery": [
+       9,
+       11,
+       300
+      ]
+     }
+    },
+    "attack_summon": {
+     "frames": 9,
+     "ms": 850,
+     "tags": {
+      "windup": [
+       0,
+       3,
+       450
+      ],
+      "active": [
+       4,
+       6,
+       200
+      ],
+      "recovery": [
+       7,
+       8,
+       200
+      ]
+     }
+    },
+    "attack_spin": {
+     "frames": 18,
+     "ms": 1230,
+     "tags": {
+      "windup": [
+       0,
+       2,
+       330
+      ],
+      "active": [
+       3,
+       14,
+       600
+      ],
+      "recovery": [
+       15,
+       17,
+       300
+      ]
+     }
+    },
+    "attack_slam": {
+     "frames": 12,
+     "ms": 1060,
+     "tags": {
+      "windup": [
+       0,
+       4,
+       530
+      ],
+      "active": [
+       5,
+       8,
+       220
+      ],
+      "recovery": [
+       9,
+       11,
+       310
+      ]
+     }
+    },
+    "phase": {
+     "frames": 10,
+     "ms": 950,
+     "tags": {
+      "shudder": [
+       0,
+       7,
+       670
+      ],
+      "settle": [
+       8,
+       9,
+       280
+      ]
+     }
+    },
+    "hit": {
+     "frames": 6,
+     "ms": 380,
+     "tags": {
+      "flash": [
+       0,
+       2,
+       160
+      ],
+      "recover": [
+       3,
+       5,
+       220
+      ]
+     }
+    },
+    "death": {
+     "frames": 14,
+     "ms": 1600,
+     "tags": {
+      "break": [
+       0,
+       10,
+       1040
+      ],
+      "rest": [
+       11,
+       13,
+       560
+      ]
+     }
+    }
+   }
+  },
+  "47m3": {
+   "id": "47m3",
+   "tier": "standard",
+   "hp": 30,
+   "damage": 10,
+   "xp": 6,
+   "coins": 5,
+   "note": "unchanged (locked); fallback in every combat pool"
+  },
+  "48m2": {
+   "id": "48m2",
+   "tier": "elite",
+   "hp": 90,
+   "damage": 15,
+   "xp": 18,
+   "coins": 25,
+   "bolts": 1,
+   "note": "unchanged (locked); elite in every elite room unless 88 is rolled"
+  }
+ }
+}
