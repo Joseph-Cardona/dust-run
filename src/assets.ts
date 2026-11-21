@@ -161,9 +161,11 @@ export interface ShotArt {
 }
 
 export interface BossBars {
-  p100: Texture
-  p55: Texture
-  p20: Texture
+  bodies: Texture[]
+  name: Texture
+  gems: number
+  gemOk: Texture
+  gemLost: Texture
 }
 
 export interface BossArt {
@@ -177,6 +179,13 @@ export interface BossArt {
 
 const BOSS_IDS = ['grandfather', 'laundry_golem', 'old_boiler', 'sentry_prime'] as const
 const BAR_IDS = [...BOSS_IDS, 'head_butler'] as const
+const BAR_NAMES: Record<(typeof BAR_IDS)[number], string> = {
+  grandfather: 'name-the-grandfather',
+  laundry_golem: 'name-the-laundry-golem',
+  old_boiler: 'name-the-old-boiler',
+  sentry_prime: 'name-sentry-prime',
+  head_butler: 'name-the-head-butler',
+}
 const SHOTS: { id: string; w: number; h: number; frames: number; ms: number; loop: boolean }[] = [
   { id: 'gear', w: 20, h: 20, frames: 4, ms: 70, loop: true },
   { id: 'chime', w: 96, h: 40, frames: 6, ms: 90, loop: true },
@@ -196,10 +205,20 @@ export async function loadBossArt(): Promise<BossArt> {
   }
   for (const id of BAR_IDS) {
     jobs.push({ alias: `boss-card-${id}`, src: `assets/addon2/bosses/ui/card-${id}.png` })
-    for (const pct of [100, 55, 20]) {
-      jobs.push({ alias: `boss-bar-${id}-${pct}`, src: `assets/addon2/bosses/ui/bar-${id}-${pct}.png` })
+    jobs.push({ alias: `boss-bar-name-${id}`, src: `assets/addon2/bosses/ui/bars/${BAR_NAMES[id]}.png` })
+  }
+  for (const kind of ['2ph', '3ph'] as const) {
+    const folder = kind === '2ph' ? 'body-2phase' : 'body-3phase'
+    for (let pct = 0; pct <= 100; pct++) {
+      const n = String(pct).padStart(3, '0')
+      jobs.push({
+        alias: `boss-bar-${kind}-${n}`,
+        src: `assets/addon2/bosses/ui/bars/${folder}/bar-body-${kind}-${n}.png`,
+      })
     }
   }
+  jobs.push({ alias: 'boss-bar-gem-ok', src: 'assets/addon2/bosses/ui/bars/gem-ok.png' })
+  jobs.push({ alias: 'boss-bar-gem-lost', src: 'assets/addon2/bosses/ui/bars/gem-lost.png' })
   for (const shot of SHOTS) jobs.push({ alias: `boss-shot-${shot.id}`, src: `assets/addon2/bosses/shots/${shot.id}.png` })
   jobs.push({ alias: 'boss-chest-closed', src: 'assets/addon2/bosses/ui/chest-closed.png' })
   jobs.push({ alias: 'boss-chest-open', src: 'assets/addon2/bosses/ui/chest-open.png' })
@@ -225,12 +244,23 @@ export async function loadBossArt(): Promise<BossArt> {
   }
   const cards: Record<string, Texture> = {}
   const bars: Record<string, BossBars> = {}
+  const two: Texture[] = []
+  const three: Texture[] = []
+  for (let pct = 0; pct <= 100; pct++) {
+    const n = String(pct).padStart(3, '0')
+    two.push(crisp(Assets.get<Texture>(`boss-bar-2ph-${n}`)))
+    three.push(crisp(Assets.get<Texture>(`boss-bar-3ph-${n}`)))
+  }
+  const gemOk = crisp(Assets.get<Texture>('boss-bar-gem-ok'))
+  const gemLost = crisp(Assets.get<Texture>('boss-bar-gem-lost'))
   for (const id of BAR_IDS) {
     cards[id] = crisp(Assets.get<Texture>(`boss-card-${id}`))
     bars[id] = {
-      p100: crisp(Assets.get<Texture>(`boss-bar-${id}-100`)),
-      p55: crisp(Assets.get<Texture>(`boss-bar-${id}-55`)),
-      p20: crisp(Assets.get<Texture>(`boss-bar-${id}-20`)),
+      bodies: id === 'grandfather' ? two : three,
+      name: crisp(Assets.get<Texture>(`boss-bar-name-${id}`)),
+      gems: id === 'grandfather' ? 2 : 3,
+      gemOk,
+      gemLost,
     }
   }
   const shots: Record<string, ShotArt> = {}

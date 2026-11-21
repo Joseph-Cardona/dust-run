@@ -49,6 +49,9 @@ export class LevelUp {
   private readonly costBack: Graphics
   private readonly buttons: Container
   private readonly shopActs: Container
+  private readonly purse: Sprite
+  private readonly priceRows: { sprite: Sprite; price: number }[] = []
+  private purseCoins = 0
   private focus = 0
   private readonly sold = new Set<number>()
   private chosen = 0
@@ -96,7 +99,11 @@ export class LevelUp {
       this.shopBtn('REPAIR 20', 8, () => this.hooks.repair()),
       this.shopBtn('LEAVE', 214, () => this.onSkip()),
     )
-    this.panel.addChild(title, this.subtitle, this.barBack, this.barFill, this.buttons, this.shopActs)
+    this.purse = new Sprite(Texture.EMPTY)
+    this.purse.roundPixels = true
+    this.purse.visible = false
+    this.purse.eventMode = 'none'
+    this.panel.addChild(title, this.subtitle, this.barBack, this.barFill, this.buttons, this.shopActs, this.purse)
   }
 
   setView(w: number, h: number): void {
@@ -107,10 +114,20 @@ export class LevelUp {
 
   instant = false
 
-  open(cards: CardDraw[], level: number, xp: number, need: number, cost: number, label?: string, instant = false): void {
+  open(
+    cards: (CardDraw & { price?: number })[],
+    level: number,
+    xp: number,
+    need: number,
+    cost: number,
+    label?: string,
+    instant = false,
+    coins = 0,
+  ): void {
     this.clearFaces()
     this.focus = 0
     this.sold.clear()
+    this.purseCoins = instant ? coins : 0
     this.phase = instant ? 'idle' : 'reveal'
     this.ms = 0
     this.instant = instant
@@ -127,8 +144,22 @@ export class LevelUp {
       : this.art.addon.xpBar
     this.coverCost(cost)
     cards.slice(0, 3).forEach((card, index) => this.buildCard(card, index))
+    if (instant) this.setPurse(coins)
+    else this.purse.visible = false
     this.layout()
     this.placeCards()
+  }
+
+  setPurse(coins: number): void {
+    this.purseCoins = coins
+    this.purse.visible = this.instant
+    if (!this.instant) return
+    this.put(this.purse, `${coins} COINS`, SANS, '#c48a28')
+    this.purse.position.set(Math.round(320 - 6 - this.purse.texture.width), 5)
+    for (const row of this.priceRows) {
+      this.retint(row.sprite, `${row.price} COINS`, MINI, coins >= row.price ? '#c48a28' : '#c45a48')
+      row.sprite.x = Math.round((94 - row.sprite.texture.width) / 2)
+    }
   }
 
   hide(): void {
@@ -136,6 +167,7 @@ export class LevelUp {
     this.instant = false
     this.buttons.visible = true
     this.shopActs.visible = false
+    this.purse.visible = false
     this.root.visible = false
     this.clearFaces()
   }
@@ -265,7 +297,7 @@ export class LevelUp {
     return root
   }
 
-  private buildCard(card: CardDraw, index: number): void {
+  private buildCard(card: CardDraw & { price?: number }, index: number): void {
     const root = new Container()
     root.eventMode = 'static'
     root.cursor = 'pointer'
@@ -289,6 +321,11 @@ export class LevelUp {
     name.x = Math.round((94 - name.texture.width) / 2)
     this.line(front, card.tier, MINI, INK, 5, 61)
     this.wrap(front, card.text)
+    if (card.price !== undefined) {
+      const price = this.line(front, `${card.price} COINS`, MINI, this.purseCoins >= card.price ? '#c48a28' : '#c45a48', 0, 112)
+      price.x = Math.round((94 - price.texture.width) / 2)
+      this.priceRows.push({ sprite: price, price: card.price })
+    }
     if (card.formLine) this.line(front, card.formLine, MINI, INK, 5, 99)
     this.line(front, card.branch, MINI, BRANCH[card.branch] ?? INK, 5, 105)
     const pips = new Graphics()
@@ -345,6 +382,14 @@ export class LevelUp {
     this.cost.position.set(72, 165)
   }
 
+  private retint(sprite: Sprite, text: string, font: FontMetrics, color: string): void {
+    const old = sprite.texture
+    sprite.texture = this.paint(font, text, color)
+    const index = this.baked.indexOf(old)
+    if (index >= 0) this.baked.splice(index, 1)
+    if (old !== Texture.EMPTY) old.destroy(true)
+  }
+
   private paint(font: FontMetrics, text: string, color: string): Texture {
     const sheet = font === SANS ? this.art.addon.fontSans : this.art.addon.fontMini
     const texture = bake(sheet, font, text, color)
@@ -358,6 +403,7 @@ export class LevelUp {
       card.root.destroy({ children: true })
     }
     this.cards.length = 0
+    this.priceRows.length = 0
     this.sold.clear()
     for (const texture of this.baked) texture.destroy(true)
     this.baked.length = 0

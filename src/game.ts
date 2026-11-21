@@ -189,7 +189,10 @@ export class Game {
   private bossChest: { x: number; y: number; open: boolean; sprite: Sprite } | null = null
   private bossShadow: Graphics | null = null
   private readonly bossCard: Sprite
-  private readonly bossBar: Sprite
+  private readonly bossBar: Container
+  private readonly bossBarBody: Sprite
+  private readonly bossBarName: Sprite
+  private readonly bossBarGems: Sprite[]
   private stun = 0
 
   constructor(
@@ -213,11 +216,26 @@ export class Game {
     this.bossCard.visible = false
     this.bossCard.eventMode = 'none'
     this.bossCard.roundPixels = true
-    this.bossBar = new Sprite(Texture.EMPTY)
+    this.bossBar = new Container()
     this.bossBar.visible = false
     this.bossBar.eventMode = 'none'
-    this.bossBar.roundPixels = true
-    this.bossBar.anchor.set(0.5, 1)
+    this.bossBar.pivot.set(94, 30)
+    this.bossBarBody = new Sprite(Texture.EMPTY)
+    this.bossBarBody.position.set(1, 1)
+    this.bossBarBody.roundPixels = true
+    this.bossBarBody.eventMode = 'none'
+    this.bossBarName = new Sprite(Texture.EMPTY)
+    this.bossBarName.position.set(4, 0)
+    this.bossBarName.roundPixels = true
+    this.bossBarName.eventMode = 'none'
+    this.bossBarGems = [0, 1, 2].map((slot) => {
+      const gem = new Sprite(Texture.EMPTY)
+      gem.position.set(172 - slot * 10, 2)
+      gem.roundPixels = true
+      gem.eventMode = 'none'
+      return gem
+    })
+    this.bossBar.addChild(this.bossBarBody, this.bossBarName, ...this.bossBarGems)
     this.hud.root.addChild(this.bossCard, this.bossBar)
     this.levelup.hooks = {
       take: (index) => this.onTake(index),
@@ -949,6 +967,7 @@ export class Game {
       this.progress.addXp(rival.xp)
       this.run.kills += 1
       if (rival.key) this.run.hasKey = true
+      if (rival.breed === 'snap_trap') this.openCrystal()
       for (let i = 0; i < rival.smudge; i++) {
         this.spillAt('57a', rival.x + i * 10 - 8, rival.y, rival.smudgeStage)
       }
@@ -1349,7 +1368,18 @@ export class Game {
     const bars = this.bossArt.bars[boss.breed]
     if (bars && boss.act !== 'intro') {
       const ratio = boss.maxHp > 0 ? boss.hp / boss.maxHp : 0
-      this.bossBar.texture = ratio >= 0.55 ? bars.p100 : ratio >= 0.2 ? bars.p55 : bars.p20
+      const pct = Math.max(0, Math.min(100, Math.round(ratio * 100)))
+      this.bossBarBody.texture = bars.bodies[pct] ?? Texture.EMPTY
+      this.bossBarName.texture = bars.name
+      const phase = boss.breed === 'head_butler'
+        ? (ratio < 0.3 ? 3 : ratio < 0.6 ? 2 : 1)
+        : Math.max(1, boss.phase)
+      for (let slot = 0; slot < this.bossBarGems.length; slot++) {
+        const gem = this.bossBarGems[slot]
+        if (!gem) continue
+        gem.visible = slot < bars.gems
+        gem.texture = phase > slot + 1 ? bars.gemLost : bars.gemOk
+      }
       this.bossBar.visible = true
       this.bossBar.position.set(Math.round(this.viewW / 2), this.viewH - 6)
     } else this.bossBar.visible = false
@@ -2075,6 +2105,26 @@ export class Game {
     }
   }
 
+  /** Snap trap death opens the crystal room. A sealed fight door waits for that clear. */
+  private openCrystal(): void {
+    const world = this.mansion
+    if (!world) return
+    const shrines: number[] = []
+    for (let i = 0; i < world.plan.rooms.length; i++) {
+      if (world.plan.rooms[i]?.role === 'shrine') shrines.push(i)
+    }
+    if (shrines.length === 0) return
+    const onShrine = (gate: Gate): boolean => shrines.some((id) => gateInRoom(world, gate, id))
+    for (const gate of world.gates) {
+      if (gate.state !== 'locked' || !onShrine(gate)) continue
+      gate.state = 'open'
+      this.paintDoor(gate)
+    }
+    for (const save of this.run.saves) {
+      if (save.state === 'locked' && onShrine(save.gate)) save.state = 'open'
+    }
+  }
+
   private unlock(id: number): void {
     for (const save of this.run.saves) {
       save.gate.state = save.state
@@ -2316,8 +2366,8 @@ export class Game {
     this.run.sold = [false, false, false]
     this.run.panel = 'shop'
     this.state.mode = 'shop'
-    const shown = cards.map((card, index) => ({ ...card, text: `${this.run.prices[index] ?? 0} COINS. ${card.text}` }))
-    this.levelup.open(shown, this.progress.level, this.progress.xp, this.progress.need(), 0, 'SHOP', true)
+    const shown = cards.map((card, index) => ({ ...card, price: this.run.prices[index] ?? 0 }))
+    this.levelup.open(shown, this.progress.level, this.progress.xp, this.progress.need(), 0, 'SHOP', true, player.coins)
     this.levelup.setView(this.viewW, this.viewH)
   }
 
@@ -2350,6 +2400,7 @@ export class Game {
     const player = this.state.player
     if (price === undefined || player.coins < price) return
     player.coins -= price
+    this.levelup.setPurse(player.coins)
     this.run.sold[index] = true
     const before = player.maxHp
     this.progress.take(index, player)
@@ -2361,6 +2412,7 @@ export class Game {
     const player = this.state.player
     if (player.coins < 20 || player.hp >= player.maxHp) return
     player.coins -= 20
+    this.levelup.setPurse(player.coins)
     player.hp = Math.min(player.maxHp, player.hp + 30)
   }
 
