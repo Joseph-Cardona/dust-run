@@ -13,7 +13,7 @@ import { Hud, type MapCell, type MapKind, type MapLink } from './hud.ts'
 import { LevelUp } from './levelup.ts'
 import { HUB_PERKS, perkRank, playOptions, StartMenu, type MenuArt, type MenuBack, type MenuPage } from './menu.ts'
 import { bootFloor, MANSION_TILE, type MansionRoom, type Side } from './mansion.ts'
-import { mountMansion, slidePlayer, solidHitboxes, strokeGates, type MansionTiles } from './mansion-view.ts'
+import { mountMansion, slidePlayer, type MansionTiles } from './mansion-view.ts'
 import { loadMeta, saveMeta, type Meta } from './meta.ts'
 import { clearRun, loadRun, saveRun, hasSavedRun, type PuddleSnap, type RunFile } from './save.ts'
 import { makePlayer, stepPlayer } from './player.ts'
@@ -83,7 +83,6 @@ function gateKey(gate: Gate): string {
   return `${gate.side}:${gate.tiles.join('.')}`
 }
 
-const HIT_INK = { width: 1, color: 0xff0000, pixelLine: true, alignment: 1 }
 const CLEAN_HEAL = 10
 const DEATH_MS = [60, 50, 50, 60, 60, 60, 70, 70, 80, 90, 100, 110, 120, 140, 160, 200, 240, 400]
 const DEATH_LEN = 2120
@@ -164,18 +163,10 @@ export class Game {
   private playerShadow!: Sprite
   private deathFx!: Sprite
   private debugLayer!: Container
-  private bodyG!: Graphics
-  private gateG!: Graphics
-  private atkG!: Graphics
-  private rivalG: Graphics[] = []
-  private gateKey = ''
-  private atkKey = ''
   private run = new Run()
   private meta: Meta
   private actors!: Container
   private bars: Graphics[] = []
-  private ringG!: Graphics
-  private ringKey = ''
   private corks: Sprite[] = []
   private toasts: Sprite[] = []
   private readonly floats: { sprite: Sprite; life: number }[] = []
@@ -548,9 +539,6 @@ export class Game {
       maxHp: this.state.player.maxHp,
     } : null
     for (const child of this.world.removeChildren()) child.destroy({ children: true })
-    this.rivalG = []
-    this.gateKey = ''
-    this.atkKey = ''
     this.doorSprites.clear()
     this.baked?.destroy(true)
     this.baked = null
@@ -576,24 +564,13 @@ export class Game {
     this.playerShadow.roundPixels = true
     this.playerShadow.eventMode = 'none'
     for (const [gate, sprite] of view.doors) this.doorSprites.set(gate, sprite)
-    this.bodyG = new Graphics().ellipse(0, 0, BODY_RX, BODY_RY).stroke(HIT_INK)
-    this.gateG = new Graphics()
-    this.atkG = new Graphics()
-    for (const mark of [this.bodyG, this.gateG, this.atkG]) {
-      mark.eventMode = 'none'
-      mark.roundPixels = true
-    }
     this.debugLayer = new Container()
     this.debugLayer.eventMode = 'none'
-    this.ringG = new Graphics()
-    this.ringG.eventMode = 'none'
-    this.ringKey = ''
     this.bars = []
     this.corks = []
     this.toasts = []
     this.mapKey = ''
     this.floats.length = 0
-    this.debugLayer.addChild(solidHitboxes(view.world), this.gateG, this.bodyG, this.atkG, this.ringG)
     view.cast.addChild(this.dirtLayer)
     this.bossShadow = new Graphics().ellipse(0, 0, 30, 7).fill({ color: 0x0f1317, alpha: 0.45 })
     this.bossShadow.eventMode = 'none'
@@ -1309,7 +1286,7 @@ export class Game {
       this.place(rival.sprite, rival.x, rival.y, PIVOT.rival.x, PIVOT.rival.y)
       rival.sprite.alpha = blink(rival.iframe)
     }
-    this.syncHitboxes()
+    this.syncBars()
     this.syncCorks()
     this.syncToasts()
     this.syncBossUi()
@@ -1657,51 +1634,6 @@ export class Game {
     }
   }
 
-  private syncHitboxes(): void {
-    const player = this.state.player
-    this.bodyG.position.set(player.x, player.y)
-
-    const world = this.mansion
-    if (world) {
-      const key = world.gates.map((gate) => gate.state).join(',')
-      if (key !== this.gateKey) {
-        this.gateKey = key
-        strokeGates(this.gateG, world)
-      }
-    }
-
-    const boxes = this.combat.boxes()
-    const atkKey = boxes.map((box) => `${box.x},${box.y},${box.w},${box.h}`).join('|')
-    if (atkKey !== this.atkKey) {
-      this.atkKey = atkKey
-      this.atkG.clear()
-      for (const box of boxes) this.atkG.rect(box.x, box.y, box.w, box.h)
-      if (boxes.length > 0) this.atkG.stroke(HIT_INK)
-    }
-
-    const rivals = this.state.rivals
-    while (this.rivalG.length < rivals.length) {
-      const mark = new Graphics().circle(0, 0, HIT_R).stroke(HIT_INK)
-      mark.eventMode = 'none'
-      mark.roundPixels = true
-      this.debugLayer.addChild(mark)
-      this.rivalG.push(mark)
-    }
-    for (let i = 0; i < this.rivalG.length; i++) {
-      const mark = this.rivalG[i]
-      if (!mark) continue
-      const rival = rivals[i]
-      const show = !!rival && rival.alive && !rival.hang && rival.react?.kind !== 'death'
-      mark.visible = show
-      if (!show || !rival) continue
-      const scale = rival.reach / HIT_R
-      mark.scale.set(scale)
-      mark.position.set(rival.x, rival.plain ? rival.y - rival.reach : rival.y)
-    }
-    this.syncBars()
-    this.syncRings()
-  }
-
   private foeVuln(rival: Rival): number {
     if (rival.vuln <= 0) return 0
     if (rival.breed === 'vacuum_brute' && rival.act === 'pull') {
@@ -2030,16 +1962,6 @@ export class Game {
       const top = rival.plain ? rival.y - rival.reach * 2 - 4 : rival.y - 22
       bar.position.set(Math.round(rival.x - 8), Math.round(top))
     }
-  }
-
-  private syncRings(): void {
-    const marks = this.state.rivals.filter((rival) => rival.alive && rival.markOn)
-    const key = marks.map((rival) => `${Math.round(rival.markX)},${Math.round(rival.markY)}`).join('|')
-    if (key === this.ringKey) return
-    this.ringKey = key
-    this.ringG.clear()
-    for (const rival of marks) this.ringG.circle(rival.markX, rival.markY, 10)
-    if (marks.length > 0) this.ringG.stroke(HIT_INK)
   }
 
   private visit(spawn: boolean): void {

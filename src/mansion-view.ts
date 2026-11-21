@@ -1,4 +1,4 @@
-import { Assets, Container, Graphics, Sprite, Texture } from 'pixi.js'
+import { Assets, Container, Sprite, Texture } from 'pixi.js'
 import { auditSamples, bootFloor, buildFloor, MANSION_TILE } from './mansion.ts'
 import type { DoorState, Side } from './mansion.ts'
 import { assemble, blockedAt, BODY_RX, BODY_RY, openTouched, PROPS, type FloorWorld, type Gate } from './rooms.ts'
@@ -230,62 +230,6 @@ export function slidePlayer(
     if (sprite) sprite.texture = tiles.door(gate.side, 'open')
   }
   return { x: nextX, y: nextY }
-}
-
-const HIT_INK = { width: 1, color: 0xff0000, pixelLine: true, alignment: 1 }
-
-/** Solid tiles that touch open floor. Buried void stays undrawn. */
-export function solidHitboxes(world: FloorWorld): Graphics {
-  const g = new Graphics()
-  g.eventMode = 'none'
-  const { solid, cols, rows } = world
-  for (let y = 0; y < rows; y++) {
-    const row = y * cols
-    const up = y > 0
-    const down = y + 1 < rows
-    for (let x = 0; x < cols; x++) {
-      const i = row + x
-      if (solid[i] !== 1) continue
-      const edge = (x > 0 && solid[i - 1] === 0)
-        || (x + 1 < cols && solid[i + 1] === 0)
-        || (up && solid[i - cols] === 0)
-        || (down && solid[i + cols] === 0)
-      if (!edge) continue
-      g.rect(x * MANSION_TILE, y * MANSION_TILE, MANSION_TILE, MANSION_TILE)
-    }
-  }
-  g.stroke(HIT_INK)
-  return g
-}
-
-/** Blocking door bounds. Open and arch stay clear. Call only when gate states change. */
-export function strokeGates(g: Graphics, world: FloorWorld): void {
-  g.clear()
-  let any = false
-  for (const gate of world.gates) {
-    if (gate.state === 'open' || gate.state === 'arch') continue
-    let minX = world.cols
-    let minY = world.rows
-    let maxX = -1
-    let maxY = -1
-    for (const tile of gate.tiles) {
-      const x = tile % world.cols
-      const y = Math.floor(tile / world.cols)
-      if (x < minX) minX = x
-      if (y < minY) minY = y
-      if (x > maxX) maxX = x
-      if (y > maxY) maxY = y
-    }
-    if (maxX < 0) continue
-    g.rect(
-      minX * MANSION_TILE,
-      minY * MANSION_TILE,
-      (maxX - minX + 1) * MANSION_TILE,
-      (maxY - minY + 1) * MANSION_TILE,
-    )
-    any = true
-  }
-  if (any) g.stroke(HIT_INK)
 }
 
 function paintHazard(
